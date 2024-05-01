@@ -11,7 +11,7 @@ namespace ECM2.Examples.PlanetWalk
     {
         // Current camera forward, perpendicular to target's up vector.
         
-        private Vector3 _cameraForward = Vector3.forward;
+        //private Vector3 _cameraForward = Vector3.forward;
         
         public override void AddControlYawInput(float value)
         {

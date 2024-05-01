@@ -389,7 +389,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31ffabf2c3067b64ebeb8d5a5eae6b3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -442,6 +442,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1639793490}
     m_Modifications:
+    - target: {fileID: 7191100790416280148, guid: b419e164ab53516438da636332342da9, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1bc2713899a62bf4f979d545337bdbb1, type: 2}
     - target: {fileID: 7224149203388998861, guid: b419e164ab53516438da636332342da9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -505,6 +509,7 @@ GameObject:
   - component: {fileID: 1639793487}
   - component: {fileID: 1639793486}
   - component: {fileID: 1639793491}
+  - component: {fileID: 1639793492}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -690,6 +695,18 @@ MonoBehaviour:
   mouseSensitivity: {x: 1, y: 1}
   minPitch: -80
   maxPitch: 80
+--- !u!114 &1639793492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639793485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
