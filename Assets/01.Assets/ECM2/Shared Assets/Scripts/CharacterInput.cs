@@ -19,20 +19,20 @@ namespace ECM2.Examples
         private void Update()
         {
             // Movement input
-            
-            Vector2 inputMove = new Vector2()
+
+            Vector2 inputKeyboardMove = new Vector2()
             {
-                x = Input.GetAxisRaw("Horizontal"),
-                y = Input.GetAxisRaw("Vertical")
+                x = Input.GetAxis("Horizontal"),
+                y = Input.GetAxis("Vertical")
             };
-            
+
             Vector3 movementDirection =  Vector3.zero;
 
-            movementDirection += Vector3.right * inputMove.x;
-            movementDirection += Vector3.forward * inputMove.y;
-            
+            movementDirection += Vector3.right * inputKeyboardMove.x;
+            movementDirection += Vector3.forward * inputKeyboardMove.y;
+
             // If character has a camera assigned...
-            
+
             if (_character.camera)
             {
                 // Make movement direction relative to its camera view direction
@@ -41,16 +41,16 @@ namespace ECM2.Examples
             }
 
             _character.SetMovementDirection(movementDirection);
-            
+
             // Crouch input
-            
+
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
                 _character.Crouch();
             else if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
                 _character.UnCrouch();
-            
+
             // Jump input
-            
+
             if (Input.GetButtonDown("Jump"))
                 _character.Jump();
             else if (Input.GetButtonUp("Jump"))

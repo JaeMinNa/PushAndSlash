@@ -44,7 +44,8 @@ namespace ECM2.Examples.ThirdPerson
         protected float _followDistanceSmoothVelocity;
 
         protected Character _character;
-        
+        private VariableJoystick _joystick;
+
         /// <summary>
         /// Add input (affecting Yaw).
         /// This is applied to the camera's rotation.
@@ -112,11 +113,12 @@ namespace ECM2.Examples.ThirdPerson
         protected virtual void Awake()
         {
             _character = GetComponent<Character>();
+            _joystick = GameObject.FindWithTag("Joystick").GetComponent<VariableJoystick>();
         }
 
         protected virtual void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
 
             //Vector3 euler = _character.cameraTransform.eulerAngles;
 
@@ -130,16 +132,24 @@ namespace ECM2.Examples.ThirdPerson
         {
             // Movement input
             
-            Vector2 inputMove = new Vector2()
+            Vector2 inputKeyboardMove = new Vector2()
             {
                 x = Input.GetAxisRaw("Horizontal"),
                 y = Input.GetAxisRaw("Vertical")
             };
 
+            Vector2 inputJoystickMove = new Vector2()
+            {
+                x = _joystick.Horizontal,
+                y = _joystick.Vertical
+            };
+
             Vector3 movementDirection = Vector3.zero;
 
-            movementDirection += Vector3.right * inputMove.x;
-            movementDirection += Vector3.forward * inputMove.y;
+            movementDirection += Vector3.right * inputKeyboardMove.x;
+            movementDirection += Vector3.forward * inputKeyboardMove.y;
+            movementDirection += Vector3.right * inputJoystickMove.x;
+            movementDirection += Vector3.forward * inputJoystickMove.y;
 
             if (_character.cameraTransform)
                 movementDirection = movementDirection.relativeTo(_character.cameraTransform, _character.GetUpVector());
@@ -148,10 +158,10 @@ namespace ECM2.Examples.ThirdPerson
             
             // Crouch input
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
-                _character.Crouch();
-            else if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
-                _character.UnCrouch();
+            //if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
+            //    _character.Crouch();
+            //else if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
+            //    _character.UnCrouch();
             
             // Jump input
 
@@ -175,8 +185,8 @@ namespace ECM2.Examples.ThirdPerson
             
             // Zoom input
 
-            float mouseScrollInput = Input.GetAxisRaw("Mouse ScrollWheel");
-            AddControlZoomInput(mouseScrollInput);
+            //float mouseScrollInput = Input.GetAxisRaw("Mouse ScrollWheel");
+            //AddControlZoomInput(mouseScrollInput);
         }
 
         protected virtual void LateUpdate()
