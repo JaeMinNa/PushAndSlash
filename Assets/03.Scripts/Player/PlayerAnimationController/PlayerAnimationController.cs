@@ -14,7 +14,7 @@ public class PlayerAnimationController : MonoBehaviour
         _animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
         if (_character.IsGrounded())
         {

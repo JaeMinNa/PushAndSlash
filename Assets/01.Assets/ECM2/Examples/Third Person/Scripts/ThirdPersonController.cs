@@ -43,7 +43,7 @@ namespace ECM2.Examples.ThirdPerson
         protected float _currentFollowDistance;
         protected float _followDistanceSmoothVelocity;
 
-        protected Character _character;
+        public Character Character;
         private VariableJoystick _joystick;
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void UpdateCameraRotation()
         {
-            Transform cameraTransform = _character.cameraTransform;
+            Transform cameraTransform = Character.cameraTransform;
             cameraTransform.rotation = Quaternion.Euler(_cameraPitch, _cameraYaw, 0.0f);
         }
         
@@ -91,7 +91,7 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void UpdateCameraPosition()
         {
-            Transform cameraTransform = _character.cameraTransform;
+            Transform cameraTransform = Character.cameraTransform;
             
             _currentFollowDistance =
                 Mathf.SmoothDamp(_currentFollowDistance, followDistance, ref _followDistanceSmoothVelocity, 0.1f);
@@ -112,7 +112,7 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void Awake()
         {
-            _character = GetComponent<Character>();
+            Character = GetComponent<Character>();
             _joystick = GameObject.FindWithTag("Joystick").GetComponent<VariableJoystick>();
         }
 
@@ -151,10 +151,10 @@ namespace ECM2.Examples.ThirdPerson
             movementDirection += Vector3.right * inputJoystickMove.x;
             movementDirection += Vector3.forward * inputJoystickMove.y;
 
-            if (_character.cameraTransform)
-                movementDirection = movementDirection.relativeTo(_character.cameraTransform, _character.GetUpVector());
+            if (Character.cameraTransform)
+                movementDirection = movementDirection.relativeTo(Character.cameraTransform, Character.GetUpVector());
 
-            _character.SetMovementDirection(movementDirection);
+            Character.SetMovementDirection(movementDirection);
             
             // Crouch input
 
@@ -166,9 +166,9 @@ namespace ECM2.Examples.ThirdPerson
             // Jump input
 
             if (Input.GetButtonDown("Jump"))
-                _character.Jump();
+                Character.Jump();
             else if (Input.GetButtonUp("Jump"))
-                _character.StopJumping();
+                Character.StopJumping();
             
             // Look input
 

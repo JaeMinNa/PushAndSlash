@@ -30,7 +30,7 @@ namespace ECM2.Examples.PlanetWalk
             
             // Computes final Camera rotation from yaw and pitch
             
-            Transform cameraTransform = _character.cameraTransform;
+            Transform cameraTransform = Character.cameraTransform;
 
             //cameraTransform.rotation =
             //    Quaternion.LookRotation(_cameraForward, targetUp) * Quaternion.Euler(_cameraPitch, 0.0f, 0.0f);
