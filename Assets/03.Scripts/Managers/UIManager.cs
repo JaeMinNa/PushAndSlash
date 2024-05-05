@@ -7,14 +7,14 @@ using ECM2.Examples.Slide;
 public class UIManager : MonoBehaviour
 {
     private GameObject _player;
-    private Animator _animator;
+    private Animator _playerAnimator;
     private PlayerCharacter _playerCharacter;
 
     private void Start()
     {
         _player = GameManager.I.PlayerManager.Player;
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
-        _animator = _player.transform.GetChild(0).GetComponent<Animator>();
+        _playerAnimator = _player.transform.GetChild(0).GetComponent<Animator>();
     }
 
     public void Init()
@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayerAttack()
     {
-        _animator.SetTrigger("Attack");
+        _playerAnimator.SetTrigger("Attack");
     }
 
     public void PlayerDashButtonUp()
@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayerDashButtonDown()
     {
+        _playerAnimator.SetTrigger("Dash");
         _playerCharacter.Crouch();
     }
 }

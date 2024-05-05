@@ -13,7 +13,7 @@ public class ScenesManager : MonoBehaviour
 
         if (CurrentSceneName == "BattleSence")
         {
-            GameObject playerPrefab = Instantiate(GameManager.I.PlayerManager.PlayerPrefab, Vector3.zero, Quaternion.identity);
+            GameObject playerPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/" + GameManager.I.DataManager.PlayerData.Tag), Vector3.zero, Quaternion.identity);
             GameManager.I.PlayerManager.Player = playerPrefab;
         }
     }

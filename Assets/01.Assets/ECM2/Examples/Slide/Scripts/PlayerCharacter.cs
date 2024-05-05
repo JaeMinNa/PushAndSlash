@@ -11,16 +11,30 @@ namespace ECM2.Examples.Slide
         [Space(15.0f)]
         public float slideImpulse = 20.0f;
         public float slideDownAcceleration = 20.0f;
-        
+
+        private CharacterData _playerData;
+
         /// <summary>
         /// Our custom movement mode(s) id(s).
         /// </summary>
-        
+
         enum ECustomMovementMode
         {
             Sliding = 1
         }
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _playerData = GameManager.I.DataManager.PlayerData;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            PlayerSetting();
+        }
+
         /// <summary>
         /// If sliding, return max walk speed as our speed limit.
         /// </summary>
@@ -211,6 +225,12 @@ namespace ECM2.Examples.Slide
 
             if (customMovementMode == (int)ECustomMovementMode.Sliding)
                 SlidingMovementMode(deltaTime);
+        }
+
+        private void PlayerSetting()
+        {
+            maxWalkSpeed = _playerData.Speed;
+            slideImpulse = _playerData.DashImpulse;
         }
     }
 }
