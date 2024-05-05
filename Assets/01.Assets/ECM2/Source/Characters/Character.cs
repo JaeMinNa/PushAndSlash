@@ -2586,7 +2586,7 @@ namespace ECM2
             
             ResetJumpState();
         }
-        
+
         /// <summary>
         /// Reset jump related vars.
         /// </summary>

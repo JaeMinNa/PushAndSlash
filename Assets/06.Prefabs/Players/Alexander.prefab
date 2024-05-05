@@ -3788,9 +3788,9 @@ GameObject:
   - component: {fileID: 3349094720886064773}
   - component: {fileID: 5061527742930891571}
   - component: {fileID: 4492298805471647831}
-  - component: {fileID: 7656277852329116148}
   - component: {fileID: 6439157165267328527}
   - component: {fileID: 1010182417403742363}
+  - component: {fileID: 7151719339125470882}
   m_Layer: 0
   m_Name: Alexander
   m_TagString: Untagged
@@ -3902,7 +3902,7 @@ MonoBehaviour:
     impartPlatformRotation: 0
     impartPlatformVelocity: 0
   _minSlopeLimit: 0.7069833
---- !u!114 &7656277852329116148
+--- !u!114 &6439157165267328527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3911,7 +3911,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1881622926618698092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4cf32970eac4c9498a96ba8d86aad38, type: 3}
+  m_Script: {fileID: 11500000, guid: aa99fa0cd8864424a9cda9f8a44de78d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followDistance: 5
+  followMinDistance: 0
+  followMaxDistance: 10
+  invertLook: 1
+  mouseSensitivity: {x: 1, y: 1}
+  minPitch: -80
+  maxPitch: 80
+  _dashSpeed: 5
+  _dashTime: 0.7
+--- !u!114 &1010182417403742363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881622926618698092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7151719339125470882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881622926618698092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69bc93b416f84a6eab69c99f8a2ac9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationMode: 1
@@ -3957,38 +3990,8 @@ MonoBehaviour:
   _pushForceScale: 1
   _standingDownwardForceScale: 1
   _camera: {fileID: 0}
---- !u!114 &6439157165267328527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881622926618698092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa99fa0cd8864424a9cda9f8a44de78d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  followDistance: 5
-  followMinDistance: 0
-  followMaxDistance: 10
-  invertLook: 1
-  mouseSensitivity: {x: 1, y: 1}
-  minPitch: -80
-  maxPitch: 80
-  Character: {fileID: 0}
---- !u!114 &1010182417403742363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881622926618698092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  slideImpulse: 50
+  slideDownAcceleration: 20
 --- !u!1 &1980959063297637498
 GameObject:
   m_ObjectHideFlags: 0

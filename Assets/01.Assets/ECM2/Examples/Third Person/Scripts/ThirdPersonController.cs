@@ -1,4 +1,5 @@
 using UnityEngine;
+using ECM2.Examples.Slide;
 
 namespace ECM2.Examples.ThirdPerson
 {
@@ -43,8 +44,15 @@ namespace ECM2.Examples.ThirdPerson
         protected float _currentFollowDistance;
         protected float _followDistanceSmoothVelocity;
 
-        public Character Character;
+        private PlayerCharacter _playerCharacter;
+        private Rigidbody _rigidbody;
         private VariableJoystick _joystick;
+        //private Vector3 _playerDir;
+        //private bool _isDashMode;
+        //private float _time;
+        //private float _originPlayerSpeed;
+        public float _dashSpeed;
+        public float _dashTime;
 
         /// <summary>
         /// Add input (affecting Yaw).
@@ -81,7 +89,7 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void UpdateCameraRotation()
         {
-            Transform cameraTransform = Character.cameraTransform;
+            Transform cameraTransform = _playerCharacter.cameraTransform;
             cameraTransform.rotation = Quaternion.Euler(_cameraPitch, _cameraYaw, 0.0f);
         }
         
@@ -91,7 +99,7 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void UpdateCameraPosition()
         {
-            Transform cameraTransform = Character.cameraTransform;
+            Transform cameraTransform = _playerCharacter.cameraTransform;
             
             _currentFollowDistance =
                 Mathf.SmoothDamp(_currentFollowDistance, followDistance, ref _followDistanceSmoothVelocity, 0.1f);
@@ -112,7 +120,8 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void Awake()
         {
-            Character = GetComponent<Character>();
+            _playerCharacter = GetComponent<PlayerCharacter>();
+            _rigidbody = GetComponent<Rigidbody>();
             _joystick = GameObject.FindWithTag("Joystick").GetComponent<VariableJoystick>();
         }
 
@@ -126,12 +135,39 @@ namespace ECM2.Examples.ThirdPerson
             //_cameraYaw = euler.y;
 
             _currentFollowDistance = followDistance;
+            //_isDashMode = false;
+            //_originPlayerSpeed = _playerCharacter.maxWalkSpeed;
         }
 
         protected virtual void Update()
         {
+            //Vector3 movementDirection = Vector3.zero;
+
+            //Vector2 inputKeyboardMove = new Vector2()
+            //{
+            //    x = Input.GetAxisRaw("Horizontal"),
+            //    y = Input.GetAxisRaw("Vertical")
+            //};
+
+            //Vector2 inputJoystickMove = new Vector2()
+            //{
+            //    x = _joystick.Horizontal,
+            //    y = _joystick.Vertical
+            //};
+
+            //movementDirection += Vector3.right * inputKeyboardMove.x;
+            //movementDirection += Vector3.forward * inputKeyboardMove.y;
+            //movementDirection += Vector3.right * inputJoystickMove.x;
+            //movementDirection += Vector3.forward * inputJoystickMove.y;
+
+            //if (_playerCharacter.cameraTransform)
+            //    movementDirection = movementDirection.relativeTo(_playerCharacter.cameraTransform, _playerCharacter.GetUpVector());
+
+            //_playerCharacter.SetMovementDirection(movementDirection);
+
+
             // Movement input
-            
+
             Vector2 inputKeyboardMove = new Vector2()
             {
                 x = Input.GetAxisRaw("Horizontal"),
@@ -151,24 +187,24 @@ namespace ECM2.Examples.ThirdPerson
             movementDirection += Vector3.right * inputJoystickMove.x;
             movementDirection += Vector3.forward * inputJoystickMove.y;
 
-            if (Character.cameraTransform)
-                movementDirection = movementDirection.relativeTo(Character.cameraTransform, Character.GetUpVector());
+            if (_playerCharacter.cameraTransform)
+                movementDirection = movementDirection.relativeTo(_playerCharacter.cameraTransform, _playerCharacter.GetUpVector());
 
-            Character.SetMovementDirection(movementDirection);
-            
+            _playerCharacter.SetMovementDirection(movementDirection);
+
             // Crouch input
 
-            //if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
-            //    _character.Crouch();
-            //else if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
-            //    _character.UnCrouch();
-            
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
+                _playerCharacter.Crouch();
+            else if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
+                _playerCharacter.UnCrouch();
+
             // Jump input
 
             if (Input.GetButtonDown("Jump"))
-                Character.Jump();
+                _playerCharacter.Jump();
             else if (Input.GetButtonUp("Jump"))
-                Character.StopJumping();
+                _playerCharacter.StopJumping();
             
             // Look input
 
@@ -193,5 +229,13 @@ namespace ECM2.Examples.ThirdPerson
         {
             UpdateCamera();
         }
+
+        //public void Dash()
+        //{
+        //    _playerDir = transform.TransformDirection(Vector3.forward);
+        //    _playerCharacter.maxWalkSpeed = _dashSpeed;
+        //    _isDashMode = true;
+        //    _time = 0f;
+        //}
     }
 }

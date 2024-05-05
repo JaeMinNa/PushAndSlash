@@ -1,5 +1,5 @@
 using UnityEngine;
-using ECM2;
+using ECM2.Examples.Slide;
 
 namespace ECM2.Examples
 {
@@ -7,13 +7,13 @@ namespace ECM2.Examples
     {
         // The controlled Character
         
-        private Character _character;
+        private PlayerCharacter _playerCharacter;
 
         private void Awake()
         {
             // Cache controlled character
             
-            _character = GetComponent<Character>();
+            _playerCharacter = GetComponent<PlayerCharacter>();
         }
 
         private void Update()
@@ -33,28 +33,28 @@ namespace ECM2.Examples
 
             // If character has a camera assigned...
 
-            if (_character.camera)
+            if (_playerCharacter.camera)
             {
                 // Make movement direction relative to its camera view direction
                 
-                movementDirection = movementDirection.relativeTo(_character.cameraTransform);
+                movementDirection = movementDirection.relativeTo(_playerCharacter.cameraTransform);
             }
 
-            _character.SetMovementDirection(movementDirection);
+            _playerCharacter.SetMovementDirection(movementDirection);
 
             // Crouch input
 
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.C))
-                _character.Crouch();
+                _playerCharacter.Crouch();
             else if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.C))
-                _character.UnCrouch();
+                _playerCharacter.UnCrouch();
 
             // Jump input
 
             if (Input.GetButtonDown("Jump"))
-                _character.Jump();
+                _playerCharacter.Jump();
             else if (Input.GetButtonUp("Jump"))
-                _character.StopJumping();
+                _playerCharacter.StopJumping();
         }
     }
 }
