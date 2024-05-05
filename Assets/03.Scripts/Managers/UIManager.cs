@@ -3,18 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using ECM2;
 using ECM2.Examples.Slide;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("CoolTime Image")]
+    [SerializeField] private Image _dashImage;
+    [SerializeField] private Image _skillImage;
+
     private GameObject _player;
     private Animator _playerAnimator;
     private PlayerCharacter _playerCharacter;
+    private CharacterData _playerData;
+    private float _dashTime;
+    private float _skillTime;
 
     private void Start()
     {
         _player = GameManager.I.PlayerManager.Player;
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
         _playerAnimator = _player.transform.GetChild(0).GetComponent<Animator>();
+        _playerData = GameManager.I.DataManager.PlayerData;
+        _dashTime = 0f;
+        _skillTime = 0f;
+
+        StartCoroutine(CoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
+        StartCoroutine(CoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+    }
+
+    private void Update()
+    {
+        _dashTime += Time.deltaTime;
+        _skillTime += Time.deltaTime;
     }
 
     public void Init()
@@ -39,7 +59,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayerAttack()
     {
-        _playerAnimator.SetTrigger("Attack");
+            _playerAnimator.SetTrigger("Attack");
     }
 
     public void PlayerDashButtonUp()
@@ -49,7 +69,41 @@ public class UIManager : MonoBehaviour
 
     public void PlayerDashButtonDown()
     {
-        _playerAnimator.SetTrigger("Dash");
-        _playerCharacter.Crouch();
+        if(_dashTime >= _playerData.DashCoolTime)
+        {
+            StartCoroutine(CoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
+            _playerAnimator.SetTrigger("Dash");
+            _playerCharacter.Crouch();
+            _dashTime = 0f;
+        }
+    }
+
+    public void PlayerSkillButton()
+    {
+        if (_skillTime >= _playerData.SkillCoolTime)
+        {
+            StartCoroutine(CoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+            _playerAnimator.SetTrigger("Skill");
+            _skillTime = 0f;
+        }
+    }
+
+    private IEnumerator CoolTimeRoutine(Image image, float coolTime)
+    {
+        float time = coolTime;
+        float timer = 0f;
+        while (true)
+        {
+            timer += Time.deltaTime;
+            float per = timer / time;
+            image.fillAmount = per;
+
+            if (timer >= time)
+            {
+                image.fillAmount = 1f;
+                break;
+            }
+            yield return null;
+        }
     }
 }
