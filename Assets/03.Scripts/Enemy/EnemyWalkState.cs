@@ -12,6 +12,7 @@ public class EnemyWalkState : MonoBehaviour, IEnemyState
             _enemyController = enemyController;
 
         Debug.Log("Walk 상태 시작");
+        _enemyController.NavMeshAgent.isStopped = false;
         StartCoroutine(COUpdate());
     }
 
@@ -19,11 +20,15 @@ public class EnemyWalkState : MonoBehaviour, IEnemyState
     private IEnumerator COUpdate()
     {
         while (true)
-        {
-            //Vector3 dir = (_enemyController.Target.transform.position - transform.position).normalized;
-            //transform.position += dir * _enemyController.EnemyData.Speed * Time.deltaTime;
-
+        { 
             _enemyController.NavMeshAgent.SetDestination(_enemyController.Target.transform.position);
+
+            if(_enemyController.CheckPlayer())
+            {
+                _enemyController.AttackStart();
+                _enemyController.Animator.SetBool("Attack", true);
+                break;
+            }
 
             yield return null;
         }

@@ -42,6 +42,7 @@ public class EnemyData
     public string Tag;
     public float Speed;
     public float Atk;
+    public float AttackCoolTime;
     public float Def;
 }
 

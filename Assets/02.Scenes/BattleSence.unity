@@ -987,6 +987,8 @@ MonoBehaviour:
     - Tag: Enemy0
       Speed: 1.5
       Atk: 2
+      AttackTime: 1
+      AttackCoolTime: 3
       Def: 0.1
 --- !u!114 &911591496
 MonoBehaviour:
@@ -1302,7 +1304,7 @@ GameObject:
   - component: {fileID: 1191236115}
   m_Layer: 0
   m_Name: Enemy0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1341,8 +1343,11 @@ MonoBehaviour:
     Tag: 
     Speed: 0
     Atk: 0
+    AttackTime: 0
+    AttackCoolTime: 0
     Def: 0
   NavMeshAgent: {fileID: 0}
+  Animator: {fileID: 0}
 --- !u!195 &1191236115
 NavMeshAgent:
   m_ObjectHideFlags: 0
