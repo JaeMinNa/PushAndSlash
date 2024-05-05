@@ -13,8 +13,9 @@ public class GameData
 [System.Serializable]
 public class DataWrapper
 {
-    public CharacterData[] CharacterDatas;
     public List<CharacterData> CharacterInventory;
+    public CharacterData[] CharacterDatas;
+    public EnemyData[] EnemyDatas;
 }
 
 [System.Serializable]
@@ -32,6 +33,16 @@ public class CharacterData
     public float Def;
     public float SkillAtk;
     public float SkillCoolTime;
+}
+
+[System.Serializable]
+public class EnemyData
+{
+    [Header("Common Stats")]
+    public string Tag;
+    public float Speed;
+    public float Atk;
+    public float Def;
 }
 
 public class DataManager : MonoBehaviour
