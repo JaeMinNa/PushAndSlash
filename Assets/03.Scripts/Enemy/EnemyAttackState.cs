@@ -15,8 +15,8 @@ public class EnemyAttackState : MonoBehaviour, IEnemyState
 
         Debug.Log("Attack 상태 시작");
         _time = 0f;
-        _enemyController.NavMeshAgent.isStopped = true;
-        _enemyController.NavMeshAgent.velocity = Vector3.zero;
+        //_enemyController.NavMeshAgent.isStopped = true;
+        //_enemyController.NavMeshAgent.velocity = Vector3.zero;
         StartCoroutine(COUpdate());
     }
 
@@ -41,6 +41,13 @@ public class EnemyAttackState : MonoBehaviour, IEnemyState
                     _enemyController.Animator.SetBool("Attack", false);
                     break;
                 }
+            }
+
+            if(_enemyController.IsHit_attack || _enemyController.IsHit_skill)
+            {
+                _enemyController.HitStart();
+                _enemyController.Animator.SetTrigger("Hit");
+                break;
             }
 
             yield return null;

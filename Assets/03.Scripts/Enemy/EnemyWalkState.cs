@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyWalkState : MonoBehaviour, IEnemyState
 {
     private EnemyController _enemyController;
+    private Vector3 _dir;
 
     // Start문과 동일하게 사용
     public void Handle(EnemyController enemyController)
@@ -12,7 +13,6 @@ public class EnemyWalkState : MonoBehaviour, IEnemyState
             _enemyController = enemyController;
 
         Debug.Log("Walk 상태 시작");
-        _enemyController.NavMeshAgent.isStopped = false;
         StartCoroutine(COUpdate());
     }
 
@@ -20,13 +20,21 @@ public class EnemyWalkState : MonoBehaviour, IEnemyState
     private IEnumerator COUpdate()
     {
         while (true)
-        { 
-            _enemyController.NavMeshAgent.SetDestination(_enemyController.Target.transform.position);
+        {
+            _dir = (_enemyController.Target.transform.position - transform.position).normalized;
+            transform.position += _dir * _enemyController.Speed * Time.deltaTime;
 
-            if(_enemyController.CheckPlayer())
+            if (_enemyController.CheckPlayer())
             {
                 _enemyController.AttackStart();
                 _enemyController.Animator.SetBool("Attack", true);
+                break;
+            }
+
+            if (_enemyController.IsHit_attack || _enemyController.IsHit_skill)
+            {
+                _enemyController.HitStart();
+                _enemyController.Animator.SetTrigger("Hit");
                 break;
             }
 
