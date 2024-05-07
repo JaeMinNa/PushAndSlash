@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace ECM2.Examples.Slide
 {
@@ -13,6 +14,8 @@ namespace ECM2.Examples.Slide
         public float slideDownAcceleration = 20.0f;
 
         private CharacterData _playerData;
+        private Rigidbody _rigidbody;
+        private Animator _animator;
 
         /// <summary>
         /// Our custom movement mode(s) id(s).
@@ -27,6 +30,8 @@ namespace ECM2.Examples.Slide
         {
             base.Awake();
             _playerData = GameManager.I.DataManager.PlayerData;
+            _rigidbody = GetComponent<Rigidbody>();
+            _animator = transform.GetChild(0).GetComponent<Animator>();
         }
 
         protected override void Start()
@@ -231,6 +236,22 @@ namespace ECM2.Examples.Slide
         {
             maxWalkSpeed = _playerData.Speed;
             slideImpulse = _playerData.DashImpulse;
+        }
+
+        public void PlayerNuckback(Transform enemy, float power)
+        {
+            StartCoroutine(COFinishNuckback());
+            _animator.SetTrigger("Hit");
+            _rigidbody.isKinematic = false;
+            Vector3 dir = (transform.position - enemy.position).normalized;
+            _rigidbody.velocity = dir * (power - _playerData.Def);
+        }
+
+        private IEnumerator COFinishNuckback()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            _rigidbody.isKinematic = true;
         }
     }
 }

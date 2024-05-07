@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillCollider : MonoBehaviour
+public class SkillCollider : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {

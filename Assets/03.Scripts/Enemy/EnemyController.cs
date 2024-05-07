@@ -105,9 +105,9 @@ public class EnemyController : MonoBehaviour
 
     public bool CheckPlayer()
     {
-        Debug.DrawRay(transform.position + new Vector3(0, 0.7f, 0), transform.forward * 1.5f, Color.green);
+        Debug.DrawRay(transform.position + new Vector3(0, 0.7f, 0), transform.forward * 1.3f, Color.green);
 
-        if (Physics.Raycast(transform.position + new Vector3(0, 0.7f, 0), transform.forward, out ForwardHit, 1.5f))
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.7f, 0), transform.forward, out ForwardHit, 1.3f))
         { 
             if (ForwardHit.transform.CompareTag("Player"))
             {

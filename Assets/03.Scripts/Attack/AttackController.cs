@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackController : MonoBehaviour
+public class AttackController : MonoBehaviour
 {
     [SerializeField] private BoxCollider[] _weaponColliders;
     [SerializeField] private BoxCollider _skillCollider;
