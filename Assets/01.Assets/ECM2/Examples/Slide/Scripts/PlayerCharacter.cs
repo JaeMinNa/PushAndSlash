@@ -15,7 +15,8 @@ namespace ECM2.Examples.Slide
 
         private CharacterData _playerData;
         private Rigidbody _rigidbody;
-        private Animator _animator;
+        private Animator _anim;
+        public bool IsSkill;
 
         /// <summary>
         /// Our custom movement mode(s) id(s).
@@ -31,13 +32,22 @@ namespace ECM2.Examples.Slide
             base.Awake();
             _playerData = GameManager.I.DataManager.PlayerData;
             _rigidbody = GetComponent<Rigidbody>();
-            _animator = transform.GetChild(0).GetComponent<Animator>();
+            _anim = transform.GetChild(0).GetComponent<Animator>();
         }
 
         protected override void Start()
         {
             base.Start();
+            //_rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             PlayerSetting();
+            IsSkill = false;
+
+
+        }
+
+        private void Update()
+        {
+            
         }
 
         /// <summary>
@@ -240,17 +250,19 @@ namespace ECM2.Examples.Slide
 
         public void PlayerNuckback(Transform enemy, float power)
         {
-            StartCoroutine(COFinishNuckback());
-            _animator.SetTrigger("Hit");
+            StartCoroutine(COFinishNuckback(enemy));
+            _anim.SetTrigger("Hit");
             _rigidbody.isKinematic = false;
             Vector3 dir = (transform.position - enemy.position).normalized;
-            _rigidbody.velocity = dir * (power - _playerData.Def);
+            _rigidbody.velocity = new Vector3(dir.x, 0, dir.z) * (power - _playerData.Def);
+            transform.LookAt(enemy.transform);
         }
 
-        private IEnumerator COFinishNuckback()
+        private IEnumerator COFinishNuckback(Transform enemy)
         {
             yield return new WaitForSeconds(0.5f);
-
+            transform.LookAt(enemy.transform);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             _rigidbody.isKinematic = true;
         }
     }

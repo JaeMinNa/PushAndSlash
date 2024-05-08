@@ -10,8 +10,8 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Start()
     {
-        _character = GetComponent<Character>();
-        _animator = transform.GetChild(0).GetComponent<Animator>();
+        _character = transform.parent.GetComponent<Character>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -29,5 +29,10 @@ public class PlayerAnimationController : MonoBehaviour
             _animator.SetBool("Ground", false);
             _animator.SetBool("Jump", true);
         }
+    }
+
+    public void StartSFX(string name)
+    {
+        GameManager.I.SoundManager.StartSFX(name);
     }
 }

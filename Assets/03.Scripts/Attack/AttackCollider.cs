@@ -15,10 +15,12 @@ public class AttackCollider : MonoBehaviour
 
     private GameObject _player;
     private EnemyController _enemyController;
+    private PlayerCharacter _playerCharacter;
 
     private void Start()
     {
         _player = GameManager.I.PlayerManager.Player;
+        _playerCharacter = _player.GetComponent<PlayerCharacter>();
 
         if (CharacterType == Type.Enemy)
         {
@@ -44,10 +46,10 @@ public class AttackCollider : MonoBehaviour
         }
         else if(CharacterType == Type.Enemy)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !_playerCharacter.IsSkill)
             {
                 Debug.Log("EnemyÀÇ °ø°Ý!");
-                _player.GetComponent<PlayerCharacter>().PlayerNuckback(transform, _enemyController.Atk);
+                _player.GetComponent<PlayerCharacter>().PlayerNuckback(this.transform, _enemyController.Atk);
             }
         }
     }

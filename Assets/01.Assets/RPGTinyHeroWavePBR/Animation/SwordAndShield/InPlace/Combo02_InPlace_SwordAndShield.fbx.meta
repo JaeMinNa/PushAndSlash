@@ -67,6 +67,13 @@ ModelImporter:
         floatParameter: 0.2
         intParameter: 0
         messageOptions: 0
+      - time: 0.20123841
+        functionName: StartSFX
+        data: PlayerSwordAttack0
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

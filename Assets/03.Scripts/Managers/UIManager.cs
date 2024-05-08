@@ -27,8 +27,8 @@ public class UIManager : MonoBehaviour
         _dashTime = 0f;
         _skillTime = 0f;
 
-        StartCoroutine(CoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
-        StartCoroutine(CoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+        StartCoroutine(COCoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
+        StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
     }
 
     private void Update()
@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
     public void PlayerJumpButtonDown()
     {
         _player.GetComponent<Character>().Jump();
+        //GameManager.I.SoundManager.StartSFX("PlayerJump");
     }
 
     public void PlayerAttack()
@@ -71,7 +72,7 @@ public class UIManager : MonoBehaviour
     {
         if(_dashTime >= _playerData.DashCoolTime)
         {
-            StartCoroutine(CoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
+            StartCoroutine(COCoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
             _playerAnimator.SetTrigger("Dash");
             _playerCharacter.Crouch();
             _dashTime = 0f;
@@ -82,13 +83,14 @@ public class UIManager : MonoBehaviour
     {
         if (_skillTime >= _playerData.SkillCoolTime)
         {
-            StartCoroutine(CoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+            StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
             _playerAnimator.SetTrigger("Skill");
             _skillTime = 0f;
+            _playerCharacter.IsSkill = true;
         }
     }
 
-    private IEnumerator CoolTimeRoutine(Image image, float coolTime)
+    private IEnumerator COCoolTimeRoutine(Image image, float coolTime)
     {
         float time = coolTime;
         float timer = 0f;
@@ -101,9 +103,17 @@ public class UIManager : MonoBehaviour
             if (timer >= time)
             {
                 image.fillAmount = 1f;
+                _playerCharacter.IsSkill = false;
                 break;
             }
             yield return null;
         }
+    }
+
+    private IEnumerator COIsSkillFalse()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        _playerCharacter.IsSkill = false;
     }
 }

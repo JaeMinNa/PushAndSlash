@@ -3789,7 +3789,6 @@ GameObject:
   - component: {fileID: 5061527742930891571}
   - component: {fileID: 4492298805471647831}
   - component: {fileID: 6439157165267328527}
-  - component: {fileID: 1010182417403742363}
   - component: {fileID: 7151719339125470882}
   m_Layer: 0
   m_Name: JaeMin
@@ -3924,18 +3923,6 @@ MonoBehaviour:
   maxPitch: 80
   _dashSpeed: 5
   _dashTime: 0.7
---- !u!114 &1010182417403742363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881622926618698092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7151719339125470882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12477,6 +12464,7 @@ GameObject:
   - component: {fileID: 6690187566396567541}
   - component: {fileID: 424314569138986252}
   - component: {fileID: 8653897720808544700}
+  - component: {fileID: 4585400845493392382}
   m_Layer: 0
   m_Name: MC01
   m_TagString: Untagged
@@ -12559,6 +12547,18 @@ MonoBehaviour:
   _weaponColliders:
   - {fileID: 8771178294046886804}
   _skillCollider: {fileID: 824189382616305632}
+--- !u!114 &4585400845493392382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5300283066670499717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5301546843813623018
 GameObject:
   m_ObjectHideFlags: 0
