@@ -9439,6 +9439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f509bb9264552d419fd8b8b9f101700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shootPosition: {fileID: 4723115994030467669}
+  Skill: {fileID: 128572, guid: a99a57cf3a7bacc479881d230e99afc3, type: 3}
 --- !u!1 &4418968428100519464
 GameObject:
   m_ObjectHideFlags: 0
@@ -17817,7 +17819,7 @@ GameObject:
   - component: {fileID: 4242787071104906887}
   - component: {fileID: 3455976103677219311}
   - component: {fileID: 1943707061223671120}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -21404,6 +21406,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b874176c08c06243b1a9e2ac272808e, type: 3}
+--- !u!4 &4723115994030467669 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7826472355014410603, guid: 5b874176c08c06243b1a9e2ac272808e, type: 3}
+  m_PrefabInstance: {fileID: 3249021516862090046}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8812409855231592388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6295240397556903162, guid: 5b874176c08c06243b1a9e2ac272808e, type: 3}

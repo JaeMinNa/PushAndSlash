@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ECM2.Examples.Slide;
 
 namespace EpicToonFX
 {
     public class ETFXProjectileScript : MonoBehaviour
     {
+        public enum Type
+        {
+            Player,
+            Enemy,
+        }
+
         public GameObject impactParticle; // Effect spawned when projectile hits a collider
         public GameObject projectileParticle; // Effect attached to the gameobject as child
         public GameObject muzzleParticle; // Effect instantly spawned when gameobject is spawned
@@ -12,6 +19,15 @@ namespace EpicToonFX
         public float colliderRadius = 1f;
         [Range(0f, 1f)] // This is an offset that moves the impact effect slightly away from the point of impact to reduce clipping of the impact effect
         public float collideOffset = 0.15f;
+
+        public Type CharacterType;
+        private GameObject _player;
+        private Vector3 _dir;
+        private LayerMask _layerMask;
+        [HideInInspector] public float Atk;
+        [SerializeField] private Collider[] _targets;
+        [SerializeField] private float _overlapSphereRange;
+        [SerializeField] private float _speed;
 
         void Start()
         {
@@ -22,15 +38,38 @@ namespace EpicToonFX
                 muzzleParticle = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
                 Destroy(muzzleParticle, 1.5f); // 2nd parameter is lifetime of effect in seconds
             }
+
+            _player = GameManager.I.PlayerManager.Player;
+            _dir = (_player.transform.position - transform.position).normalized;
+            transform.LookAt(_player.transform.position);
+            //_targets = new Collider[20];
+
+            if (CharacterType == Type.Enemy)
+            {
+                _layerMask = LayerMask.NameToLayer("Player");
+            }
+            if (CharacterType == Type.Player)
+            {
+                _layerMask = LayerMask.NameToLayer("Enemy");
+            }
         }
 		
         void FixedUpdate()
-        {	
-			if (GetComponent<Rigidbody>().velocity.magnitude != 0)
-			{
-			    transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity); // Sets rotation to look at direction of movement
-			}
-			
+        {
+            //if (GetComponent<Rigidbody>().velocity.magnitude != 0)
+            //{
+            //    transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity); // Sets rotation to look at direction of movement
+            //}
+
+            if(CharacterType == Type.Enemy)
+            {
+                transform.position += _dir * _speed * Time.deltaTime;
+            }
+            else if(CharacterType == Type.Player)
+            {
+
+            }
+
             RaycastHit hit;
 			
             float radius; // Sets the radius of the collision detection
@@ -39,14 +78,14 @@ namespace EpicToonFX
             else
                 radius = colliderRadius;
 
-            Vector3 direction = transform.GetComponent<Rigidbody>().velocity; // Gets the direction of the projectile, used for collision detection
-            if (transform.GetComponent<Rigidbody>().useGravity)
-                direction += Physics.gravity * Time.deltaTime; // Accounts for gravity if enabled
-            direction = direction.normalized;
+            //Vector3 direction = transform.GetComponent<Rigidbody>().velocity; // Gets the direction of the projectile, used for collision detection
+            //if (transform.GetComponent<Rigidbody>().useGravity)
+            //    direction += Physics.gravity * Time.deltaTime; // Accounts for gravity if enabled
+            //direction = direction.normalized;
 
-            float detectionDistance = transform.GetComponent<Rigidbody>().velocity.magnitude * Time.deltaTime; // Distance of collision detection for this frame
+            //float detectionDistance = transform.GetComponent<Rigidbody>().velocity.magnitude * Time.deltaTime; // Distance of collision detection for this frame
 
-            if (Physics.SphereCast(transform.position, radius, direction, out hit, detectionDistance)) // Checks if collision will happen
+            if (Physics.SphereCast(transform.position, radius, _dir, out hit, 50f * Time.deltaTime)) // Checks if collision will happen
             {
                 transform.position = hit.point + (hit.normal * collideOffset); // Move projectile to point of collision
 
@@ -67,8 +106,31 @@ namespace EpicToonFX
 
                 Destroy(projectileParticle, 3f); // Removes particle effect after delay
                 Destroy(impactP, 3.5f); // Removes impact effect after delay
+                Targetting();
                 Destroy(gameObject); // Removes the projectile
+                string name = gameObject.name.Substring(0, gameObject.name.Length - 7);
+                GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion");
             }
         }
+        private void Targetting()
+        {
+            int layerMask = (1 << _layerMask);  // Layer 설정
+            _targets = Physics.OverlapSphere(transform.position, _overlapSphereRange, layerMask);
+            
+            if(_targets != null)
+            {
+                for (int i = 0; i < _targets.Length; i++)
+                {
+                    _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                }
+            }
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(this.transform.position, _overlapSphereRange);
+        }
+
     }
 }

@@ -45,6 +45,8 @@ public class SoundManager : MonoBehaviour
         _sfx.Add("PlayerSwordAttack1", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerSwordAttack1"));
         _sfx.Add("PlayerSwordSkill", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerSwordSkill"));
         _sfx.Add("EnemyStickAttack", Resources.Load<AudioClip>("Sounds/SFX/Enemy/EnemyStickAttack"));
+        _sfx.Add("EnemyFireBallExplosion", Resources.Load<AudioClip>("Sounds/SFX/Enemy/EnemyFireBallExplosion"));
+        _sfx.Add("EnemyFireBallShoot", Resources.Load<AudioClip>("Sounds/SFX/Enemy/EnemyFireBallShoot"));
     }
 
     // 메모리 해제

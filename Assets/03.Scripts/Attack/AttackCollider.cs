@@ -40,7 +40,6 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                Debug.Log("Player의 공격!");
                 other.GetComponent<EnemyController>().IsHit_attack = true;
             }
         }
@@ -48,8 +47,7 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.CompareTag("Player") && !_playerCharacter.IsSkill)
             {
-                Debug.Log("Enemy의 공격!");
-                _player.GetComponent<PlayerCharacter>().PlayerNuckback(this.transform, _enemyController.Atk);
+                _player.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _enemyController.Atk);
             }
         }
     }

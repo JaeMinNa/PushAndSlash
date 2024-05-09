@@ -4734,7 +4734,7 @@ GameObject:
   - component: {fileID: 1168595072451532894}
   - component: {fileID: 3671751552378959090}
   - component: {fileID: 7668412501364766129}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4782,6 +4782,7 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   PlayerData:
     Tag: 
+    CharacterRank: 0
     Level: 0
     Speed: 0
     DashImpulse: 0
@@ -17090,6 +17091,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f509bb9264552d419fd8b8b9f101700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shootPosition: {fileID: 0}
+  Skill: {fileID: 0}
 --- !u!1 &7551086985392361663
 GameObject:
   m_ObjectHideFlags: 0

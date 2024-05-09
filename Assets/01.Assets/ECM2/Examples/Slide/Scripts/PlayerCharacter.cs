@@ -248,20 +248,20 @@ namespace ECM2.Examples.Slide
             slideImpulse = _playerData.DashImpulse;
         }
 
-        public void PlayerNuckback(Transform enemy, float power)
+        public void PlayerNuckback(Vector3 attackPosition, float power)
         {
-            StartCoroutine(COFinishNuckback(enemy));
+            StartCoroutine(COFinishNuckback(attackPosition));
             _anim.SetTrigger("Hit");
             _rigidbody.isKinematic = false;
-            Vector3 dir = (transform.position - enemy.position).normalized;
+            Vector3 dir = (transform.position - attackPosition).normalized;
             _rigidbody.velocity = new Vector3(dir.x, 0, dir.z) * (power - _playerData.Def);
-            transform.LookAt(enemy.transform);
+            transform.LookAt(attackPosition);
         }
 
-        private IEnumerator COFinishNuckback(Transform enemy)
+        private IEnumerator COFinishNuckback(Vector3 attackPosition)
         {
             yield return new WaitForSeconds(0.5f);
-            transform.LookAt(enemy.transform);
+            transform.LookAt(attackPosition);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             _rigidbody.isKinematic = true;
         }

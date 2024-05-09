@@ -12569,6 +12569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f509bb9264552d419fd8b8b9f101700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shootPosition: {fileID: 0}
+  Skill: {fileID: 0}
 --- !u!1 &5465195099810192114
 GameObject:
   m_ObjectHideFlags: 0
@@ -17471,7 +17473,7 @@ GameObject:
   - component: {fileID: 854033935850247291}
   - component: {fileID: 2218439640446495205}
   - component: {fileID: 4498874676379366740}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
