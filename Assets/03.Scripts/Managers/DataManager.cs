@@ -21,10 +21,21 @@ public class DataWrapper
 [System.Serializable]
 public class CharacterData
 {
+    public enum Rank
+    {
+        C,
+        B,
+        A,
+        S,
+        SS,
+        SSS,
+    }
+
     [Header("Common Stats")]
     public string Tag;
     //public bool IsGet;
     //public bool IsEquip;
+    public Rank CharacterRank;
     public int Level;
     public float Speed;
     public float DashImpulse;

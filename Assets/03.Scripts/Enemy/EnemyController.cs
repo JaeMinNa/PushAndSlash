@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
         Enemy0,
         Enemy1,
         Enemy2,
+        Enemy3,
+        Enemy4,
+        Enemy5,
     }
 
     public EnemyStateContext _enemyStateContext { get; private set; }
@@ -94,6 +97,18 @@ public class EnemyController : MonoBehaviour
                 EnemyData = GameManager.I.DataManager.DataWrapper.EnemyDatas[2];
                 break;
 
+            case EnemyType.Enemy3:
+                EnemyData = GameManager.I.DataManager.DataWrapper.EnemyDatas[3];
+                break;
+
+            case EnemyType.Enemy4:
+                EnemyData = GameManager.I.DataManager.DataWrapper.EnemyDatas[4];
+                break;
+
+            case EnemyType.Enemy5:
+                EnemyData = GameManager.I.DataManager.DataWrapper.EnemyDatas[5];
+                break;
+
             default:
                 break;
         }
@@ -105,13 +120,28 @@ public class EnemyController : MonoBehaviour
 
     public bool CheckPlayer()
     {
-        Debug.DrawRay(transform.position + new Vector3(0, 0.7f, 0), transform.forward * 1.3f, Color.green);
+        if(Type == EnemyType.Enemy4 || Type == EnemyType.Enemy5)
+        {
+            Debug.DrawRay(transform.position + new Vector3(0, 0.7f, 0), transform.forward * 8.5f, Color.green);
 
-        if (Physics.Raycast(transform.position + new Vector3(0, 0.7f, 0), transform.forward, out ForwardHit, 1.3f))
-        { 
-            if (ForwardHit.transform.CompareTag("Player"))
+            if (Physics.Raycast(transform.position + new Vector3(0, 0.7f, 0), transform.forward, out ForwardHit, 8.5f))
             {
-                return true;
+                if (ForwardHit.transform.CompareTag("Player"))
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position + new Vector3(0, 0.7f, 0), transform.forward * 1.3f, Color.green);
+
+            if (Physics.Raycast(transform.position + new Vector3(0, 0.7f, 0), transform.forward, out ForwardHit, 1.3f))
+            {
+                if (ForwardHit.transform.CompareTag("Player"))
+                {
+                    return true;
+                }
             }
         }
 
