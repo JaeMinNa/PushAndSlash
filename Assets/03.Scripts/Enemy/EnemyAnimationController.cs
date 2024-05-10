@@ -20,9 +20,22 @@ public class EnemyAnimationController : MonoBehaviour
         GameManager.I.SoundManager.StartSFX(name);
     }
 
+    public void StartRangedSFX(string name)
+    {
+        GameManager.I.SoundManager.StartSFX(name, transform.position);
+    }
+
     public void ShootRangedAttack(string name)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Enemy/" + name), _shootPosition.position, Quaternion.identity);
-        obj.GetComponent<ETFXProjectileScript>().Atk = _enemyController.Atk;
+        
+        if(_enemyController.Type == EnemyController.EnemyType.Enemy4)
+        {
+            obj.GetComponent<ETFXProjectileScript>().Atk = _enemyController.Atk;
+        }
+        else if(_enemyController.Type == EnemyController.EnemyType.Enemy5)
+        {
+            obj.GetComponent<Arrow>().Atk = _enemyController.Atk;
+        }
     }
 }

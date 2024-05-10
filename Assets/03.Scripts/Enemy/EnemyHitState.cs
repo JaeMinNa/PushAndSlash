@@ -15,7 +15,7 @@ public class EnemyHitState : MonoBehaviour, IEnemyState
             _enemyController = enemyController;
 
         Debug.Log("Hit 상태 시작");
-        _enemyController.Animator.SetBool("Attack", false);
+        _enemyController.EnemyAnimator.SetBool("Attack", false);
         _enemyController.Rigidbody.isKinematic = false;
         _time = 0f;
         _dir = (transform.position - _enemyController.Target.transform.position).normalized;

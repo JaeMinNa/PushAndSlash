@@ -9440,7 +9440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shootPosition: {fileID: 4723115994030467669}
-  Skill: {fileID: 128572, guid: a99a57cf3a7bacc479881d230e99afc3, type: 3}
 --- !u!1 &4418968428100519464
 GameObject:
   m_ObjectHideFlags: 0
@@ -17863,7 +17862,7 @@ MonoBehaviour:
     AttackCoolTime: 0
     Def: 0
   NavMeshAgent: {fileID: 0}
-  Animator: {fileID: 0}
+  EnemyAnimator: {fileID: 0}
   Rigidbody: {fileID: 0}
   PlayerData:
     Tag: 
@@ -17881,6 +17880,8 @@ MonoBehaviour:
   Def: 0
   IsHit_attack: 0
   IsHit_skill: 0
+  BowAnimator: {fileID: 0}
+  ArrowAnimator: {fileID: 0}
 --- !u!136 &3455976103677219311
 CapsuleCollider:
   m_ObjectHideFlags: 0

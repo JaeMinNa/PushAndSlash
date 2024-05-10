@@ -55,7 +55,6 @@ public class UIManager : MonoBehaviour
     public void PlayerJumpButtonDown()
     {
         _player.GetComponent<Character>().Jump();
-        //GameManager.I.SoundManager.StartSFX("PlayerJump");
     }
 
     public void PlayerAttack()
@@ -84,6 +83,7 @@ public class UIManager : MonoBehaviour
         if (_skillTime >= _playerData.SkillCoolTime)
         {
             StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+            StartCoroutine(COIsSkillFalse());
             _playerAnimator.SetTrigger("Skill");
             _skillTime = 0f;
             _playerCharacter.IsSkill = true;
@@ -103,7 +103,7 @@ public class UIManager : MonoBehaviour
             if (timer >= time)
             {
                 image.fillAmount = 1f;
-                _playerCharacter.IsSkill = false;
+                //_playerCharacter.IsSkill = false;
                 break;
             }
             yield return null;
@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator COIsSkillFalse()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         _playerCharacter.IsSkill = false;
     }

@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public GameObject Target;
     [HideInInspector] public EnemyData EnemyData;
     [HideInInspector] public NavMeshAgent NavMeshAgent;
-    [HideInInspector] public Animator Animator;
+    [HideInInspector] public Animator EnemyAnimator;
     [HideInInspector] public Rigidbody Rigidbody;
     [HideInInspector] public RaycastHit ForwardHit;
     [HideInInspector] public RaycastHit DownHit;
@@ -29,8 +29,12 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public float Speed;
     [HideInInspector] public float Atk;
     [HideInInspector] public float Def;
-    public bool IsHit_attack;
-    public bool IsHit_skill;
+    [HideInInspector] public bool IsHit_attack;
+    [HideInInspector] public bool IsHit_skill;
+
+    [Header("Bow And Arrow")]
+    public Animator BowAnimator;
+    public Animator ArrowAnimator;
 
     private IEnemyState _walkState;
     private IEnemyState _attackState;
@@ -39,7 +43,7 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        Animator = transform.GetChild(0).GetComponent<Animator>();
+        EnemyAnimator = transform.GetChild(0).GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -57,13 +61,13 @@ public class EnemyController : MonoBehaviour
 
         EnemySetting();
         IsHit_attack = false;
+        IsHit_skill = false;
     }
 
     private void Update()
     {
         CheckPlayer();
         transform.LookAt(Target.transform.position);
-        Debug.Log(IsGround());
     }
 
     public void WalkStart()

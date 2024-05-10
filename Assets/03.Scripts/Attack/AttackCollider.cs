@@ -21,17 +21,7 @@ public class AttackCollider : MonoBehaviour
     {
         _player = GameManager.I.PlayerManager.Player;
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
-
-        if (CharacterType == Type.Enemy)
-        {
-            Transform topParent = transform;
-            while (topParent.parent != null)
-            {
-                topParent = topParent.parent;
-            }
-
-            _enemyController = topParent.GetComponent<EnemyController>();
-        }
+        _enemyController = transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetComponent<EnemyController>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,6 +37,7 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.CompareTag("Player") && !_playerCharacter.IsSkill)
             {
+                Debug.Log(other);
                 _player.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _enemyController.Atk);
             }
         }

@@ -27,14 +27,14 @@ public class EnemyWalkState : MonoBehaviour, IEnemyState
             if (_enemyController.CheckPlayer())
             {
                 _enemyController.AttackStart();
-                _enemyController.Animator.SetBool("Attack", true);
+                _enemyController.EnemyAnimator.SetBool("Attack", true);
                 break;
             }
 
             if (_enemyController.IsHit_attack || _enemyController.IsHit_skill)
             {
                 _enemyController.HitStart();
-                _enemyController.Animator.SetTrigger("Hit");
+                _enemyController.EnemyAnimator.SetTrigger("Hit");
                 break;
             }
 

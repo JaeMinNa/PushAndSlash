@@ -14,9 +14,12 @@ public class EnemyAttackState : MonoBehaviour, IEnemyState
             _enemyController = enemyController;
 
         Debug.Log("Attack 상태 시작");
+        if(_enemyController.Type == EnemyController.EnemyType.Enemy5)
+        {
+            _enemyController.BowAnimator.SetTrigger("Attack");
+            _enemyController.ArrowAnimator.SetTrigger("Attack");
+        }
         _time = 0f;
-        //_enemyController.NavMeshAgent.isStopped = true;
-        //_enemyController.NavMeshAgent.velocity = Vector3.zero;
         StartCoroutine(COUpdate());
     }
 
@@ -32,13 +35,13 @@ public class EnemyAttackState : MonoBehaviour, IEnemyState
                 if(_enemyController.CheckPlayer())
                 {
                     _enemyController.AttackStart();
-                    _enemyController.Animator.SetTrigger("ReAttack");
+                    _enemyController.EnemyAnimator.SetTrigger("ReAttack");
                     break;
                 }
                 else
                 {
                     _enemyController.WalkStart();
-                    _enemyController.Animator.SetBool("Attack", false);
+                    _enemyController.EnemyAnimator.SetBool("Attack", false);
                     break;
                 }
             }
@@ -46,7 +49,7 @@ public class EnemyAttackState : MonoBehaviour, IEnemyState
             if(_enemyController.IsHit_attack || _enemyController.IsHit_skill)
             {
                 _enemyController.HitStart();
-                _enemyController.Animator.SetTrigger("Hit");
+                _enemyController.EnemyAnimator.SetTrigger("Hit");
                 break;
             }
 

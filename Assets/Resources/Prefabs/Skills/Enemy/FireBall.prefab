@@ -74,5 +74,5 @@ MonoBehaviour:
   CharacterType: 1
   Atk: 0
   _targets: []
-  _overlapSphereRange: 1
+  _overlapSphereRange: 1.5
   _speed: 7

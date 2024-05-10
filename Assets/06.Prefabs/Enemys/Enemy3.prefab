@@ -5508,7 +5508,7 @@ MonoBehaviour:
     AttackCoolTime: 0
     Def: 0
   NavMeshAgent: {fileID: 0}
-  Animator: {fileID: 0}
+  EnemyAnimator: {fileID: 0}
   Rigidbody: {fileID: 0}
   PlayerData:
     Tag: 
@@ -5526,6 +5526,8 @@ MonoBehaviour:
   Def: 0
   IsHit_attack: 0
   IsHit_skill: 0
+  BowAnimator: {fileID: 0}
+  ArrowAnimator: {fileID: 0}
 --- !u!136 &6039958185635710432
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12539,7 +12541,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shootPosition: {fileID: 0}
-  Skill: {fileID: 0}
 --- !u!1 &5086940872516081670
 GameObject:
   m_ObjectHideFlags: 0

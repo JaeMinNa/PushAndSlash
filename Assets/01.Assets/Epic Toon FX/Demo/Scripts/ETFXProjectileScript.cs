@@ -121,7 +121,10 @@ namespace EpicToonFX
             {
                 for (int i = 0; i < _targets.Length; i++)
                 {
-                    _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                    if(!_targets[i].GetComponent< PlayerCharacter>().IsSkill)
+                    {
+                        _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                    }
                 }
             }
         }

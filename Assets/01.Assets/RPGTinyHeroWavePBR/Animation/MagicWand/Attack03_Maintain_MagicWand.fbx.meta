@@ -60,16 +60,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0
-        functionName: ShootRangedAttack
-        data: FireBall
+      - time: 0.9659443
+        functionName: StartRangedSFX
+        data: EnemyFireBallShoot
         objectReferenceParameter: {fileID: 11500000, guid: 3f509bb9264552d419fd8b8b9f101700, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
-        functionName: StartSFX
-        data: EnemyFireBallShoot
+      - time: 0.9690402
+        functionName: ShootRangedAttack
+        data: FireBall
         objectReferenceParameter: {fileID: 11500000, guid: 3f509bb9264552d419fd8b8b9f101700, type: 3}
         floatParameter: 0
         intParameter: 0
