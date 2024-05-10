@@ -37,7 +37,6 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.CompareTag("Player") && !_playerCharacter.IsSkill)
             {
-                Debug.Log(other);
                 _player.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _enemyController.Atk);
             }
         }

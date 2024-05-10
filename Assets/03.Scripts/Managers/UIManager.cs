@@ -11,6 +11,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _dashImage;
     [SerializeField] private Image _skillImage;
 
+    [Header("Panel")]
+    [SerializeField] private GameObject _pause;
+
     private GameObject _player;
     private Animator _playerAnimator;
     private PlayerCharacter _playerCharacter;
@@ -115,5 +118,17 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         _playerCharacter.IsSkill = false;
+    }
+
+    public void PauseStartButton()
+    {
+        Time.timeScale = 0f;
+        _pause.SetActive(true);
+    }
+
+    public void PauseStopButton()
+    {
+        Time.timeScale = 1f;
+        _pause.SetActive(false);
     }
 }

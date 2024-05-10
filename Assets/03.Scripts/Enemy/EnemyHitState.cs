@@ -50,9 +50,9 @@ public class EnemyHitState : MonoBehaviour, IEnemyState
             }
             else
             {
-                if (_time >= 2f)
+                if (transform.position.y <= -10f)
                 {
-                    Debug.Log("Àû Ã³Ä¡!");
+                    transform.gameObject.SetActive(false);
                     break;
                 }
             }
