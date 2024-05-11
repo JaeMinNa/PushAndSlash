@@ -7,12 +7,17 @@ public class StageController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private TMP_Text _timeText;
+    [SerializeField] private TMP_Text _coinText;
+    [SerializeField] private TMP_Text _stageText;
 
     [Header("GameClear")]
     [SerializeField] private GameObject _gameClear;
 
     [Header("GameOver")]
     [SerializeField] private GameObject _gameOver;
+
+    [Header("StageTitle")]
+    [SerializeField] private TMP_Text _stageTitleText;
 
     private float _time;
     private GameObject _player;
@@ -29,6 +34,10 @@ public class StageController : MonoBehaviour
         _isGameOver = false;
 
         StageSetting();
+        StageTextSetting();
+        CoinSetting();
+
+        Time.timeScale = 0f;
     }
 
     private void Update()
@@ -51,7 +60,6 @@ public class StageController : MonoBehaviour
     
     private void TimeTextUpdate()
     {
-
         _timeText.text = Mathf.Floor(_time / 60).ToString() + ":" + Mathf.Floor(_time % 60).ToString();
     }
 
@@ -72,6 +80,18 @@ public class StageController : MonoBehaviour
         transform.GetChild(_gameData.Stage - 1).gameObject.SetActive(true);
     }
 
+    private void StageTextSetting()
+    {
+        string name = GameManager.I.ScenesManager.CurrentSceneName.Substring(11);
+        _stageTitleText.text = _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
+        _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
+    }
+
+    private void CoinSetting()
+    {
+        _coinText.text = _gameData.Coin.ToString();
+    }
+
     private bool IsEnemy()
     {
         int enemyCount = transform.GetChild(_gameData.Stage - 1).childCount;
@@ -89,5 +109,10 @@ public class StageController : MonoBehaviour
         if (_player.transform.position.y <= -10f) return false;
 
         return true;
+    }
+
+    public void TimeScaleStart()
+    {
+        Time.timeScale = 1f;
     }
 }
