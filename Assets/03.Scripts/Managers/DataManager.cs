@@ -37,6 +37,8 @@ public class CharacterData
     //public bool IsEquip;
     public Rank CharacterRank;
     public int Level;
+    public int CurrentExp;
+    public int MaxExp;
     public float Speed;
     public float DashImpulse;
     public float DashCoolTime;
@@ -51,6 +53,7 @@ public class EnemyData
 {
     [Header("Common Stats")]
     public string Tag;
+    public int Exp;
     public float Speed;
     public float Atk;
     public float AttackCoolTime;
@@ -75,18 +78,22 @@ public class DataManager : MonoBehaviour
 
     public void DataSave()
     {
-        ES3.Save("GameData", GameData); // Key값 설정, 선언한 class 변수명
+        //ES3.Save("GameData", GameData); // Key값 설정, 선언한 class 변수명
+        //ES3.Save("PlayerData", PlayerData);
+        //ES3.Save("DataWrapper", DataWrapper);
 
-        //ES3AutoSaveMgr.Current.Save();
+        ES3AutoSaveMgr.Current.Save();
     }
 
     public void DataLoad()
     {
         if(ES3.FileExists("SaveFile.txt"))
         {
-            ES3.LoadInto("GameData", GameData); // 저장된 Key 값, 불러올 class 변수명
+            //ES3.LoadInto("GameData", GameData); // 저장된 Key 값, 불러올 class 변수명
+            //ES3.LoadInto("PlayerData", PlayerData);
+            //ES3.LoadInto("DataWrapper", DataWrapper);
 
-            //ES3AutoSaveMgr.Current.Load();
+            ES3AutoSaveMgr.Current.Load();
         }
         else
         {

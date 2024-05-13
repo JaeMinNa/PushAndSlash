@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.I.ScenesManager.CurrentSceneName == "LobbySence") return;
+
         _player = GameManager.I.PlayerManager.Player;
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
         _playerAnimator = _player.transform.GetChild(0).GetComponent<Animator>();
@@ -36,6 +38,8 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.I.ScenesManager.CurrentSceneName == "LobbySence") return;
+
         _dashTime += Time.deltaTime;
         _skillTime += Time.deltaTime;
     }
