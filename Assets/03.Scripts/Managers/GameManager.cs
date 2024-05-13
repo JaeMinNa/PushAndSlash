@@ -33,18 +33,18 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         PlayerManager.Init();
-        UIManager.Init();
         DataManager.Init();
         SoundManager.Init();
         ScenesManager.Init();
+        UIManager.Init();
     }
 
     private void Release()
     {
         PlayerManager.Release();
-        UIManager.Release();
         DataManager.Release();
         SoundManager.Release();
         ScenesManager.Release();
+        UIManager.Release();
     }
 }

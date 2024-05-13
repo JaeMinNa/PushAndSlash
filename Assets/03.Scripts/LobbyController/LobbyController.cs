@@ -12,6 +12,7 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private Slider _expSlider;
     [SerializeField] private TMP_Text _levelText;
     [SerializeField] private TMP_Text _expText;
+    [SerializeField] private TMP_Text _stageText_Chapter1;
 
     private GameData _gameData;
     private CharacterData _playerData;
@@ -23,7 +24,19 @@ public class LobbyController : MonoBehaviour
 
         CoinSetting();
         UserNameSetting();
+        StageSetting();
         CharacterSetting();
+    }
+
+    public void Chapter1Button()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.ScenesManager.LoadScene("BattleSence1");
+    }
+
+    public void ButtonClickMiss()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
     }
 
     private void CoinSetting()
@@ -34,6 +47,11 @@ public class LobbyController : MonoBehaviour
     private void UserNameSetting()
     {
         _userNameText.text = _gameData.UserName;
+    }
+
+    private void StageSetting()
+    {
+        _stageText_Chapter1.text = "Stage " + _gameData.Stage.ToString();
     }
 
     private void LevelSetting()

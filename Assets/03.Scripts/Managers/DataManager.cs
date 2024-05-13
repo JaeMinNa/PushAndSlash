@@ -5,9 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    public string UserName = "";
-    public int Stage = 1;
-    public int Coin = 0;
+    public string UserName;
+    public int Stage;
+    public int Coin;
+    public float SFX;
+    public float BGM;
 }
 
 [System.Serializable]
