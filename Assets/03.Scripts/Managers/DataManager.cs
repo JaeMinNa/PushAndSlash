@@ -8,8 +8,8 @@ public class GameData
     public string UserName;
     public int Stage;
     public int Coin;
-    public float SFX;
-    public float BGM;
+    public float SFXValume;
+    public float BGMValume;
 }
 
 [System.Serializable]
@@ -101,5 +101,23 @@ public class DataManager : MonoBehaviour
         {
             DataSave();
         }
+    }
+
+    public void DataDelete()
+    {
+        ES3.DeleteFile("SaveFile.txt");
+
+        // PlayerPrefs √ ±‚»≠
+        PlayerPrefs.DeleteAll();
+
+        // GameData
+        GameData.UserName = "UserName";
+        GameData.Stage = 1;
+        GameData.Coin = 0;
+        GameData.SFXValume = 0;
+        GameData.BGMValume = 0;
+
+        // Inventory
+        DataWrapper.CharacterInventory.Clear();
     }
 }

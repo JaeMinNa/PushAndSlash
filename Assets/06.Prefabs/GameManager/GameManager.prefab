@@ -62,6 +62,8 @@ MonoBehaviour:
     UserName: UserName
     Stage: 1
     Coin: 0
+    SFX: 0
+    BGM: 0
   DataWrapper:
     CharacterInventory: []
     CharacterDatas:
@@ -186,7 +188,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _maxDistance: 15
-  StartVolume: 0.3
+  StartVolume: 1
 --- !u!1 &5400881682989419139
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,6 +330,10 @@ MonoBehaviour:
   _dashImage: {fileID: 0}
   _skillImage: {fileID: 0}
   _pause: {fileID: 0}
+  _settingPanel: {fileID: 0}
+  _audioMixer: {fileID: 24100000, guid: f8837ca6f653e2d4aa5e096219eda27b, type: 2}
+  _sfxSlider: {fileID: 0}
+  _bgmSlider: {fileID: 0}
 --- !u!1 &6478029405391843018
 GameObject:
   m_ObjectHideFlags: 0

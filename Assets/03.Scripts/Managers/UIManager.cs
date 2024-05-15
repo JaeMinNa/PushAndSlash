@@ -5,6 +5,7 @@ using ECM2;
 using ECM2.Examples.Slide;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,14 +21,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private Slider _sfxSlider;
     [SerializeField] private Slider _bgmSlider;
+    [SerializeField] private GameObject _userNamePanel;
+    [SerializeField] private TMP_InputField _userNameInputField;
+    [SerializeField] private GameObject _dataDeletePanel;
 
     private GameObject _player;
     private Animator _playerAnimator;
     private PlayerCharacter _playerCharacter;
     private CharacterData _playerData;
-    private GameData _gameData;
+    private LobbyController _lobbyController;
+    //private GameData _gameData;
     private float _dashTime;
     private float _skillTime;
+    private TouchScreenKeyboard _keyboard;
 
     private void Update()
     {
@@ -42,13 +48,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SoundSetting();
+        //inputField.ActivateInputField();
+    }
+
     public void Init()
     {
         _player = GameManager.I.PlayerManager.Player;
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
         _playerAnimator = _player.transform.GetChild(0).GetComponent<Animator>();
         _playerData = GameManager.I.DataManager.PlayerData;
-        _gameData = GameManager.I.DataManager.GameData;
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbySence")
         {
@@ -62,9 +73,6 @@ public class UIManager : MonoBehaviour
             StartCoroutine(COCoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
             StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
         }
-
-
-        SoundSetting();
     }
 
     public void Release()
@@ -74,8 +82,8 @@ public class UIManager : MonoBehaviour
 
     private void SoundSetting()
     {
-        float sfx = _gameData.SFX;
-        float bgm = _gameData.BGM;
+        float sfx = GameManager.I.DataManager.GameData.SFXValume;
+        float bgm = GameManager.I.DataManager.GameData.BGMValume;
         _sfxSlider.value = sfx;
         _bgmSlider.value = bgm;
 
@@ -101,7 +109,8 @@ public class UIManager : MonoBehaviour
     public void SFXControl()
     {
         float sound = _sfxSlider.value;
-        _gameData.SFX = sound;
+        //_gameData.SFX = sound;
+        GameManager.I.DataManager.GameData.SFXValume = sound;
 
         if (sound == -40f)	// -40일 때, 음악을 꺼줌
         {
@@ -116,7 +125,8 @@ public class UIManager : MonoBehaviour
     public void BGMControl()
     {
         float sound = _bgmSlider.value;
-        _gameData.BGM = sound;
+        //_gameData.BGM = sound;
+        GameManager.I.DataManager.GameData.BGMValume = sound;
 
         if (sound == -40f)	// -40일 때, 음악을 꺼줌
         {
@@ -216,9 +226,6 @@ public class UIManager : MonoBehaviour
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         _settingPanel.SetActive(true);
-        _gameData.Stage++;
-        _gameData.Coin++;
-        _playerData.Level++;
     }
 
     public void SettingInactive()
@@ -227,4 +234,64 @@ public class UIManager : MonoBehaviour
         _settingPanel.SetActive(false);
     }
 
+    public void ExitGame()
+    {
+        // 현재 실행 환경이 에디터이면 에디터 플레이모드 종료
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+
+        // 현재 실행 환경이 에디터가 아니면 프로그램 종료
+        #else
+        Application.Quit();
+        #endif
+    }
+
+    public void UserNameSettingActive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _userNamePanel.SetActive(true);
+        //inputField.ActivateInputField();
+        //TouchScreenKeyboard.Open()
+        _keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+    }
+
+    public void UserNameInput()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.DataManager.GameData.UserName = _userNameInputField.text;
+
+        if(GameManager.I.ScenesManager.CurrentSceneName == "LobbySence")
+        {
+            _lobbyController = GameObject.FindWithTag("LobbyController").GetComponent<LobbyController>();
+            _lobbyController.UserNameSetting();
+        }
+
+        _userNamePanel.SetActive(false);
+    }
+
+    public void DataDeleteSettingActive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _dataDeletePanel.SetActive(true);
+    }
+
+    public void DataDeleteSettingInactive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _dataDeletePanel.SetActive(false);
+    }
+
+    public void DataDelete()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.DataManager.DataDelete();
+        ExitGame();
+    }
+
+    public void LobbyButton()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.DataManager.DataSave();
+        GameManager.I.ScenesManager.LoadScene("LobbySence");
+    }
 }

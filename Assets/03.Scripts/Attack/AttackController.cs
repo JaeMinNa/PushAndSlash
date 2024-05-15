@@ -7,6 +7,19 @@ public class AttackController : MonoBehaviour
     [SerializeField] private BoxCollider[] _weaponColliders;
     [SerializeField] private BoxCollider _skillCollider;
 
+    private ParticleSystem _skillParticleSystem;
+    private EffectFixedPosition _effectFixedPosition;
+
+    private void Start()
+    {
+        if(transform.parent.CompareTag("Player"))
+        {
+            _skillParticleSystem = transform.parent.GetChild(2).GetChild(1).GetChild(0).GetComponent<ParticleSystem>();
+            _effectFixedPosition = _skillParticleSystem.GetComponent<EffectFixedPosition>();
+        }
+    }
+
+    // Player, Enemy
     public void AttackColliderActive(float time)
     {
         for (int i = 0; i < _weaponColliders.Length; i++)
@@ -27,11 +40,13 @@ public class AttackController : MonoBehaviour
         }
     }
 
+    // Player
     public void SkillColliderActive(float time)
     {
 
         _skillCollider.enabled = true;
-    
+        _effectFixedPosition.SetPosition(new Vector3(_skillCollider.transform.position.x, _skillCollider.transform.position.y, _skillCollider.transform.position.z));
+        _skillParticleSystem.Play();
         StartCoroutine(COSkillColliderInactive(time));
     }
 
