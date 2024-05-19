@@ -25,9 +25,18 @@ public class AttackCollider : MonoBehaviour
     {
         _player = GameManager.I.PlayerManager.Player;
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
-        _enemyController = transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetComponent<EnemyController>();
         _cameraShake = Camera.main.GetComponent<CameraShake>();
-        _attackParticleSystem = _player.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+
+        if (CharacterType == Type.Player)
+        {
+            _attackParticleSystem = _player.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+        }
+        else if(CharacterType == Type.Enemy)
+        {
+            _enemyController = transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.GetComponent<EnemyController>();
+            _attackParticleSystem = _enemyController.transform.GetChild(1).GetChild(0).GetComponent<ParticleSystem>();
+        }
+
         _effectFixedPosition = _attackParticleSystem.GetComponent<EffectFixedPosition>();
     }
 
@@ -37,7 +46,7 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                StartCoroutine(_cameraShake.COShake(0.8f, 0.3f));
+                StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
                 Vector3 contactPoint = other.ClosestPointOnBounds(transform.position);
                 _effectFixedPosition.SetPosition(contactPoint);
                 _attackParticleSystem.Play();
@@ -48,7 +57,10 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.CompareTag("Player") && !_playerCharacter.IsSkill)
             {
-                StartCoroutine(_cameraShake.COShake(0.8f, 0.3f));
+                StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+                Vector3 contactPoint = other.ClosestPointOnBounds(transform.position);
+                _effectFixedPosition.SetPosition(contactPoint);
+                _attackParticleSystem.Play();
                 _player.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _enemyController.Atk);
             }
         }

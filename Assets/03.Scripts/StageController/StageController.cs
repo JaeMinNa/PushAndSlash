@@ -60,7 +60,14 @@ public class StageController : MonoBehaviour
     
     private void TimeTextUpdate()
     {
-        _timeText.text = Mathf.Floor(_time / 60).ToString() + ":" + Mathf.Floor(_time % 60).ToString();
+        string text;
+        if (Mathf.Floor(_time % 60) < 10)
+        {
+            text = "0" + Mathf.Floor(_time % 60).ToString();
+        }
+        else text = Mathf.Floor(_time % 60).ToString();
+
+        _timeText.text = Mathf.Floor(_time / 60).ToString() + ":" + text;
     }
 
     private void GameClear()

@@ -24,10 +24,16 @@ namespace EpicToonFX
         private GameObject _player;
         private Vector3 _dir;
         private LayerMask _layerMask;
+        private CameraShake _cameraShake;
         [HideInInspector] public float Atk;
         [SerializeField] private Collider[] _targets;
         [SerializeField] private float _overlapSphereRange;
         [SerializeField] private float _speed;
+
+        private void Awake()
+        {
+            _cameraShake = Camera.main.transform.GetComponent<CameraShake>();
+        }
 
         void Start()
         {
@@ -40,18 +46,21 @@ namespace EpicToonFX
             }
 
             _player = GameManager.I.PlayerManager.Player;
-            _dir = (_player.transform.position - transform.position).normalized;
-            transform.LookAt(_player.transform.position);
-            //_targets = new Collider[20];
 
-            if (CharacterType == Type.Enemy)
+            if(CharacterType == Type.Enemy)
             {
                 _layerMask = LayerMask.NameToLayer("Player");
+                _dir = (_player.transform.position - transform.position).normalized;
+                transform.LookAt(_player.transform.position);
             }
-            if (CharacterType == Type.Player)
+            else if(CharacterType == Type.Player)
             {
                 _layerMask = LayerMask.NameToLayer("Enemy");
+                _dir = _player.transform.forward;
+                transform.LookAt(_player.transform.forward);
             }
+
+            StartCoroutine(CODestroyAttack());
         }
 		
         void FixedUpdate()
@@ -61,14 +70,16 @@ namespace EpicToonFX
             //    transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity); // Sets rotation to look at direction of movement
             //}
 
-            if(CharacterType == Type.Enemy)
-            {
-                transform.position += _dir * _speed * Time.deltaTime;
-            }
-            else if(CharacterType == Type.Player)
-            {
+            //if(CharacterType == Type.Enemy)
+            //{
+            //    transform.position += _dir * _speed * Time.deltaTime;
+            //}
+            //else if(CharacterType == Type.Player)
+            //{
 
-            }
+            //}
+
+            transform.position += _dir * _speed * Time.deltaTime;
 
             RaycastHit hit;
 			
@@ -108,8 +119,10 @@ namespace EpicToonFX
                 Destroy(impactP, 3.5f); // Removes impact effect after delay
                 Targetting();
                 Destroy(gameObject); // Removes the projectile
+                
                 string name = gameObject.name.Substring(0, gameObject.name.Length - 7);
-                GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion");
+                if (CharacterType == Type.Enemy) GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion");
+                else if (CharacterType == Type.Player) GameManager.I.SoundManager.StartSFX("Player" + name + "Explosion");
             }
         }
         private void Targetting()
@@ -117,15 +130,40 @@ namespace EpicToonFX
             int layerMask = (1 << _layerMask);  // Layer 설정
             _targets = Physics.OverlapSphere(transform.position, _overlapSphereRange, layerMask);
             
-            if(_targets != null)
+            if(CharacterType == Type.Enemy)
             {
-                for (int i = 0; i < _targets.Length; i++)
+                if (_targets != null)
                 {
-                    if(!_targets[i].GetComponent< PlayerCharacter>().IsSkill)
+                    for (int i = 0; i < _targets.Length; i++)
                     {
-                        _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                        if (!_targets[i].GetComponent<PlayerCharacter>().IsSkill)
+                        {
+                            StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+                            _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                        }
                     }
                 }
+            }
+            else if(CharacterType == Type.Player)
+            {
+                if (_targets != null)
+                {
+                    StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
+
+                    for (int i = 0; i < _targets.Length; i++)
+                    {                      
+                        _targets[i].GetComponent<EnemyController>().IsHit_skill = true;
+                    }
+                }
+            }
+        }
+
+        private IEnumerator CODestroyAttack()
+        {
+            yield return new WaitForSeconds(5f);
+            if (gameObject != null)
+            {
+                Destroy(gameObject);
             }
         }
 

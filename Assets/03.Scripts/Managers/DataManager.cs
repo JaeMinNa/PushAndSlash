@@ -25,16 +25,14 @@ public class CharacterData
 {
     public enum Rank
     {
-        C,
         B,
         A,
         S,
-        SS,
-        SSS,
     }
 
     [Header("Common Stats")]
     public string Tag;
+    public string KoreaTag;
     //public bool IsGet;
     //public bool IsEquip;
     public Rank CharacterRank;
@@ -70,7 +68,7 @@ public class DataManager : MonoBehaviour
 
     public void Init()
     {
-        DataLoad();
+        //DataLoad();
     }
 
     public void Release()
@@ -78,6 +76,7 @@ public class DataManager : MonoBehaviour
 
     }
 
+    [ContextMenu("Save Data")] // 컴포넌트 메뉴에 아래 함수를 호출하는 Save Data 라는 명령어가 생성됨
     public void DataSave()
     {
         //ES3.Save("GameData", GameData); // Key값 설정, 선언한 class 변수명
@@ -87,6 +86,7 @@ public class DataManager : MonoBehaviour
         ES3AutoSaveMgr.Current.Save();
     }
 
+    [ContextMenu("Load Data")]
     public void DataLoad()
     {
         if(ES3.FileExists("SaveFile.txt"))

@@ -60,6 +60,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.36085626
+        functionName: StartSFX
+        data: EnemyTwoHandAttack
+        objectReferenceParameter: {fileID: 11500000, guid: 3f509bb9264552d419fd8b8b9f101700, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.36556602
         functionName: AttackColliderActive
         data: 

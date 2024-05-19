@@ -15,7 +15,7 @@ public class SkillCollider : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            StartCoroutine(_cameraShake.COShake(2f, 0.5f));
+            StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
             other.GetComponent<EnemyController>().IsHit_skill = true;
         }
     }

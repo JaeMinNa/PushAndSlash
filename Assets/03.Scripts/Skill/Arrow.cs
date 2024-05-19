@@ -13,9 +13,18 @@ public class Arrow : MonoBehaviour
 
     public Type CharacterType;
     [SerializeField] private float _speed;
+    [SerializeField] private SkinnedMeshRenderer _renderer;
     [HideInInspector] public float Atk;
     private GameObject _player;
     private Vector3 _dir;
+    private ParticleSystem _effect;
+    private CameraShake _cameraShake;
+
+    private void Awake()
+    {
+        _effect = transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+        _cameraShake = Camera.main.transform.GetComponent<CameraShake>();
+    }
 
     private void Start()
     {
@@ -42,7 +51,10 @@ public class Arrow : MonoBehaviour
             {
                 _player.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
                 GameManager.I.SoundManager.StartSFX("ArrowHit");
-                Destroy(gameObject);
+                StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+                _effect.Play();
+                _renderer.enabled = false;
+                //Destroy(gameObject);
             }
         }
     }

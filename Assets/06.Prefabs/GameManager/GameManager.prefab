@@ -46,39 +46,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerData:
-    Tag: Jaemin
-    CharacterRank: 5
+    Tag: Hyeonsu
+    KoreaTag: "\uBBFC\uC11D"
+    CharacterRank: 0
     Level: 1
     CurrentExp: 0
     MaxExp: 30
-    Speed: 7
-    DashImpulse: 50
-    DashCoolTime: 5
-    Atk: 5
-    Def: 0.1
-    SkillAtk: 25
-    SkillCoolTime: 7
+    Speed: 4
+    DashImpulse: 40
+    DashCoolTime: 10
+    Atk: 3
+    Def: 0
+    SkillAtk: 15
+    SkillCoolTime: 5
   GameData:
-    UserName: UserName
+    UserName: "\uC7AC\uBBFC\uC7AC\uBBFC"
     Stage: 1
     Coin: 0
-    SFX: 0
-    BGM: 0
+    SFXValume: 0
+    BGMValume: 0
   DataWrapper:
     CharacterInventory: []
     CharacterDatas:
-    - Tag: Jaemin
-      CharacterRank: 5
+    - Tag: Minsuck
+      KoreaTag: "\uBBFC\uC11D"
+      CharacterRank: 0
       Level: 1
       CurrentExp: 0
-      MaxExp: 0
-      Speed: 7
-      DashImpulse: 50
-      DashCoolTime: 5
-      Atk: 5
-      Def: 0.1
-      SkillAtk: 25
-      SkillCoolTime: 7
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 3
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
+    - Tag: Hyeonsu
+      KoreaTag: "\uD604\uC218"
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4.3
+      DashImpulse: 42
+      DashCoolTime: 9.5
+      Atk: 3
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
     EnemyDatas:
     - Tag: Enemy0
       Exp: 10
@@ -334,6 +349,9 @@ MonoBehaviour:
   _audioMixer: {fileID: 24100000, guid: f8837ca6f653e2d4aa5e096219eda27b, type: 2}
   _sfxSlider: {fileID: 0}
   _bgmSlider: {fileID: 0}
+  _userNamePanel: {fileID: 0}
+  _userNameInputField: {fileID: 0}
+  _dataDeletePanel: {fileID: 0}
 --- !u!1 &6478029405391843018
 GameObject:
   m_ObjectHideFlags: 0
