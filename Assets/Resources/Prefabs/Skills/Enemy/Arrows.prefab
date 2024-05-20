@@ -386,9 +386,9 @@ GameObject:
   - component: {fileID: 2510260936273960870}
   - component: {fileID: -4228711022397120639}
   - component: {fileID: 3794285448973905706}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arrows
-  m_TagString: Untagged
+  m_TagString: Missile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

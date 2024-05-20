@@ -60,6 +60,17 @@ public class SoundManager : MonoBehaviour
         _sfx.Add("PlayerNovaShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNovaShoot"));
         _sfx.Add("PlayerShadowExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerShadowExplosion"));
         _sfx.Add("PlayerShadowShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerShadowShoot"));
+        _sfx.Add("PlayerLightningExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerLightningExplosion"));
+        _sfx.Add("PlayerLightningShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerLightningShoot"));
+        _sfx.Add("PlayerMagicExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerMagicExplosion"));
+        _sfx.Add("PlayerMagicShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerMagicShoot"));
+        _sfx.Add("PlayerWandAttack", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerWandAttack"));
+        _sfx.Add("PlayerNukeExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNukeExplosion"));
+        _sfx.Add("PlayerNukeShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNukeShoot"));
+        _sfx.Add("PlayerFireBallShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerFireBallShoot"));
+        _sfx.Add("PlayerFireBallExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerFireBallExplosion"));
+        _sfx.Add("PlayerNovaPinkExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNovaExplosion"));
+        _sfx.Add("PlayerNovaPinkShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNovaShoot"));
     }
 
     // 메모리 해제

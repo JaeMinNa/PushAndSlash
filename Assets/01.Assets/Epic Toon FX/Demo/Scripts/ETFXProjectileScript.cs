@@ -8,7 +8,8 @@ namespace EpicToonFX
     {
         public enum Type
         {
-            Player,
+            PlayerAttack,
+            PlayerSkill,
             Enemy,
         }
 
@@ -25,6 +26,7 @@ namespace EpicToonFX
         private Vector3 _dir;
         private LayerMask _layerMask;
         private CameraShake _cameraShake;
+        private Vector3 _skillScale;
         [HideInInspector] public float Atk;
         [SerializeField] private Collider[] _targets;
         [SerializeField] private float _overlapSphereRange;
@@ -37,27 +39,29 @@ namespace EpicToonFX
 
         void Start()
         {
+            _player = GameManager.I.PlayerManager.Player;
+            _skillScale = new Vector3(2.5f, 2.5f, 2.5f);
+
+            if (CharacterType == Type.Enemy)
+            {
+                _layerMask = LayerMask.NameToLayer("Player");
+                _dir = (_player.transform.position - transform.position).normalized;
+            }
+            else
+            {
+                _layerMask = LayerMask.NameToLayer("Enemy");
+                _dir = new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z);
+            }
+            transform.LookAt(transform.position + _dir);
+
             projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
+            if (CharacterType == Type.PlayerSkill) projectileParticle.transform.localScale = _skillScale;
             projectileParticle.transform.parent = transform;
             if (muzzleParticle)
             {
                 muzzleParticle = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
+                if(CharacterType == Type.PlayerSkill) muzzleParticle.transform.localScale = _skillScale;
                 Destroy(muzzleParticle, 1.5f); // 2nd parameter is lifetime of effect in seconds
-            }
-
-            _player = GameManager.I.PlayerManager.Player;
-
-            if(CharacterType == Type.Enemy)
-            {
-                _layerMask = LayerMask.NameToLayer("Player");
-                _dir = (_player.transform.position - transform.position).normalized;
-                transform.LookAt(_player.transform.position);
-            }
-            else if(CharacterType == Type.Player)
-            {
-                _layerMask = LayerMask.NameToLayer("Enemy");
-                _dir = _player.transform.forward;
-                transform.LookAt(_player.transform.forward);
             }
 
             StartCoroutine(CODestroyAttack());
@@ -101,6 +105,7 @@ namespace EpicToonFX
                 transform.position = hit.point + (hit.normal * collideOffset); // Move projectile to point of collision
 
                 GameObject impactP = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal)) as GameObject; // Spawns impact effect
+                if (CharacterType == Type.PlayerSkill) impactParticle.transform.localScale = _skillScale;
 
                 ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>(); // Gets a list of particle systems, as we need to detach the trails
                 //Component at [0] is that of the parent i.e. this object (if there is any)
@@ -121,8 +126,8 @@ namespace EpicToonFX
                 Destroy(gameObject); // Removes the projectile
                 
                 string name = gameObject.name.Substring(0, gameObject.name.Length - 7);
-                if (CharacterType == Type.Enemy) GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion");
-                else if (CharacterType == Type.Player) GameManager.I.SoundManager.StartSFX("Player" + name + "Explosion");
+                if (CharacterType == Type.Enemy) GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion", transform.position);
+                else GameManager.I.SoundManager.StartSFX("Player" + name + "Explosion", transform.position);
             }
         }
         private void Targetting()
@@ -134,25 +139,38 @@ namespace EpicToonFX
             {
                 if (_targets != null)
                 {
+                    StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+
                     for (int i = 0; i < _targets.Length; i++)
                     {
                         if (!_targets[i].GetComponent<PlayerCharacter>().IsSkill)
                         {
-                            StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
                             _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
                         }
                     }
                 }
             }
-            else if(CharacterType == Type.Player)
+            else
             {
                 if (_targets != null)
                 {
-                    StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
+                    if (CharacterType == Type.PlayerAttack)
+                    {
+                        StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
 
-                    for (int i = 0; i < _targets.Length; i++)
-                    {                      
-                        _targets[i].GetComponent<EnemyController>().IsHit_skill = true;
+                        for (int i = 0; i < _targets.Length; i++)
+                        {
+                            _targets[i].GetComponent<EnemyController>().IsHit_attack = true;
+                        }
+                    }
+                    else if (CharacterType == Type.PlayerSkill)
+                    {
+                        StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
+
+                        for (int i = 0; i < _targets.Length; i++)
+                        {
+                            _targets[i].GetComponent<EnemyController>().IsHit_skill = true;
+                        }
                     }
                 }
             }

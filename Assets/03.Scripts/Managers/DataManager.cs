@@ -28,6 +28,7 @@ public class CharacterData
         B,
         A,
         S,
+        SS,
     }
 
     [Header("Common Stats")]

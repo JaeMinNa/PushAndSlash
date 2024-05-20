@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 13576440}
   - component: {fileID: 5479992}
   - component: {fileID: 11464288}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shadow
   m_TagString: Missile
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &11464288
 MonoBehaviour:
@@ -99,7 +99,7 @@ MonoBehaviour:
   muzzleParticle: {fileID: 150312, guid: da454a5cc69c9464aa8eae6b8492536e, type: 3}
   colliderRadius: 0.1
   collideOffset: 0.1
-  CharacterType: 0
+  CharacterType: 1
   Atk: 0
   _targets: []
   _overlapSphereRange: 3

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerData:
-    Tag: Dongjin
+    Tag: Hayeong
     KoreaTag: "\uBBFC\uC11D"
     CharacterRank: 0
     Level: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
     Speed: 4
     DashImpulse: 40
     DashCoolTime: 10
-    Atk: 3
+    Atk: 4.5
     Def: 0
     SkillAtk: 15
     SkillCoolTime: 5
@@ -107,6 +107,32 @@ MonoBehaviour:
       Def: 0.5
       SkillAtk: 17.5
       SkillCoolTime: 18
+    - Tag: Sungwoo
+      KoreaTag: "\uC131\uC6B0"
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 4.5
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
+    - Tag: Hayeong
+      KoreaTag: "\uD558\uC601"
+      CharacterRank: 3
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 7
+      DashImpulse: 50
+      DashCoolTime: 4
+      Atk: 7.5
+      Def: 1.5
+      SkillAtk: 25
+      SkillCoolTime: 14
     EnemyDatas:
     - Tag: Enemy0
       Exp: 10
