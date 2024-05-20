@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerData:
-    Tag: Hayeong
+    Tag: Seongjae
     KoreaTag: "\uBBFC\uC11D"
     CharacterRank: 0
     Level: 1
@@ -133,6 +133,58 @@ MonoBehaviour:
       Def: 1.5
       SkillAtk: 25
       SkillCoolTime: 14
+    - Tag: Junhyeog
+      KoreaTag: "\uC900\uD601"
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 3
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
+    - Tag: Ikhyeon
+      KoreaTag: "\uC775\uD604"
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 3
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
+    - Tag: Chanyeong
+      KoreaTag: "\uCC2C\uC601"
+      CharacterRank: 1
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 5
+      DashImpulse: 43
+      DashCoolTime: 8
+      Atk: 4
+      Def: 0.5
+      SkillAtk: 17.5
+      SkillCoolTime: 18
+    - Tag: Seongjae
+      KoreaTag: "\uC131\uC7AC"
+      CharacterRank: 2
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 6
+      DashImpulse: 46
+      DashCoolTime: 6
+      Atk: 5
+      Def: 1
+      SkillAtk: 20
+      SkillCoolTime: 16
     EnemyDatas:
     - Tag: Enemy0
       Exp: 10
