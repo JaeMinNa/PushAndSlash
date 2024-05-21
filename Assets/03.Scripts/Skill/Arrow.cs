@@ -29,18 +29,26 @@ public class Arrow : MonoBehaviour
     private void Start()
     {
         _player = GameManager.I.PlayerManager.Player;
-        _dir = (_player.transform.position + new Vector3(0, 0.5f, 0) - transform.position).normalized;
-        transform.LookAt(_player.transform.position + new Vector3(0, 0.5f, 0));
+
+        if (CharacterType == Type.Enemy)
+        {
+            _dir = (_player.transform.position + new Vector3(0, 0.5f, 0) - transform.position).normalized;
+            transform.LookAt(_player.transform.position + new Vector3(0, 0.5f, 0));
+        }      
+        else if (CharacterType == Type.Player)
+        {
+            _dir = new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z);
+            transform.LookAt(transform.position + _dir);
+        }
 
         StartCoroutine(CODestroyAttack());
     }
 
     private void Update()
     {
-        if (CharacterType == Type.Enemy)
-        {
-            transform.position += _dir * _speed * Time.deltaTime;
-        }
+        
+        transform.position += _dir * _speed * Time.deltaTime;
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,7 +62,17 @@ public class Arrow : MonoBehaviour
                 StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
                 _effect.Play();
                 _renderer.enabled = false;
-                //Destroy(gameObject);
+            }
+        }
+        else if (CharacterType == Type.Player)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().IsHit_attack = true;
+                GameManager.I.SoundManager.StartSFX("ArrowHit", other.transform.position);
+                StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+                _effect.Play();
+                _renderer.enabled = false;
             }
         }
     }

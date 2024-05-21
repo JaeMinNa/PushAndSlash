@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerData:
-    Tag: Seongjae
+    Tag: Jaemin
     KoreaTag: "\uBBFC\uC11D"
     CharacterRank: 0
     Level: 1
@@ -63,8 +63,8 @@ MonoBehaviour:
     UserName: "\uC7AC\uBBFC\uC7AC\uBBFC"
     Stage: 1
     Coin: 0
-    SFXValume: 0
-    BGMValume: 0
+    SFXValume: -10
+    BGMValume: -10
   DataWrapper:
     CharacterInventory: []
     CharacterDatas:
@@ -87,7 +87,7 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
-      Speed: 4.3
+      Speed: 5
       DashImpulse: 42
       DashCoolTime: 9.5
       Atk: 3.2
@@ -100,7 +100,7 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
-      Speed: 5.3
+      Speed: 6
       DashImpulse: 45
       DashCoolTime: 7.5
       Atk: 4.2
@@ -185,6 +185,71 @@ MonoBehaviour:
       Def: 1
       SkillAtk: 20
       SkillCoolTime: 16
+    - Tag: Mingi
+      KoreaTag: "\uBBFC\uAE30"
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 3
+      Def: 1
+      SkillAtk: 15
+      SkillCoolTime: 20
+    - Tag: Sangyeong
+      KoreaTag: "\uC0C1\uC601"
+      CharacterRank: 1
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 5
+      DashImpulse: 43
+      DashCoolTime: 8
+      Atk: 4
+      Def: 0.5
+      SkillAtk: 17.5
+      SkillCoolTime: 18
+    - Tag: Gyeongyeong
+      KoreaTag: "\uACBD\uC601"
+      CharacterRank: 1
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 5
+      DashImpulse: 43
+      DashCoolTime: 8
+      Atk: 4
+      Def: 0.5
+      SkillAtk: 17.5
+      SkillCoolTime: 18
+    - Tag: Gwanghyeong
+      KoreaTag: "\uAD11\uD615"
+      CharacterRank: 2
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 6
+      DashImpulse: 46
+      DashCoolTime: 6
+      Atk: 5
+      Def: 1
+      SkillAtk: 20
+      SkillCoolTime: 16
+    - Tag: Jaemin
+      KoreaTag: "\uC7AC\uBBFC"
+      CharacterRank: 3
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 7
+      DashImpulse: 50
+      DashCoolTime: 4
+      Atk: 6
+      Def: 1.5
+      SkillAtk: 25
+      SkillCoolTime: 14
     EnemyDatas:
     - Tag: Enemy0
       Exp: 10

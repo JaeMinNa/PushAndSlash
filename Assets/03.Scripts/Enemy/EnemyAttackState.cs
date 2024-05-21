@@ -14,11 +14,11 @@ public class EnemyAttackState : MonoBehaviour, IEnemyState
             _enemyController = enemyController;
 
         Debug.Log("Attack 상태 시작");
-        if(_enemyController.Type == EnemyController.EnemyType.Enemy5)
-        {
-            _enemyController.BowAnimator.SetTrigger("Attack");
-            _enemyController.ArrowAnimator.SetTrigger("Attack");
-        }
+        //if (_enemyController.Type == EnemyController.EnemyType.Enemy5)
+        //{
+        //    _enemyController.BowAnimator.SetTrigger("Attack");
+        //    _enemyController.ArrowAnimator.SetTrigger("Attack");
+        //}
         _time = 0f;
         StartCoroutine(COUpdate());
     }

@@ -32,9 +32,9 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public bool IsHit_attack;
     [HideInInspector] public bool IsHit_skill;
 
-    [Header("Bow And Arrow")]
-    public Animator BowAnimator;
-    public Animator ArrowAnimator;
+    //[Header("Bow And Arrow")]
+    //public Animator BowAnimator;
+    //public Animator ArrowAnimator;
 
     private IEnemyState _walkState;
     private IEnemyState _attackState;

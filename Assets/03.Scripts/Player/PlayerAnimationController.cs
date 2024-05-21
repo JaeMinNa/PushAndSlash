@@ -55,4 +55,9 @@ public class PlayerAnimationController : MonoBehaviour
 
         obj.GetComponent<ETFXProjectileScript>().Atk = _playerData.SkillAtk;
     }
+
+    public void ShootArrowAttack(string name)
+    {
+        GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Player/" + name), _shootPosition.position, Quaternion.identity);
+    }
 }

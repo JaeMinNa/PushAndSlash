@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: d4276fc7cbace964a9bdd9a4ab920356
+guid: 97bf50d500aecbd4c87e6a451e49b4f3
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Combo01_InPlace_DoubleSword
+    second: Combo02_InPlace_BowAndArrow
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Combo01_InPlace_DoubleSword
+      name: Combo02_InPlace_BowAndArrow
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 13
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,10 +60,17 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.6115865
-        functionName: NewEvent
-        data: 
-        objectReferenceParameter: {instanceID: 0}
+      - time: 0.5976744
+        functionName: StartSFX
+        data: ArrowShoot
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5976744
+        functionName: ShootArrowAttack
+        data: Arrows_Yangtaek
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

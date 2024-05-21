@@ -74,6 +74,14 @@ public class SoundManager : MonoBehaviour
         _sfx.Add("PlayerOneSwordSkill", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerOneSwordSkill"));
         _sfx.Add("PlayerTHSAttack", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerTHSAttack"));
         _sfx.Add("PlayerTHSSkill", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerTHSSkill"));
+        _sfx.Add("PlayerSpearAttack0", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerSpearAttack0"));
+        _sfx.Add("PlayerSpearAttack1", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerSpearAttack1"));
+        _sfx.Add("PlayerSpearSkill", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerSpearSkill"));
+        _sfx.Add("PlayerArrowReady", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerArrowReady"));
+        _sfx.Add("PlayerLightning_ArrowExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerLightning_ArrowExplosion"));
+        _sfx.Add("PlayerLightning_ArrowShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerLightning_ArrowShoot"));
+        _sfx.Add("PlayerNuke_ArrowExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNukeExplosion"));
+        _sfx.Add("PlayerNuke_ArrowShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNukeShoot"));
     }
 
     // 메모리 해제

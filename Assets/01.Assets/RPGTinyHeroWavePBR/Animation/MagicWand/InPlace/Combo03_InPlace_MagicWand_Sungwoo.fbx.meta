@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 1b9e4da06db26e145b966d0abdc8b7a5
+guid: 9a170de23c0fbaa4ea14663e113ca219
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Combo01_InPlace_MagicWand
+    second: Combo03_InPlace_MagicWand
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Combo01_InPlace_MagicWand
+      name: Combo03_InPlace_MagicWand
       takeName: Take 001
       internalID: 0
       firstFrame: 0
@@ -60,16 +60,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.36503068
-        functionName: AttackColliderActive
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 41916e1be04801042a025c55bcaa8e56, type: 3}
-        floatParameter: 0.2
+      - time: 0.65332735
+        functionName: StartSFX
+        data: PlayerNovaPinkShoot
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.36503068
-        functionName: StartSFX
-        data: PlayerWandAttack
+      - time: 0.6548209
+        functionName: ShootRangedAttack
+        data: NovaPink
         objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
         floatParameter: 0
         intParameter: 0

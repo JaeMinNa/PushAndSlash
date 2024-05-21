@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 9a170de23c0fbaa4ea14663e113ca219
+guid: 85ad97f6c2b0cfe409ce141800b4df0d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Combo03_InPlace_MagicWand
+    second: Combo03_InPlace_BowAndArrow
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Combo03_InPlace_MagicWand
+      name: Combo03_InPlace_BowAndArrow
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 16
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,16 +60,44 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.6334142
-        functionName: AttackColliderActive
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 41916e1be04801042a025c55bcaa8e56, type: 3}
-        floatParameter: 1
+      - time: 0.27325583
+        functionName: ShootArrowAttack
+        data: Arrows_Gyusig
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6380368
+      - time: 0.27325583
         functionName: StartSFX
-        data: PlayerWandAttack
+        data: ArrowShoot
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.51744187
+        functionName: ShootArrowAttack
+        data: Arrows_Gyusig
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.51744187
+        functionName: StartSFX
+        data: ArrowShoot
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.74418604
+        functionName: ShootArrowAttack
+        data: Arrows_Gyusig
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.74418604
+        functionName: StartSFX
+        data: ArrowShoot
         objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
         floatParameter: 0
         intParameter: 0
