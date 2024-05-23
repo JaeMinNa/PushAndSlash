@@ -34,8 +34,8 @@ public class CharacterData
     [Header("Common Stats")]
     public string Tag;
     public string KoreaTag;
-    //public bool IsGet;
-    //public bool IsEquip;
+    public bool IsGet;
+    public bool IsEquip;
     public Rank CharacterRank;
     public int Level;
     public int CurrentExp;
@@ -69,7 +69,7 @@ public class DataManager : MonoBehaviour
 
     public void Init()
     {
-        //DataLoad();
+        DataLoad();
     }
 
     public void Release()
