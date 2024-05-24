@@ -34,7 +34,6 @@ public class CharacterData
     [Header("Common Stats")]
     public string Tag;
     public string KoreaTag;
-    public bool IsGet;
     public bool IsEquip;
     public Rank CharacterRank;
     public int Level;

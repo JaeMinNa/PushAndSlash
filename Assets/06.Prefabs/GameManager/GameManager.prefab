@@ -48,7 +48,6 @@ MonoBehaviour:
   PlayerData:
     Tag: Minsuck
     KoreaTag: "\uBBFC\uC11D"
-    IsGet: 1
     IsEquip: 1
     CharacterRank: 0
     Level: 1
@@ -68,12 +67,39 @@ MonoBehaviour:
     SFXValume: -10
     BGMValume: -10
   DataWrapper:
-    CharacterInventory: []
+    CharacterInventory:
+    - Tag: Minsuck
+      KoreaTag: "\uBBFC\uC11D"
+      IsEquip: 1
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 3
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
+    - Tag: Sungwoo
+      KoreaTag: "\uC131\uC6B0"
+      IsEquip: 0
+      CharacterRank: 0
+      Level: 1
+      CurrentExp: 0
+      MaxExp: 30
+      Speed: 4
+      DashImpulse: 40
+      DashCoolTime: 10
+      Atk: 3
+      Def: 0
+      SkillAtk: 15
+      SkillCoolTime: 20
     CharacterDatas:
     - Tag: Minsuck
       KoreaTag: "\uBBFC\uC11D"
-      IsGet: 1
-      IsEquip: 1
+      IsEquip: 0
       CharacterRank: 0
       Level: 1
       CurrentExp: 0
@@ -87,7 +113,6 @@ MonoBehaviour:
       SkillCoolTime: 20
     - Tag: Hyeonsu
       KoreaTag: "\uD604\uC218"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 0
       Level: 1
@@ -102,7 +127,6 @@ MonoBehaviour:
       SkillCoolTime: 20
     - Tag: Dongjin
       KoreaTag: "\uB3D9\uC9C4"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 1
       Level: 1
@@ -117,7 +141,6 @@ MonoBehaviour:
       SkillCoolTime: 18
     - Tag: Sungwoo
       KoreaTag: "\uC131\uC6B0"
-      IsGet: 1
       IsEquip: 0
       CharacterRank: 0
       Level: 1
@@ -126,13 +149,12 @@ MonoBehaviour:
       Speed: 4
       DashImpulse: 40
       DashCoolTime: 10
-      Atk: 4.5
+      Atk: 3
       Def: 0
       SkillAtk: 15
       SkillCoolTime: 20
     - Tag: Hayeong
       KoreaTag: "\uD558\uC601"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 3
       Level: 1
@@ -147,7 +169,6 @@ MonoBehaviour:
       SkillCoolTime: 14
     - Tag: Junhyeog
       KoreaTag: "\uC900\uD601"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 0
       Level: 1
@@ -162,7 +183,6 @@ MonoBehaviour:
       SkillCoolTime: 20
     - Tag: Ikhyeon
       KoreaTag: "\uC775\uD604"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 0
       Level: 1
@@ -177,7 +197,6 @@ MonoBehaviour:
       SkillCoolTime: 20
     - Tag: Chanyeong
       KoreaTag: "\uCC2C\uC601"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 1
       Level: 1
@@ -192,7 +211,6 @@ MonoBehaviour:
       SkillCoolTime: 18
     - Tag: Seongjae
       KoreaTag: "\uC131\uC7AC"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 2
       Level: 1
@@ -207,7 +225,6 @@ MonoBehaviour:
       SkillCoolTime: 16
     - Tag: Mingi
       KoreaTag: "\uBBFC\uAE30"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 0
       Level: 1
@@ -222,7 +239,6 @@ MonoBehaviour:
       SkillCoolTime: 20
     - Tag: Sangyeong
       KoreaTag: "\uC0C1\uC601"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 1
       Level: 1
@@ -237,7 +253,6 @@ MonoBehaviour:
       SkillCoolTime: 18
     - Tag: Gyeongyeong
       KoreaTag: "\uACBD\uC601"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 1
       Level: 1
@@ -252,7 +267,6 @@ MonoBehaviour:
       SkillCoolTime: 18
     - Tag: Gwanghyeong
       KoreaTag: "\uAD11\uD615"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 2
       Level: 1
@@ -267,7 +281,6 @@ MonoBehaviour:
       SkillCoolTime: 16
     - Tag: Jaemin
       KoreaTag: "\uC7AC\uBBFC"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 3
       Level: 1
@@ -282,7 +295,6 @@ MonoBehaviour:
       SkillCoolTime: 14
     - Tag: Yangtaek
       KoreaTag: "\uC591\uD0DD"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 1
       Level: 1
@@ -297,7 +309,6 @@ MonoBehaviour:
       SkillCoolTime: 18
     - Tag: Gyusig
       KoreaTag: "\uADDC\uC2DD"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 2
       Level: 1
@@ -312,7 +323,6 @@ MonoBehaviour:
       SkillCoolTime: 16
     - Tag: Baeseung
       KoreaTag: "\uBC30\uC2B9"
-      IsGet: 0
       IsEquip: 0
       CharacterRank: 1
       Level: 1

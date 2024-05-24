@@ -30,24 +30,33 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private TMP_Text _dashCoolTimeText;
     [SerializeField] private GameObject _InventoryImageObject;
     [SerializeField] private RawImage _InventoryImage;
-    public int _characterNum;
+    private int _characterNum;
+
+    [Header("CharacterSelect")]
+    [SerializeField] private GameObject _CharacterSelectPanel;
+    [SerializeField] private GameObject _CharacterSelectOKPanel;
+    public int _charactetSelectNum;
 
     private GameData _gameData;
     private CharacterData _playerData;
     private CharacterData _inventorySelectData;
     private DataWrapper _dataWrapper;
+    private List<CharacterData> _inventory;
 
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
         _dataWrapper = GameManager.I.DataManager.DataWrapper;
         _playerData = GameManager.I.DataManager.PlayerData;
+        _inventory = _dataWrapper.CharacterInventory;
         _inventorySelectData = _playerData;
         _characterNum = -1;
+        _charactetSelectNum = -1;
 
         if (PlayerPrefs.GetInt("Tutorial") == 0)
         {
             PlayerPrefs.SetInt("Tutorial", -1);
+            _CharacterSelectPanel.SetActive(true);
             GameManager.I.UIManager.UserNameSettingActive();
         }
 
@@ -72,6 +81,7 @@ public class LobbyController : MonoBehaviour
     public void InventoryActive()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _inventory = _dataWrapper.CharacterInventory;
         InventorySetting();
         _inventoryPanel.SetActive(true);
     }
@@ -162,10 +172,11 @@ public class LobbyController : MonoBehaviour
             _InventoryImageObject.transform.GetChild(i).gameObject.SetActive(false);
         }
 
-        _InventoryImageObject.transform.Find(_playerData.Tag).gameObject.SetActive(true);
+        _InventoryImageObject.transform.Find(GameManager.I.DataManager.PlayerData.Tag).gameObject.SetActive(true);
 
-        if(!_playerData.IsGet) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
-        else _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+        //if(_inventory.Contains(_playerData)) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
+        //else _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+        _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
     }
 
     private void InventoryImageChange()
@@ -179,26 +190,82 @@ public class LobbyController : MonoBehaviour
 
         _InventoryImageObject.transform.Find(_inventorySelectData.Tag).gameObject.SetActive(true);
 
-        if (!_inventorySelectData.IsGet) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
+        if (!CharacterIsGet()) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
         else _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
     }
 
     public void EquipButton()
     {
-        if(_dataWrapper.CharacterDatas[_characterNum].IsGet)
+        if (_characterNum == -1)
         {
-            GameManager.I.SoundManager.StartSFX("ButtonClick");
+            GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+        }
+        else if (CharacterIsGet())
+        {
+            GameManager.I.SoundManager.StartSFX("EquipButton");
 
-            for (int i = 0; i < _dataWrapper.CharacterDatas.Length; i++)
+            for (int i = 0; i < _dataWrapper.CharacterInventory.Count; i++)
             {
-                _dataWrapper.CharacterDatas[i].IsEquip = false;
+                if (_inventorySelectData.Tag == _inventory[i].Tag)
+                {
+                    _dataWrapper.CharacterInventory[i].IsEquip = true;
+                    GameManager.I.DataManager.PlayerData = _dataWrapper.CharacterInventory[i];    
+                }
+                else _dataWrapper.CharacterInventory[i].IsEquip = false;
             }
-            _dataWrapper.CharacterDatas[_characterNum].IsEquip = true;
-            GameManager.I.DataManager.PlayerData = _dataWrapper.CharacterDatas[_characterNum];
         }
         else
         {
             GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
         }
+    }
+
+    private bool CharacterIsGet()
+    {
+        for (int i = 0; i < _inventory.Count; i++)
+        {
+            if (_inventorySelectData.Tag == _inventory[i].Tag) return true;
+        }
+
+        return false;
+    }
+
+    public void CaracterSelectButton(int num)
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _charactetSelectNum = num;
+        _CharacterSelectOKPanel.SetActive(true);
+    }
+
+    public void CaracterSelectCancleButton()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _CharacterSelectOKPanel.SetActive(false);
+    }
+
+    public void CaracterSelectConfirmedButton()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+
+        if(_charactetSelectNum == 0)
+        {
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[0]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
+            GameManager.I.DataManager.PlayerData = _inventory[0];
+        }
+        else if (_charactetSelectNum == 1)
+        {
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[3]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
+            GameManager.I.DataManager.PlayerData = _inventory[0];
+        }
+        else if (_charactetSelectNum == 2)
+        {
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[1]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
+            GameManager.I.DataManager.PlayerData = _inventory[0];
+        }
+
+        _CharacterSelectPanel.SetActive(false);
     }
 }
