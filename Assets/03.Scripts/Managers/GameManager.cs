@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour
             I = this;
         }
 
+        DataManager = GetComponentInChildren<DataManager>();
         PlayerManager = GetComponentInChildren<PlayerManager>();
         ScenesManager = GetComponentInChildren<ScenesManager>();
-        DataManager = GetComponentInChildren<DataManager>();
         SoundManager = GetComponentInChildren<SoundManager>();
         UIManager = GetComponentInChildren<UIManager>();
 
@@ -32,8 +32,8 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
-        PlayerManager.Init();
         DataManager.Init();
+        PlayerManager.Init();
         SoundManager.Init();
         ScenesManager.Init();
         UIManager.Init();
@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
 
     private void Release()
     {
-        PlayerManager.Release();
         DataManager.Release();
+        PlayerManager.Release();
         SoundManager.Release();
         ScenesManager.Release();
         UIManager.Release();
