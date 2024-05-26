@@ -36,6 +36,9 @@ public class CharacterData
     public string KoreaTag;
     public bool IsEquip;
     public Rank CharacterRank;
+    public int Star;
+    public int CurrentStarExp;
+    public int MaxStarExp;
     public int Level;
     public int CurrentExp;
     public int MaxExp;
@@ -54,6 +57,7 @@ public class EnemyData
     [Header("Common Stats")]
     public string Tag;
     public int Exp;
+    public int Coin;
     public float Speed;
     public float Atk;
     public float AttackCoolTime;
@@ -79,11 +83,11 @@ public class DataManager : MonoBehaviour
     [ContextMenu("Save Data")] // 컴포넌트 메뉴에 아래 함수를 호출하는 Save Data 라는 명령어가 생성됨
     public void DataSave()
     {
-        //ES3.Save("GameData", GameData); // Key값 설정, 선언한 class 변수명
-        //ES3.Save("PlayerData", PlayerData);
-        //ES3.Save("DataWrapper", DataWrapper);
+        ES3.Save("GameData", GameData); // Key값 설정, 선언한 class 변수명
+        ES3.Save("PlayerData", PlayerData);
+        ES3.Save("DataWrapper", DataWrapper);
 
-        ES3AutoSaveMgr.Current.Save();
+        //ES3AutoSaveMgr.Current.Save();
     }
 
     [ContextMenu("Load Data")]
@@ -91,11 +95,11 @@ public class DataManager : MonoBehaviour
     {
         if(ES3.FileExists("SaveFile.txt"))
         {
-            //ES3.LoadInto("GameData", GameData); // 저장된 Key 값, 불러올 class 변수명
-            //ES3.LoadInto("PlayerData", PlayerData);
-            //ES3.LoadInto("DataWrapper", DataWrapper);
+            ES3.LoadInto("GameData", GameData); // 저장된 Key 값, 불러올 class 변수명
+            ES3.LoadInto("PlayerData", PlayerData);
+            ES3.LoadInto("DataWrapper", DataWrapper);
 
-            ES3AutoSaveMgr.Current.Load();
+            //ES3AutoSaveMgr.Current.Load();
         }
         else
         {
@@ -105,19 +109,13 @@ public class DataManager : MonoBehaviour
 
     public void DataDelete()
     {
+        // 저장 파일 삭제
         ES3.DeleteFile("SaveFile.txt");
 
         // PlayerPrefs 초기화
         PlayerPrefs.DeleteAll();
 
-        // GameData
-        GameData.UserName = "UserName";
-        GameData.Stage = 1;
-        GameData.Coin = 0;
-        GameData.SFXValume = 0;
-        GameData.BGMValume = 0;
-
-        // Inventory
+        // Inventory 삭제
         DataWrapper.CharacterInventory.Clear();
     }
 }

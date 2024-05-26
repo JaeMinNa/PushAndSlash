@@ -120,6 +120,8 @@ public class UIManager : MonoBehaviour
         {
             _audioMixer.SetFloat("SFX", sound);
         }
+
+        GameManager.I.DataManager.DataSave();
     }
 
     public void BGMControl()
@@ -136,6 +138,8 @@ public class UIManager : MonoBehaviour
         {
             _audioMixer.SetFloat("BGM", sound);
         }
+
+        GameManager.I.DataManager.DataSave();
     }
 
     public void PlayerJumpButtonUp()
@@ -267,6 +271,7 @@ public class UIManager : MonoBehaviour
         }
 
         _userNamePanel.SetActive(false);
+        GameManager.I.DataManager.DataSave();
     }
 
     public void DataDeleteSettingActive()

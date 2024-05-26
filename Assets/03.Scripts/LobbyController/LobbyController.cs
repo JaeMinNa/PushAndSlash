@@ -31,17 +31,29 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private GameObject _InventoryImageObject;
     [SerializeField] private RawImage _InventoryImage;
     private int _characterNum;
+    private List<CharacterData> _inventory;
 
     [Header("CharacterSelect")]
     [SerializeField] private GameObject _CharacterSelectPanel;
     [SerializeField] private GameObject _CharacterSelectOKPanel;
-    public int _charactetSelectNum;
+    private int _charactetSelectNum;
+    private CharacterData _inventorySelectData;
+
+    [Header("Shop")]
+    [SerializeField] private GameObject _shopPanel;
+    [SerializeField] private TMP_Text _shopCoinText;
+    [SerializeField] private GameObject _heroPanel;
+    [SerializeField] private GameObject _heroesPanel;
+    [SerializeField] private TMP_Text _drawCharacterText;
+    [SerializeField] private Sprite[] _frameImages;
+    [SerializeField] private Image _heroPanelSlotImage;
+    [SerializeField] private Image _heroPanelFrameImage;
+    [SerializeField] private RawImage _heroPanelSlotRawImage;
+    private CharacterData _drawCharacter;
 
     private GameData _gameData;
     private CharacterData _playerData;
-    private CharacterData _inventorySelectData;
     private DataWrapper _dataWrapper;
-    private List<CharacterData> _inventory;
 
     private void Start()
     {
@@ -66,47 +78,17 @@ public class LobbyController : MonoBehaviour
         CharacterSetting();
     }
 
-    public void Chapter1Button()
-    {
-        GameManager.I.SoundManager.StartSFX("ButtonClick");
-        GameManager.I.DataManager.DataSave();
-        GameManager.I.ScenesManager.LoadScene("BattleSence1");
-    }
-
     public void ButtonClickMiss()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
     }
 
-    public void InventoryActive()
+    #region Loby
+    public void Chapter1Button()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        _inventory = _dataWrapper.CharacterInventory;
-        InventorySetting();
-        _inventoryPanel.SetActive(true);
-    }
-
-    public void InventoryInactive()
-    {
-        GameManager.I.SoundManager.StartSFX("ButtonClick");
-        _inventoryPanel.SetActive(false);
-    }
-
-    private void InventorySetting()
-    {
-        _playerTagText.text = _playerData.KoreaTag.ToString();
-        _playerRankText.text = _playerData.CharacterRank.ToString();
-        _playerLevelText.text = _playerData.Level.ToString();
-        _playerExpSlider.value = (float)_playerData.CurrentExp / _playerData.MaxExp;
-        _playerExpPercent.text = (((float)_playerData.CurrentExp / _playerData.MaxExp) * 100).ToString("N1") + "%";
-        _atkText.text = _playerData.Atk.ToString();
-        _defText.text = _playerData.Def.ToString();
-        _speedText.text = _playerData.Speed.ToString();
-        _skillAtkText.text = _playerData.SkillAtk.ToString();
-        _skillCoolTimeText.text = _playerData.SkillCoolTime.ToString();
-        _dashPowerText.text = _playerData.DashImpulse.ToString();
-        _dashCoolTimeText.text = _playerData.DashCoolTime.ToString();
-        InventoryImageSetting();
+        GameManager.I.DataManager.DataSave();
+        GameManager.I.ScenesManager.LoadScene("BattleSence1");
     }
 
     private void CoinSetting()
@@ -139,6 +121,39 @@ public class LobbyController : MonoBehaviour
     {
         LevelSetting();
         ExpSetting();
+    }
+    #endregion
+
+    #region Inventory
+    public void InventoryActive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _inventory = _dataWrapper.CharacterInventory;
+        InventorySetting();
+        _inventoryPanel.SetActive(true);
+    }
+
+    public void InventoryInactive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _inventoryPanel.SetActive(false);
+    }
+
+    private void InventorySetting()
+    {
+        _playerTagText.text = _playerData.KoreaTag.ToString();
+        _playerRankText.text = _playerData.CharacterRank.ToString();
+        _playerLevelText.text = _playerData.Level.ToString();
+        _playerExpSlider.value = (float)_playerData.CurrentExp / _playerData.MaxExp;
+        _playerExpPercent.text = (((float)_playerData.CurrentExp / _playerData.MaxExp) * 100).ToString("N1") + "%";
+        _atkText.text = _playerData.Atk.ToString();
+        _defText.text = _playerData.Def.ToString();
+        _speedText.text = _playerData.Speed.ToString();
+        _skillAtkText.text = _playerData.SkillAtk.ToString();
+        _skillCoolTimeText.text = _playerData.SkillCoolTime.ToString();
+        _dashPowerText.text = _playerData.DashImpulse.ToString();
+        _dashCoolTimeText.text = _playerData.DashCoolTime.ToString();
+        InventoryImageSetting();
     }
 
     public void InventorySlotButton(int num)
@@ -190,7 +205,7 @@ public class LobbyController : MonoBehaviour
 
         _InventoryImageObject.transform.Find(_inventorySelectData.Tag).gameObject.SetActive(true);
 
-        if (!CharacterIsGet()) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
+        if (!CharacterIsGet(_inventorySelectData)) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
         else _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
     }
 
@@ -200,7 +215,7 @@ public class LobbyController : MonoBehaviour
         {
             GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
         }
-        else if (CharacterIsGet())
+        else if (CharacterIsGet(_inventorySelectData))
         {
             GameManager.I.SoundManager.StartSFX("EquipButton");
 
@@ -209,7 +224,7 @@ public class LobbyController : MonoBehaviour
                 if (_inventorySelectData.Tag == _inventory[i].Tag)
                 {
                     _dataWrapper.CharacterInventory[i].IsEquip = true;
-                    GameManager.I.DataManager.PlayerData = _dataWrapper.CharacterInventory[i];    
+                    GameManager.I.DataManager.PlayerData = _dataWrapper.CharacterInventory[i];
                 }
                 else _dataWrapper.CharacterInventory[i].IsEquip = false;
             }
@@ -218,13 +233,15 @@ public class LobbyController : MonoBehaviour
         {
             GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
         }
+
+        GameManager.I.DataManager.DataSave();
     }
 
-    private bool CharacterIsGet()
+    private bool CharacterIsGet(CharacterData data)
     {
         for (int i = 0; i < _inventory.Count; i++)
         {
-            if (_inventorySelectData.Tag == _inventory[i].Tag) return true;
+            if (data.Tag == _inventory[i].Tag) return true;
         }
 
         return false;
@@ -236,14 +253,16 @@ public class LobbyController : MonoBehaviour
         _charactetSelectNum = num;
         _CharacterSelectOKPanel.SetActive(true);
     }
+    #endregion
 
-    public void CaracterSelectCancleButton()
+    #region CharacterSelect
+    public void CharacterSelectCancleButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         _CharacterSelectOKPanel.SetActive(false);
     }
 
-    public void CaracterSelectConfirmedButton()
+    public void CharacterSelectConfirmedButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
 
@@ -267,5 +286,177 @@ public class LobbyController : MonoBehaviour
         }
 
         _CharacterSelectPanel.SetActive(false);
+        GameManager.I.DataManager.DataSave();
     }
+    #endregion
+
+    #region Shop
+    public void ShopActive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _shopCoinText.text = _gameData.Coin.ToString();
+        _shopPanel.SetActive(true);
+    }
+
+    public void ShopInactive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _shopPanel.SetActive(false);
+    }
+
+    public void DrawCharacter()
+    {
+        int count = _dataWrapper.CharacterDatas.Length;
+
+        while (true)
+        {
+            int CharacterRank = Random.Range(0, 4);
+            int CharacterNum = Random.Range(0, count);
+            int randomValue = Random.Range(1, 101);
+
+            if(CharacterRank == 0)  // B·©Å©
+            {
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.B) continue;
+                else
+                {
+                    if (randomValue <= 70)  // B·©Å© È®·ü
+                    {
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+
+                        if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
+                        else
+                        {
+                            int inventoryOrder = FindInventoryOrder(_drawCharacter);
+                            StarExpUp(inventoryOrder);
+                        }
+                        break;
+                    }
+                    else continue;
+                }
+            }
+            else if(CharacterRank == 1) // A·©Å©
+            {
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.A) continue;
+                else
+                {
+                    if (randomValue <= 25)  // A·©Å© È®·ü
+                    {
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+
+                        if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
+                        else
+                        {
+                            int inventoryOrder = FindInventoryOrder(_drawCharacter);
+                            StarExpUp(inventoryOrder);
+                        }
+                        break;
+                    }
+                    else continue;
+                }
+            }
+            else if(CharacterRank == 2) // S·©Å©
+            {
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.S) continue;
+                else
+                {
+                    if (randomValue <= 4)  // S·©Å© È®·ü
+                    {
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+
+                        if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
+                        else
+                        {
+                            int inventoryOrder = FindInventoryOrder(_drawCharacter);
+                            StarExpUp(inventoryOrder);
+                        }
+                        break;
+                    }
+                    else continue;
+                }
+            }
+            else if (CharacterRank == 3) // SS·©Å©
+            {
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.SS) continue;
+                else
+                {
+                    if (randomValue <= 1)  // SS·©Å© È®·ü
+                    {
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+
+                        if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
+                        else
+                        {
+                            int inventoryOrder = FindInventoryOrder(_drawCharacter);
+                            StarExpUp(inventoryOrder);
+                        }
+                        break;
+                    }
+                    else continue;
+                }
+            }
+        }
+    }
+
+    public void HeroPanelActive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        DrawCharacter();
+        _drawCharacterText.text = _drawCharacter.KoreaTag.ToString();
+        _heroPanelSlotRawImage.texture = Resources.Load<Texture>("RenderTextures/CharacterRenderTexture_Slot_" + _drawCharacter.Tag.ToString());
+
+        if (_drawCharacter.CharacterRank == CharacterData.Rank.B)
+        {
+            _heroPanelFrameImage.sprite = _frameImages[0];
+            _heroPanelSlotImage.color = new Color(40 / 255f, 36 / 255f, 29 / 255f, 255 / 255f);
+        }
+        else if (_drawCharacter.CharacterRank == CharacterData.Rank.A)
+        {
+            _heroPanelFrameImage.sprite = _frameImages[1];
+            _heroPanelSlotImage.color = new Color(20 / 255f, 46 / 255f, 34 / 255f, 255 / 255f);
+        }
+        else if (_drawCharacter.CharacterRank == CharacterData.Rank.S)
+        {
+            _heroPanelFrameImage.sprite = _frameImages[2];
+            _heroPanelSlotImage.color = new Color(39 / 255f, 10 / 255f, 8 / 255f, 255 / 255f);
+        }
+        else if (_drawCharacter.CharacterRank == CharacterData.Rank.SS)
+        {
+            _heroPanelFrameImage.sprite = _frameImages[3];
+            _heroPanelSlotImage.color = new Color(33 / 255f, 13 / 255f, 52 / 255f, 255 / 255f);
+        }
+
+        _heroPanel.SetActive(true);
+    }
+
+    public void HeroPanelInactive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _heroPanel.SetActive(false);
+    }
+
+    private int FindInventoryOrder(CharacterData data)
+    {
+        int count = _inventory.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            if (data.Tag == _inventory[i].Tag) return i;
+            else continue;
+        }
+
+        return 0;
+    }
+
+    private void StarExpUp(int inventoryOrder)
+    {
+        GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp++;
+
+        if (_dataWrapper.CharacterInventory[inventoryOrder].MaxStarExp == _dataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp)
+        {
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].Star++;
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp = 1;
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].MaxStarExp = 3 * _dataWrapper.CharacterInventory[inventoryOrder].Star;
+        }
+    }
+    #endregion
 }
