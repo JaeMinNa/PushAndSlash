@@ -16,11 +16,14 @@ public class LobbyController : MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField] private GameObject _inventoryPanel;
+    [SerializeField] private GameObject[] _playerUpgradeStars;
     [SerializeField] private TMP_Text _playerTagText;
-    [SerializeField] private TMP_Text _playerRankText;
     [SerializeField] private TMP_Text _playerLevelText;
     [SerializeField] private Slider _playerExpSlider;
     [SerializeField] private TMP_Text _playerExpPercent;
+    [SerializeField] private Slider _playerUpgradeSlider;
+    [SerializeField] private TMP_Text _playerUpgradeText;
+    [SerializeField] private TMP_Text _rankText;
     [SerializeField] private TMP_Text _atkText;
     [SerializeField] private TMP_Text _defText;
     [SerializeField] private TMP_Text _speedText;
@@ -43,13 +46,23 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private GameObject _shopPanel;
     [SerializeField] private TMP_Text _shopCoinText;
     [SerializeField] private GameObject _heroPanel;
-    [SerializeField] private GameObject _heroesPanel;
+    //[SerializeField] private GameObject _heroesPanel;
     [SerializeField] private TMP_Text _drawCharacterText;
     [SerializeField] private Sprite[] _frameImages;
     [SerializeField] private Image _heroPanelSlotImage;
     [SerializeField] private Image _heroPanelFrameImage;
     [SerializeField] private RawImage _heroPanelSlotRawImage;
+    [SerializeField] private TMP_Text _heroPanelRankText;
+    [SerializeField] private TMP_Text _heroPanelAtkText;
+    [SerializeField] private TMP_Text _heroPanelDefText;
+    [SerializeField] private TMP_Text _heroPanelSpeedText;
+    [SerializeField] private TMP_Text _heroPanelSkillAtkText;
+    [SerializeField] private TMP_Text _heroPanelSkillCoolTimeText;
+    [SerializeField] private TMP_Text _heroPanelDashPowerText;
+    [SerializeField] private TMP_Text _heroPanelDashCoolTimeText;
+    [SerializeField] private GameObject _heroPanelOKButton;
     private CharacterData _drawCharacter;
+    private int _drawCount;
 
     private GameData _gameData;
     private CharacterData _playerData;
@@ -64,6 +77,7 @@ public class LobbyController : MonoBehaviour
         _inventorySelectData = _playerData;
         _characterNum = -1;
         _charactetSelectNum = -1;
+        _drawCount = 0;
 
         if (PlayerPrefs.GetInt("Tutorial") == 0)
         {
@@ -141,11 +155,15 @@ public class LobbyController : MonoBehaviour
 
     private void InventorySetting()
     {
+        ActiveStar(_playerData.Star);
+
         _playerTagText.text = _playerData.KoreaTag.ToString();
-        _playerRankText.text = _playerData.CharacterRank.ToString();
         _playerLevelText.text = _playerData.Level.ToString();
         _playerExpSlider.value = (float)_playerData.CurrentExp / _playerData.MaxExp;
         _playerExpPercent.text = (((float)_playerData.CurrentExp / _playerData.MaxExp) * 100).ToString("N1") + "%";
+        _playerUpgradeSlider.value = (float)_playerData.CurrentStarExp / _playerData.MaxStarExp;
+        _playerUpgradeText.text = _playerData.CurrentStarExp.ToString() + "/" + _playerData.MaxStarExp.ToString();
+        _rankText.text = _playerData.CharacterRank.ToString();
         _atkText.text = _playerData.Atk.ToString();
         _defText.text = _playerData.Def.ToString();
         _speedText.text = _playerData.Speed.ToString();
@@ -161,19 +179,47 @@ public class LobbyController : MonoBehaviour
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         _inventorySelectData = GameManager.I.DataManager.DataWrapper.CharacterDatas[num];
         _characterNum = num;
+        
+        if (!CharacterIsGet(_inventorySelectData))
+        {
+            ActiveStar(0);
 
-        _playerTagText.text = _inventorySelectData.KoreaTag.ToString();
-        _playerRankText.text = _inventorySelectData.CharacterRank.ToString();
-        _playerLevelText.text = _inventorySelectData.Level.ToString();
-        _playerExpSlider.value = (float)_inventorySelectData.CurrentExp / _inventorySelectData.MaxExp;
-        _playerExpPercent.text = (((float)_inventorySelectData.CurrentExp / _inventorySelectData.MaxExp) * 100).ToString("N1") + "%";
-        _atkText.text = _inventorySelectData.Atk.ToString();
-        _defText.text = _inventorySelectData.Def.ToString();
-        _speedText.text = _inventorySelectData.Speed.ToString();
-        _skillAtkText.text = _inventorySelectData.SkillAtk.ToString();
-        _skillCoolTimeText.text = _inventorySelectData.SkillCoolTime.ToString();
-        _dashPowerText.text = _inventorySelectData.DashImpulse.ToString();
-        _dashCoolTimeText.text = _inventorySelectData.DashCoolTime.ToString();
+            _playerTagText.text = _inventorySelectData.KoreaTag.ToString();
+            _playerLevelText.text = _inventorySelectData.Level.ToString();
+            _playerExpSlider.value = (float)_inventorySelectData.CurrentExp / _inventorySelectData.MaxExp;
+            _playerExpPercent.text = (((float)_inventorySelectData.CurrentExp / _inventorySelectData.MaxExp) * 100).ToString("N1") + "%";
+            _playerUpgradeSlider.value = (CharacterIsGet(_inventorySelectData)) ? (float)_inventorySelectData.CurrentStarExp / _inventorySelectData.MaxStarExp : 0;
+            _playerUpgradeText.text = (CharacterIsGet(_inventorySelectData)) ? _inventorySelectData.CurrentStarExp.ToString() + "/" + _inventorySelectData.MaxStarExp.ToString()
+                : 0 + "/" + _inventorySelectData.MaxStarExp.ToString();
+            _rankText.text = _inventorySelectData.CharacterRank.ToString();
+            _atkText.text = _inventorySelectData.Atk.ToString();
+            _defText.text = _inventorySelectData.Def.ToString();
+            _speedText.text = _inventorySelectData.Speed.ToString();
+            _skillAtkText.text = _inventorySelectData.SkillAtk.ToString();
+            _skillCoolTimeText.text = _inventorySelectData.SkillCoolTime.ToString();
+            _dashPowerText.text = _inventorySelectData.DashImpulse.ToString();
+            _dashCoolTimeText.text = _inventorySelectData.DashCoolTime.ToString();
+        }
+        else
+        {
+            int inventoryOrder = FindInventoryOrder(_inventorySelectData);
+            ActiveStar(_dataWrapper.CharacterInventory[inventoryOrder].Star);
+
+            _playerTagText.text = _dataWrapper.CharacterInventory[inventoryOrder].KoreaTag.ToString();
+            _playerLevelText.text = _dataWrapper.CharacterInventory[inventoryOrder].Level.ToString();
+            _playerExpSlider.value = (float)_dataWrapper.CharacterInventory[inventoryOrder].CurrentExp / _dataWrapper.CharacterInventory[inventoryOrder].MaxExp;
+            _playerExpPercent.text = (((float)_dataWrapper.CharacterInventory[inventoryOrder].CurrentExp / _dataWrapper.CharacterInventory[inventoryOrder].MaxExp) * 100).ToString("N1") + "%";
+            _playerUpgradeSlider.value = (float)_dataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp / _dataWrapper.CharacterInventory[inventoryOrder].MaxStarExp;
+            _playerUpgradeText.text = _dataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp.ToString() + "/" + _dataWrapper.CharacterInventory[inventoryOrder].MaxStarExp.ToString();  
+            _rankText.text = _dataWrapper.CharacterInventory[inventoryOrder].CharacterRank.ToString();
+            _atkText.text = _dataWrapper.CharacterInventory[inventoryOrder].Atk.ToString();
+            _defText.text = _dataWrapper.CharacterInventory[inventoryOrder].Def.ToString();
+            _speedText.text = _dataWrapper.CharacterInventory[inventoryOrder].Speed.ToString();
+            _skillAtkText.text = _dataWrapper.CharacterInventory[inventoryOrder].SkillAtk.ToString();
+            _skillCoolTimeText.text = _dataWrapper.CharacterInventory[inventoryOrder].SkillCoolTime.ToString();
+            _dashPowerText.text = _dataWrapper.CharacterInventory[inventoryOrder].DashImpulse.ToString();
+            _dashCoolTimeText.text = _dataWrapper.CharacterInventory[inventoryOrder].DashCoolTime.ToString();
+        }
 
         InventoryImageChange();
     }
@@ -188,9 +234,6 @@ public class LobbyController : MonoBehaviour
         }
 
         _InventoryImageObject.transform.Find(GameManager.I.DataManager.PlayerData.Tag).gameObject.SetActive(true);
-
-        //if(_inventory.Contains(_playerData)) _InventoryImage.color = new Color(20 / 255f, 20 / 255f, 20 / 255f, 255 / 255f);
-        //else _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
         _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
     }
 
@@ -253,6 +296,17 @@ public class LobbyController : MonoBehaviour
         _charactetSelectNum = num;
         _CharacterSelectOKPanel.SetActive(true);
     }
+
+    private void ActiveStar(int starNum)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            _playerUpgradeStars[i].SetActive(false);
+        }
+
+        if (starNum == 0) return;
+        else _playerUpgradeStars[starNum - 1].SetActive(true);
+    }
     #endregion
 
     #region CharacterSelect
@@ -304,7 +358,7 @@ public class LobbyController : MonoBehaviour
         _shopPanel.SetActive(false);
     }
 
-    public void DrawCharacter()
+    public void DrawCharacter(int B, int A, int S, int SS)
     {
         int count = _dataWrapper.CharacterDatas.Length;
 
@@ -319,7 +373,7 @@ public class LobbyController : MonoBehaviour
                 if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.B) continue;
                 else
                 {
-                    if (randomValue <= 70)  // B·©Å© È®·ü
+                    if (randomValue <= B)  // B·©Å© È®·ü
                     {
                         _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
@@ -339,7 +393,7 @@ public class LobbyController : MonoBehaviour
                 if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.A) continue;
                 else
                 {
-                    if (randomValue <= 25)  // A·©Å© È®·ü
+                    if (randomValue <= A)  // A·©Å© È®·ü
                     {
                         _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
@@ -359,7 +413,7 @@ public class LobbyController : MonoBehaviour
                 if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.S) continue;
                 else
                 {
-                    if (randomValue <= 4)  // S·©Å© È®·ü
+                    if (randomValue <= S)  // S·©Å© È®·ü
                     {
                         _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
@@ -379,7 +433,7 @@ public class LobbyController : MonoBehaviour
                 if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.SS) continue;
                 else
                 {
-                    if (randomValue <= 1)  // SS·©Å© È®·ü
+                    if (randomValue <= SS)  // SS·©Å© È®·ü
                     {
                         _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
@@ -397,10 +451,8 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    public void HeroPanelActive()
+    private void HeroPanelSetting()
     {
-        GameManager.I.SoundManager.StartSFX("ButtonClick");
-        DrawCharacter();
         _drawCharacterText.text = _drawCharacter.KoreaTag.ToString();
         _heroPanelSlotRawImage.texture = Resources.Load<Texture>("RenderTextures/CharacterRenderTexture_Slot_" + _drawCharacter.Tag.ToString());
 
@@ -425,16 +477,287 @@ public class LobbyController : MonoBehaviour
             _heroPanelSlotImage.color = new Color(33 / 255f, 13 / 255f, 52 / 255f, 255 / 255f);
         }
 
-        _heroPanel.SetActive(true);
+        _heroPanelRankText.text = _drawCharacter.CharacterRank.ToString();
+        _heroPanelAtkText.text = _drawCharacter.Atk.ToString();
+        _heroPanelDefText.text = _drawCharacter.Def.ToString();
+        _heroPanelSpeedText.text = _drawCharacter.Speed.ToString();
+        _heroPanelSkillAtkText.text = _drawCharacter.SkillAtk.ToString();
+        _heroPanelSkillCoolTimeText.text = _drawCharacter.SkillCoolTime.ToString();
+        _heroPanelDashPowerText.text = _drawCharacter.DashImpulse.ToString();
+        _heroPanelDashCoolTimeText.text = _drawCharacter.DashCoolTime.ToString();
     }
 
-    public void HeroPanelInactive()
+    public void DrawNormalCharacterButton(int num)
     {
-        GameManager.I.SoundManager.StartSFX("ButtonClick");
-        _heroPanel.SetActive(false);
+        if(num == 1)
+        {
+            if (_gameData.Coin < 200)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+                GameManager.I.DataManager.GameData.Coin -= 200;
+                _shopCoinText.text = _gameData.Coin.ToString();
+
+                // »Ì±â È®·ü ¼³Á¤
+                DrawCharacter(70, 25, 4, 1);
+                
+                HeroPanelSetting();
+                HeroDrawOKButtonSetting(1);
+
+                _heroPanel.SetActive(true);
+            }
+        }
+        else if (num == 10)
+        {
+            if(_drawCount == 0)
+            {
+                if (_gameData.Coin < 1800)
+                {
+                    GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+                }
+                else
+                {
+                    GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+                    GameManager.I.DataManager.GameData.Coin -= 1800;
+                    _shopCoinText.text = _gameData.Coin.ToString();
+
+                    // »Ì±â È®·ü ¼³Á¤
+                    DrawCharacter(70, 25, 4, 1);
+
+                    HeroPanelSetting();
+                    HeroDrawOKButtonSetting(2);
+
+                    _heroPanel.SetActive(true);
+                }
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+
+                // »Ì±â È®·ü ¼³Á¤
+                DrawCharacter(70, 25, 4, 1);
+
+                HeroPanelSetting();
+                HeroDrawOKButtonSetting(2);
+
+                _heroPanel.SetActive(true);
+            }
+        }
+
+        GameManager.I.DataManager.DataSave();
     }
 
-    private int FindInventoryOrder(CharacterData data)
+    public void DrawRareCharacterButton(int num)
+    {
+        if (num == 1)
+        {
+            if (_gameData.Coin < 500)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+                GameManager.I.DataManager.GameData.Coin -= 500;
+                _shopCoinText.text = _gameData.Coin.ToString();
+
+                // »Ì±â È®·ü ¼³Á¤
+                DrawCharacter(50, 35, 10, 5);
+
+                HeroPanelSetting();
+                HeroDrawOKButtonSetting(3);
+
+                _heroPanel.SetActive(true);
+            }
+        }
+        else if (num == 10)
+        {
+            if (_drawCount == 0)
+            {
+                if (_gameData.Coin < 4500)
+                {
+                    GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+                }
+                else
+                {
+                    GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+                    GameManager.I.DataManager.GameData.Coin -= 4500;
+                    _shopCoinText.text = _gameData.Coin.ToString();
+
+                    // »Ì±â È®·ü ¼³Á¤
+                    DrawCharacter(50, 35, 10, 5);
+
+                    HeroPanelSetting();
+                    HeroDrawOKButtonSetting(4);
+
+                    _heroPanel.SetActive(true);
+                }
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+
+                // »Ì±â È®·ü ¼³Á¤
+                DrawCharacter(50, 35, 10, 5);
+
+                HeroPanelSetting();
+                HeroDrawOKButtonSetting(4);
+
+                _heroPanel.SetActive(true);
+            }
+        }
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    public void DrawUniqueCharacterButton(int num)
+    {
+        if (num == 1)
+        {
+            if (_gameData.Coin < 1000)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+                GameManager.I.DataManager.GameData.Coin -= 1000;
+                _shopCoinText.text = _gameData.Coin.ToString();
+
+                // »Ì±â È®·ü ¼³Á¤
+                DrawCharacter(40, 30, 20, 10);
+
+                HeroPanelSetting();
+                HeroDrawOKButtonSetting(5);
+
+                _heroPanel.SetActive(true);
+            }
+        }
+        else if (num == 10)
+        {
+            if (_drawCount == 0)
+            {
+                if (_gameData.Coin < 9000)
+                {
+                    GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+                }
+                else
+                {
+                    GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+                    GameManager.I.DataManager.GameData.Coin -= 9000;
+                    _shopCoinText.text = _gameData.Coin.ToString();
+
+                    // »Ì±â È®·ü ¼³Á¤
+                    DrawCharacter(40, 30, 20, 10);
+
+                    HeroPanelSetting();
+                    HeroDrawOKButtonSetting(6);
+
+                    _heroPanel.SetActive(true);
+                }
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("CharacterGetButton");
+
+                // »Ì±â È®·ü ¼³Á¤
+                DrawCharacter(40, 30, 20, 10);
+
+                HeroPanelSetting();
+                HeroDrawOKButtonSetting(6);
+
+                _heroPanel.SetActive(true);
+            }
+        }
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    public void DrawNormalCharacterOKButton(int num)
+    {
+        if(num == 1)
+        {
+            GameManager.I.SoundManager.StartSFX("ButtonClick");
+            _heroPanel.SetActive(false);
+        }
+        else if(num == 10)
+        {
+            _drawCount++;
+
+            if (_drawCount >= 10)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClick");
+                _drawCount = 0;
+                _heroPanel.SetActive(false);
+            }
+            else
+            {
+                _heroPanel.SetActive(false);
+                DrawNormalCharacterButton(10);
+            }
+        }
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    public void DrawRareCharacterOKButton(int num)
+    {
+        if (num == 1)
+        {
+            GameManager.I.SoundManager.StartSFX("ButtonClick");
+            _heroPanel.SetActive(false);
+        }
+        else if (num == 10)
+        {
+            _drawCount++;
+
+            if (_drawCount >= 10)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClick");
+                _drawCount = 0;
+                _heroPanel.SetActive(false);
+            }
+            else
+            {
+                _heroPanel.SetActive(false);
+                DrawRareCharacterButton(10);
+            }
+        }
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    public void DrawUniqueCharacterOKButton(int num)
+    {
+        if (num == 1)
+        {
+            GameManager.I.SoundManager.StartSFX("ButtonClick");
+            _heroPanel.SetActive(false);
+        }
+        else if (num == 10)
+        {
+            _drawCount++;
+
+            if (_drawCount >= 10)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClick");
+                _drawCount = 0;
+                _heroPanel.SetActive(false);
+            }
+            else
+            {
+                _heroPanel.SetActive(false);
+                DrawUniqueCharacterButton(10);
+            }
+        }
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    public int FindInventoryOrder(CharacterData data)
     {
         int count = _inventory.Count;
 
@@ -444,7 +767,7 @@ public class LobbyController : MonoBehaviour
             else continue;
         }
 
-        return 0;
+        return -1;
     }
 
     private void StarExpUp(int inventoryOrder)
@@ -457,6 +780,20 @@ public class LobbyController : MonoBehaviour
             GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp = 1;
             GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].MaxStarExp = 3 * _dataWrapper.CharacterInventory[inventoryOrder].Star;
         }
+    }
+
+    private void HeroDrawOKButtonSetting(int num)
+    {
+        int count = _heroPanelOKButton.transform.childCount;
+
+        for (int i = 0; i < count; i++)
+        {
+            _heroPanelOKButton.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        if (num == 0) return;
+
+        _heroPanelOKButton.transform.GetChild(num - 1).gameObject.SetActive(true);
     }
     #endregion
 }

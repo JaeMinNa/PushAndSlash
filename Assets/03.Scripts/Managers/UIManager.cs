@@ -80,6 +80,7 @@ public class UIManager : MonoBehaviour
 
     }
 
+    #region Sound
     private void SoundSetting()
     {
         float sfx = GameManager.I.DataManager.GameData.SFXValume;
@@ -109,7 +110,6 @@ public class UIManager : MonoBehaviour
     public void SFXControl()
     {
         float sound = _sfxSlider.value;
-        //_gameData.SFX = sound;
         GameManager.I.DataManager.GameData.SFXValume = sound;
 
         if (sound == -40f)	// -40¿œ ∂ß, ¿Ωæ«¿ª ≤®¡‹
@@ -127,7 +127,6 @@ public class UIManager : MonoBehaviour
     public void BGMControl()
     {
         float sound = _bgmSlider.value;
-        //_gameData.BGM = sound;
         GameManager.I.DataManager.GameData.BGMValume = sound;
 
         if (sound == -40f)	// -40¿œ ∂ß, ¿Ωæ«¿ª ≤®¡‹
@@ -141,7 +140,9 @@ public class UIManager : MonoBehaviour
 
         GameManager.I.DataManager.DataSave();
     }
+    #endregion
 
+    #region Joystick
     public void PlayerJumpButtonUp()
     {
         _player.GetComponent<Character>().StopJumping();
@@ -211,7 +212,9 @@ public class UIManager : MonoBehaviour
 
         _playerCharacter.IsSkill = false;
     }
+    #endregion
 
+    #region Pause
     public void PauseStartButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
@@ -225,7 +228,9 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
         _pause.SetActive(false);
     }
+    #endregion
 
+    #region Setting
     public void SettingActive()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
@@ -299,4 +304,5 @@ public class UIManager : MonoBehaviour
         GameManager.I.DataManager.DataSave();
         GameManager.I.ScenesManager.LoadScene("LobbySence");
     }
+    #endregion
 }

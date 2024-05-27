@@ -83,6 +83,7 @@ public class SoundManager : MonoBehaviour
         _sfx.Add("PlayerNuke_ArrowExplosion", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNukeExplosion"));
         _sfx.Add("PlayerNuke_ArrowShoot", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerNukeShoot"));
         _sfx.Add("EquipButton", Resources.Load<AudioClip>("Sounds/SFX/UI/EquipButton"));
+        _sfx.Add("CharacterGetButton", Resources.Load<AudioClip>("Sounds/SFX/UI/CharacterGetButton"));
     }
 
     // 메모리 해제
