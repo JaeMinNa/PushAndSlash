@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class StageController : MonoBehaviour
 {
@@ -9,29 +10,50 @@ public class StageController : MonoBehaviour
     [SerializeField] private TMP_Text _timeText;
     [SerializeField] private TMP_Text _coinText;
     [SerializeField] private TMP_Text _stageText;
+    [HideInInspector] public int StageCoin;
 
     [Header("GameClear")]
     [SerializeField] private GameObject _gameClear;
+    [SerializeField] private GameObject _starEffect;
+    [SerializeField] private TMP_Text _stageClearCoinText;
+    [SerializeField] private TMP_Text _stageCoinBonusText;
+    [SerializeField] private GameObject[] _stageClearStarObjects;
+    [SerializeField] private TMP_Text _stageClearLevelText;
+    [SerializeField] private TMP_Text _stageClearExpText;
+    [SerializeField] private Slider _stageClearExpSlider;
+    private bool _isGameClear;
+    private int _stageCoinBondus;
 
     [Header("GameOver")]
     [SerializeField] private GameObject _gameOver;
+    [SerializeField] private TMP_Text _stageGameOverCoinText;
+    [SerializeField] private TMP_Text _stageGameOverLevelText;
+    [SerializeField] private TMP_Text _stageGameOverExpText;
+    [SerializeField] private Slider _stageGameOverExpSlider;
+
+    private bool _isGameOver;
 
     [Header("StageTitle")]
     [SerializeField] private TMP_Text _stageTitleText;
 
+    [HideInInspector] public int StageExp;
     private float _time;
     private GameObject _player;
     private GameData _gameData;
-    private bool _isGameClear;
-    private bool _isGameOver;
+    private DataManager _dataManager;
+    private List<CharacterData> _inventory;
 
     private void Start()
     {
         _player = GameManager.I.PlayerManager.Player;
         _gameData = GameManager.I.DataManager.GameData;
+        _dataManager = GameManager.I.DataManager;
+        _inventory = _dataManager.DataWrapper.CharacterInventory;
         _time = 180f;
         _isGameClear = false;
         _isGameOver = false;
+        StageCoin = 0;
+        _stageCoinBondus = 0;
 
         StageSetting();
         StageTextSetting();
@@ -57,7 +79,8 @@ public class StageController : MonoBehaviour
             GameOver();
         }
     }
-    
+
+    #region UI
     private void TimeTextUpdate()
     {
         string text;
@@ -70,23 +93,6 @@ public class StageController : MonoBehaviour
         _timeText.text = Mathf.Floor(_time / 60).ToString() + ":" + text;
     }
 
-    private void GameClear()
-    {
-        Time.timeScale = 0f;
-        _gameClear.SetActive(true);
-    }
-
-    public void GameOver()
-    {
-        Time.timeScale = 0f;
-        _gameOver.SetActive(true);
-    }
-
-    private void StageSetting()
-    {
-        transform.GetChild(_gameData.Stage - 1).gameObject.SetActive(true);
-    }
-
     private void StageTextSetting()
     {
         string name = GameManager.I.ScenesManager.CurrentSceneName.Substring(11);
@@ -94,9 +100,68 @@ public class StageController : MonoBehaviour
         _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
     }
 
-    private void CoinSetting()
+    public void CoinSetting()
     {
-        _coinText.text = _gameData.Coin.ToString();
+        _coinText.text = StageCoin.ToString();
+    }
+    #endregion
+
+    #region Game
+    private void GameClear()
+    {
+        Time.timeScale = 0f;
+        _stageClearCoinText.text = StageCoin.ToString();
+        if(_time >= 120)
+        {
+            StarEffectSetting(3);
+            _stageCoinBondus = 300;
+        }
+        else if(_time >= 60)
+        {
+            StarEffectSetting(2);
+            _stageCoinBondus = 200;
+        }
+        else
+        {
+            StarEffectSetting(1);
+            _stageCoinBondus = 100;
+        }
+        _stageCoinBonusText.text = _stageCoinBondus.ToString();
+        GameManager.I.DataManager.GameData.Coin += StageCoin;
+        GameManager.I.DataManager.GameData.Coin += _stageCoinBondus;
+
+        LevelExpUp(StageExp);
+        PlayerDataToInventoryData();
+        _stageClearLevelText.text = _dataManager.PlayerData.Level.ToString();
+        _stageClearExpText.text = _dataManager.PlayerData.CurrentExp.ToString() + "/" + _dataManager.PlayerData.MaxExp.ToString();
+        _stageClearExpSlider.value = (float)_dataManager.PlayerData.CurrentExp / _dataManager.PlayerData.MaxExp;
+
+        //GameManager.I.DataManager.GameData.Stage++;
+        _gameClear.SetActive(true);
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        _stageGameOverCoinText.text = StageCoin.ToString();
+        GameManager.I.DataManager.GameData.Coin += StageCoin;
+        
+        LevelExpUp(StageExp);
+        PlayerDataToInventoryData();
+        _stageGameOverLevelText.text = _dataManager.PlayerData.Level.ToString();
+        _stageGameOverExpText.text = _dataManager.PlayerData.CurrentExp.ToString() + "/" + _dataManager.PlayerData.MaxExp.ToString();
+        _stageGameOverExpSlider.value = (float)_dataManager.PlayerData.CurrentExp / _dataManager.PlayerData.MaxExp;
+
+        _gameOver.SetActive(true);
+
+        GameManager.I.DataManager.DataSave();
+    }
+
+    private void StageSetting()
+    {
+        transform.GetChild(_gameData.Stage - 1).gameObject.SetActive(true);
     }
 
     private bool IsEnemy()
@@ -122,4 +187,79 @@ public class StageController : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
+
+    public void LobbySenceButton()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.ScenesManager.LoadScene("LobbySence");
+    }
+
+    private void StarEffectSetting(int num)
+    {
+        int count = _starEffect.transform.childCount;
+
+        for (int i = 0; i < count; i++)
+        {
+            _starEffect.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            _stageClearStarObjects[i].SetActive(false);
+        }
+
+        if (num == 0) return;
+        else if (num == 1 || num == 2)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                _starEffect.transform.GetChild(i).gameObject.SetActive(true);
+                _stageClearStarObjects[i].SetActive(true);
+            }
+        }
+        else
+        {
+            _starEffect.transform.GetChild(2).gameObject.SetActive(true);
+            for (int i = 0; i < num; i++)
+            {
+                _stageClearStarObjects[i].SetActive(true);
+            }
+        }
+    }
+
+    private void LevelExpUp(int exp)
+    {
+        if (_dataManager.PlayerData.Level >= 30) return;
+
+        GameManager.I.DataManager.PlayerData.CurrentExp += exp;
+
+        if(_dataManager.PlayerData.CurrentExp >= _dataManager.PlayerData.MaxExp)
+        {
+            GameManager.I.DataManager.PlayerData.Level++;
+            GameManager.I.DataManager.PlayerData.CurrentExp = _dataManager.PlayerData.CurrentExp - _dataManager.PlayerData.MaxExp;
+            GameManager.I.DataManager.PlayerData.MaxExp = 20 + (_dataManager.PlayerData.Level * 10);
+        }
+    }
+
+    private void PlayerDataToInventoryData()
+    {
+        int inventoryOrder = FindInventoryOrder(_dataManager.PlayerData);
+
+        GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].CurrentExp = _dataManager.PlayerData.CurrentExp;
+        GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].MaxExp = _dataManager.PlayerData.MaxExp;
+        GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].Level = _dataManager.PlayerData.Level;
+    }
+
+    private int FindInventoryOrder(CharacterData data)
+    {
+        int count = _inventory.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            if (data.Tag == _inventory[i].Tag) return i;
+            else continue;
+        }
+
+        return -1;
+    }
+    #endregion
 }

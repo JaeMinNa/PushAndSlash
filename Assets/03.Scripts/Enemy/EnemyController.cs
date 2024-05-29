@@ -26,15 +26,12 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public RaycastHit ForwardHit;
     [HideInInspector] public RaycastHit DownHit;
     [HideInInspector] public CharacterData PlayerData;
+    [HideInInspector] public StageController StageController;
     [HideInInspector] public float Speed;
     [HideInInspector] public float Atk;
     [HideInInspector] public float Def;
     [HideInInspector] public bool IsHit_attack;
     [HideInInspector] public bool IsHit_skill;
-
-    //[Header("Bow And Arrow")]
-    //public Animator BowAnimator;
-    //public Animator ArrowAnimator;
 
     private IEnemyState _walkState;
     private IEnemyState _attackState;
@@ -45,6 +42,7 @@ public class EnemyController : MonoBehaviour
         NavMeshAgent = GetComponent<NavMeshAgent>();
         EnemyAnimator = transform.GetChild(0).GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
+        StageController = GameObject.FindWithTag("StageController").GetComponent<StageController>();
     }
 
     private void Start()

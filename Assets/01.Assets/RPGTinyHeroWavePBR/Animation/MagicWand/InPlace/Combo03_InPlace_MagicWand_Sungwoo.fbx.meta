@@ -62,14 +62,14 @@ ModelImporter:
       events:
       - time: 0.65332735
         functionName: StartSFX
-        data: PlayerNovaPinkShoot
+        data: PlayerMagicShoot
         objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.6548209
         functionName: ShootRangedAttack
-        data: NovaPink
+        data: Magic
         objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
         floatParameter: 0
         intParameter: 0

@@ -39,10 +39,10 @@ public class InventorySlot : MonoBehaviour
         else
         {
             transform.GetComponent<RawImage>().color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
-            _levelText.text = "LV." + _slotData.Level.ToString();
+            int inventoryOrder = _lobbyController.FindInventoryOrder(_slotData);
+            _levelText.text = "LV." + _inventory[inventoryOrder].Level.ToString();
             _levelBackground.SetActive(true);
 
-            int inventoryOrder = _lobbyController.FindInventoryOrder(_slotData);
             ActiveStar(_dataWrapper.CharacterInventory[inventoryOrder].Star);
 
             if (!CharacterIsEquip())
@@ -72,10 +72,10 @@ public class InventorySlot : MonoBehaviour
         else
         {
             transform.GetComponent<RawImage>().color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
-            _levelText.text = "LV." + _slotData.Level.ToString();
+            int inventoryOrder = _lobbyController.FindInventoryOrder(_slotData);
+            _levelText.text = "LV." + _inventory[inventoryOrder].Level.ToString();
             _levelBackground.SetActive(true);
 
-            int inventoryOrder = _lobbyController.FindInventoryOrder(_slotData);
             ActiveStar(_dataWrapper.CharacterInventory[inventoryOrder].Star);
 
             if (!CharacterIsEquip())

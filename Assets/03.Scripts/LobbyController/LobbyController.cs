@@ -46,7 +46,6 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private GameObject _shopPanel;
     [SerializeField] private TMP_Text _shopCoinText;
     [SerializeField] private GameObject _heroPanel;
-    //[SerializeField] private GameObject _heroesPanel;
     [SerializeField] private TMP_Text _drawCharacterText;
     [SerializeField] private Sprite[] _frameImages;
     [SerializeField] private Image _heroPanelSlotImage;
@@ -74,6 +73,7 @@ public class LobbyController : MonoBehaviour
         _dataWrapper = GameManager.I.DataManager.DataWrapper;
         _playerData = GameManager.I.DataManager.PlayerData;
         _inventory = _dataWrapper.CharacterInventory;
+        //_inventory = new List<CharacterData>(_dataWrapper.CharacterInventory);
         _inventorySelectData = _playerData;
         _characterNum = -1;
         _charactetSelectNum = -1;
@@ -90,6 +90,7 @@ public class LobbyController : MonoBehaviour
         UserNameSetting();
         StageSetting();
         CharacterSetting();
+        //CharacterStatSetting();
     }
 
     public void ButtonClickMiss()
@@ -135,6 +136,43 @@ public class LobbyController : MonoBehaviour
     {
         LevelSetting();
         ExpSetting();
+    }
+
+    private void CharacterStatSetting()
+    {
+        int inventoryCount = _inventory.Count;
+
+        for (int i = 0; i < inventoryCount; i++)
+        {
+            int CharactersDataOrder = FindCharacterDataOrder(_inventory[i]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Atk
+                = _dataWrapper.CharacterDatas[CharactersDataOrder].Atk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Def
+                = _dataWrapper.CharacterDatas[CharactersDataOrder].Def + ((_inventory[i].Star * 0.1f) - 0.1f);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Speed
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].Speed + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].SkillAtk
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].SkillAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].SkillCoolTime
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].SkillCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].DashImpulse
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].DashImpulse + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[i].DashCoolTime
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].DashCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
+        }
+    }
+
+    private int FindCharacterDataOrder(CharacterData data)
+    {
+        int count = _dataWrapper.CharacterDatas.Length;
+
+        for (int i = 0; i < count; i++)
+        {
+            if (data.Tag == _dataWrapper.CharacterDatas[i].Tag) return i;
+            else continue;
+        }
+
+        return -1;
     }
     #endregion
 
@@ -262,7 +300,7 @@ public class LobbyController : MonoBehaviour
         {
             GameManager.I.SoundManager.StartSFX("EquipButton");
 
-            for (int i = 0; i < _dataWrapper.CharacterInventory.Count; i++)
+            for (int i = 0; i < _inventory.Count; i++)
             {
                 if (_inventorySelectData.Tag == _inventory[i].Tag)
                 {
@@ -547,6 +585,7 @@ public class LobbyController : MonoBehaviour
             }
         }
 
+        //CharacterStatSetting();
         GameManager.I.DataManager.DataSave();
     }
 
@@ -610,6 +649,7 @@ public class LobbyController : MonoBehaviour
             }
         }
 
+        //CharacterStatSetting();
         GameManager.I.DataManager.DataSave();
     }
 
@@ -673,6 +713,7 @@ public class LobbyController : MonoBehaviour
             }
         }
 
+        //CharacterStatSetting();
         GameManager.I.DataManager.DataSave();
     }
 
@@ -772,13 +813,15 @@ public class LobbyController : MonoBehaviour
 
     private void StarExpUp(int inventoryOrder)
     {
+        if (_inventory[inventoryOrder].Star == 5) return;
+        
         GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp++;
 
-        if (_dataWrapper.CharacterInventory[inventoryOrder].MaxStarExp == _dataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp)
+        if (_inventory[inventoryOrder].MaxStarExp == _inventory[inventoryOrder].CurrentStarExp)
         {
             GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].Star++;
             GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].CurrentStarExp = 1;
-            GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].MaxStarExp = 3 * _dataWrapper.CharacterInventory[inventoryOrder].Star;
+            GameManager.I.DataManager.DataWrapper.CharacterInventory[inventoryOrder].MaxStarExp = 3 * _inventory[inventoryOrder].Star;
         }
     }
 

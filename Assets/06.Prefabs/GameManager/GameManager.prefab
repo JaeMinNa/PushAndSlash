@@ -49,6 +49,9 @@ MonoBehaviour:
     KoreaTag: "\uBBFC\uC11D"
     IsEquip: 1
     CharacterRank: 0
+    Star: 1
+    CurrentStarExp: 1
+    MaxStarExp: 3
     Level: 1
     CurrentExp: 0
     MaxExp: 30
@@ -60,46 +63,21 @@ MonoBehaviour:
     SkillAtk: 15
     SkillCoolTime: 20
   GameData:
-    UserName: "\uC7AC\uBBFC\uC7AC\uBBFC"
+    UserName: UserName
     Stage: 1
     Coin: 0
-    SFXValume: -10
-    BGMValume: -10
+    SFXValume: 0
+    BGMValume: 0
   DataWrapper:
-    CharacterInventory:
-    - Tag: Minsuck
-      KoreaTag: "\uBBFC\uC11D"
-      IsEquip: 1
-      CharacterRank: 0
-      Level: 1
-      CurrentExp: 0
-      MaxExp: 30
-      Speed: 4
-      DashImpulse: 40
-      DashCoolTime: 10
-      Atk: 3
-      Def: 0
-      SkillAtk: 15
-      SkillCoolTime: 20
-    - Tag: Sungwoo
-      KoreaTag: "\uC131\uC6B0"
-      IsEquip: 0
-      CharacterRank: 0
-      Level: 1
-      CurrentExp: 0
-      MaxExp: 30
-      Speed: 4
-      DashImpulse: 40
-      DashCoolTime: 10
-      Atk: 3
-      Def: 0
-      SkillAtk: 15
-      SkillCoolTime: 20
+    CharacterInventory: []
     CharacterDatas:
     - Tag: Minsuck
       KoreaTag: "\uBBFC\uC11D"
       IsEquip: 0
       CharacterRank: 0
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -114,6 +92,9 @@ MonoBehaviour:
       KoreaTag: "\uD604\uC218"
       IsEquip: 0
       CharacterRank: 0
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -128,6 +109,9 @@ MonoBehaviour:
       KoreaTag: "\uB3D9\uC9C4"
       IsEquip: 0
       CharacterRank: 1
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -142,6 +126,9 @@ MonoBehaviour:
       KoreaTag: "\uC131\uC6B0"
       IsEquip: 0
       CharacterRank: 0
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -156,6 +143,9 @@ MonoBehaviour:
       KoreaTag: "\uD558\uC601"
       IsEquip: 0
       CharacterRank: 3
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -170,6 +160,9 @@ MonoBehaviour:
       KoreaTag: "\uC900\uD601"
       IsEquip: 0
       CharacterRank: 0
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -184,6 +177,9 @@ MonoBehaviour:
       KoreaTag: "\uC775\uD604"
       IsEquip: 0
       CharacterRank: 0
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -198,6 +194,9 @@ MonoBehaviour:
       KoreaTag: "\uCC2C\uC601"
       IsEquip: 0
       CharacterRank: 1
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -212,6 +211,9 @@ MonoBehaviour:
       KoreaTag: "\uC131\uC7AC"
       IsEquip: 0
       CharacterRank: 2
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -226,6 +228,9 @@ MonoBehaviour:
       KoreaTag: "\uBBFC\uAE30"
       IsEquip: 0
       CharacterRank: 0
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -240,6 +245,9 @@ MonoBehaviour:
       KoreaTag: "\uC0C1\uC601"
       IsEquip: 0
       CharacterRank: 1
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -254,6 +262,9 @@ MonoBehaviour:
       KoreaTag: "\uACBD\uC601"
       IsEquip: 0
       CharacterRank: 1
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -268,6 +279,9 @@ MonoBehaviour:
       KoreaTag: "\uAD11\uD615"
       IsEquip: 0
       CharacterRank: 2
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -282,6 +296,9 @@ MonoBehaviour:
       KoreaTag: "\uC7AC\uBBFC"
       IsEquip: 0
       CharacterRank: 3
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -296,6 +313,9 @@ MonoBehaviour:
       KoreaTag: "\uC591\uD0DD"
       IsEquip: 0
       CharacterRank: 1
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -310,6 +330,9 @@ MonoBehaviour:
       KoreaTag: "\uADDC\uC2DD"
       IsEquip: 0
       CharacterRank: 2
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -324,6 +347,9 @@ MonoBehaviour:
       KoreaTag: "\uBC30\uC2B9"
       IsEquip: 0
       CharacterRank: 1
+      Star: 1
+      CurrentStarExp: 1
+      MaxStarExp: 3
       Level: 1
       CurrentExp: 0
       MaxExp: 30
@@ -337,36 +363,42 @@ MonoBehaviour:
     EnemyDatas:
     - Tag: Enemy0
       Exp: 10
+      Coin: 100
       Speed: 1
       Atk: 5
       AttackCoolTime: 5
       Def: 0.1
     - Tag: Enemy1
       Exp: 13
+      Coin: 150
       Speed: 1.5
       Atk: 7
       AttackCoolTime: 3
       Def: 0.2
     - Tag: Enemy2
       Exp: 15
+      Coin: 170
       Speed: 1.3
       Atk: 9
       AttackCoolTime: 4
       Def: 0.3
     - Tag: Enemy3
       Exp: 17
+      Coin: 170
       Speed: 1
       Atk: 10
       AttackCoolTime: 5
       Def: 0.4
     - Tag: Enemy4
       Exp: 12
+      Coin: 120
       Speed: 1.5
       Atk: 4
       AttackCoolTime: 5
       Def: 0.1
     - Tag: Enemy5
       Exp: 12
+      Coin: 120
       Speed: 2
       Atk: 3
       AttackCoolTime: 4
