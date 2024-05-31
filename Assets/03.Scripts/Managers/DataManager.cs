@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 
 [System.Serializable]
 public class GameData
@@ -69,10 +71,14 @@ public class DataManager : MonoBehaviour
     public CharacterData PlayerData;
     public GameData GameData;
     public DataWrapper DataWrapper;
+    public CharacterData[] CharacterDatas;
 
     public void Init()
     {
         DataLoad();
+        //CharacterDatas = (CharacterData[])DataWrapper.CharacterDatas.Clone();
+        CharacterDatas = new CharacterData[DataWrapper.CharacterDatas.Length];
+        Array.Copy(DataWrapper.CharacterDatas, CharacterDatas, DataWrapper.CharacterDatas.Length);
     }
 
     public void Release()

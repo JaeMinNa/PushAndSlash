@@ -66,14 +66,15 @@ public class LobbyController : MonoBehaviour
     private GameData _gameData;
     private CharacterData _playerData;
     private DataWrapper _dataWrapper;
+    private CharacterData[] _characterDatas;
 
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
         _dataWrapper = GameManager.I.DataManager.DataWrapper;
         _playerData = GameManager.I.DataManager.PlayerData;
+        _characterDatas = GameManager.I.DataManager.CharacterDatas;
         _inventory = _dataWrapper.CharacterInventory;
-        //_inventory = new List<CharacterData>(_dataWrapper.CharacterInventory);
         _inventorySelectData = _playerData;
         _characterNum = -1;
         _charactetSelectNum = -1;
@@ -164,11 +165,11 @@ public class LobbyController : MonoBehaviour
 
     private int FindCharacterDataOrder(CharacterData data)
     {
-        int count = _dataWrapper.CharacterDatas.Length;
+        int count = _characterDatas.Length;
 
         for (int i = 0; i < count; i++)
         {
-            if (data.Tag == _dataWrapper.CharacterDatas[i].Tag) return i;
+            if (data.Tag == _characterDatas[i].Tag) return i;
             else continue;
         }
 
@@ -215,7 +216,7 @@ public class LobbyController : MonoBehaviour
     public void InventorySlotButton(int num)
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        _inventorySelectData = GameManager.I.DataManager.DataWrapper.CharacterDatas[num];
+        _inventorySelectData = _characterDatas[num];
         _characterNum = num;
         
         if (!CharacterIsGet(_inventorySelectData))
@@ -360,19 +361,19 @@ public class LobbyController : MonoBehaviour
 
         if(_charactetSelectNum == 0)
         {
-            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[0]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_characterDatas[0]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
             GameManager.I.DataManager.PlayerData = _inventory[0];
         }
         else if (_charactetSelectNum == 1)
         {
-            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[3]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_characterDatas[3]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
             GameManager.I.DataManager.PlayerData = _inventory[0];
         }
         else if (_charactetSelectNum == 2)
         {
-            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[1]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_characterDatas[1]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
             GameManager.I.DataManager.PlayerData = _inventory[0];
         }
@@ -398,7 +399,7 @@ public class LobbyController : MonoBehaviour
 
     public void DrawCharacter(int B, int A, int S, int SS)
     {
-        int count = _dataWrapper.CharacterDatas.Length;
+        int count = _characterDatas.Length;
 
         while (true)
         {
@@ -408,12 +409,12 @@ public class LobbyController : MonoBehaviour
 
             if(CharacterRank == 0)  // B·©Å©
             {
-                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.B) continue;
+                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.B) continue;
                 else
                 {
                     if (randomValue <= B)  // B·©Å© È®·ü
                     {
-                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+                        _drawCharacter = _characterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else
@@ -428,12 +429,12 @@ public class LobbyController : MonoBehaviour
             }
             else if(CharacterRank == 1) // A·©Å©
             {
-                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.A) continue;
+                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.A) continue;
                 else
                 {
                     if (randomValue <= A)  // A·©Å© È®·ü
                     {
-                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+                        _drawCharacter = _characterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else
@@ -448,12 +449,12 @@ public class LobbyController : MonoBehaviour
             }
             else if(CharacterRank == 2) // S·©Å©
             {
-                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.S) continue;
+                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.S) continue;
                 else
                 {
                     if (randomValue <= S)  // S·©Å© È®·ü
                     {
-                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+                        _drawCharacter = _characterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else
@@ -468,12 +469,12 @@ public class LobbyController : MonoBehaviour
             }
             else if (CharacterRank == 3) // SS·©Å©
             {
-                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.SS) continue;
+                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.SS) continue;
                 else
                 {
                     if (randomValue <= SS)  // SS·©Å© È®·ü
                     {
-                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
+                        _drawCharacter = _characterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else

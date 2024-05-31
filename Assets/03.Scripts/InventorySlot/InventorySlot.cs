@@ -20,7 +20,7 @@ public class InventorySlot : MonoBehaviour
     private void Start()
     {
         _dataWrapper = GameManager.I.DataManager.DataWrapper;
-        _slotData = GameManager.I.DataManager.DataWrapper.CharacterDatas[_characterNum];
+        _slotData = GameManager.I.DataManager.CharacterDatas[_characterNum];
         _lobbyController = GameObject.FindWithTag("LobbyController").GetComponent<LobbyController>();
         _inventory = _dataWrapper.CharacterInventory;
         _equipFrame = transform.parent.parent.transform.GetChild(1).gameObject;
