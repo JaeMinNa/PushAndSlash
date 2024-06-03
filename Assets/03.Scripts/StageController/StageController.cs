@@ -145,7 +145,7 @@ public class StageController : MonoBehaviour
         _stageClearExpText.text = _dataManager.PlayerData.CurrentExp.ToString() + "/" + _dataManager.PlayerData.MaxExp.ToString();
         _stageClearExpSlider.value = (float)_dataManager.PlayerData.CurrentExp / _dataManager.PlayerData.MaxExp;
 
-        GameManager.I.DataManager.GameData.Stage++;
+        if(_gameData.Stage <= 9) GameManager.I.DataManager.GameData.Stage++;
         _gameClear.SetActive(true);
 
         GameManager.I.DataManager.DataSave();

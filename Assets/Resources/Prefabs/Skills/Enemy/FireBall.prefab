@@ -71,7 +71,7 @@ MonoBehaviour:
   muzzleParticle: {fileID: 193574, guid: 5c2bdcf6f0badc34f9f192b0995e4a79, type: 3}
   colliderRadius: 0.1
   collideOffset: 0.1
-  CharacterType: 1
+  CharacterType: 2
   Atk: 0
   _targets: []
   _overlapSphereRange: 1.5

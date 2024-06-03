@@ -67,14 +67,12 @@ public class LobbyController : MonoBehaviour
     private GameData _gameData;
     private CharacterData _playerData;
     private DataWrapper _dataWrapper;
-    //private CharacterData[] _characterDatas;
 
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
         _dataWrapper = GameManager.I.DataManager.DataWrapper;
         _playerData = GameManager.I.DataManager.PlayerData;
-        //_characterDatas = GameManager.I.DataManager.CharacterDatas;
         _inventory = _dataWrapper.CharacterInventory;
         _inventorySelectData = _playerData;
         _characterNum = -1;
@@ -93,6 +91,9 @@ public class LobbyController : MonoBehaviour
         StageSetting();
         CharacterSetting();
         CharacterStatSetting();
+        EquipSetting();
+
+        GameManager.I.DataManager.DataSave();
     }
 
     public void ButtonClickMiss()
@@ -147,21 +148,21 @@ public class LobbyController : MonoBehaviour
 
         for (int i = 0; i < inventoryCount; i++)
         {
-            int CharactersDataOrder = FindCharacterDataOrder(_inventory[i]);
+            //int CharactersDataOrder = FindCharacterDataOrder(_inventory[i]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Atk
-                = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+                = _inventory[i].OriginAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Def
-                = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginDef + ((_inventory[i].Star * 0.1f) - 0.1f);
+                = _inventory[i].OriginDef + ((_inventory[i].Star * 0.1f) - 0.1f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Speed
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginSpeed + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _inventory[i].OriginSpeed + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].SkillAtk
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginSkillAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _inventory[i].OriginSkillAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].SkillCoolTime
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginSkillCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _inventory[i].OriginSkillCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].DashImpulse
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginDashImpulse + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _inventory[i].OriginDashImpulse + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].DashCoolTime
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginDashCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _inventory[i].OriginDashCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
         }
     }
 
@@ -321,6 +322,19 @@ public class LobbyController : MonoBehaviour
 
         UserNameSetting();
         GameManager.I.DataManager.DataSave();
+    }
+
+    private void EquipSetting()
+    {
+        for (int i = 0; i < _inventory.Count; i++)
+        {
+            if (!_inventory[i].IsEquip) continue;
+            else
+            {
+                GameManager.I.DataManager.PlayerData = _inventory[i];
+                break;
+            }
+        }
     }
 
     private bool CharacterIsGet(CharacterData data)
