@@ -284,10 +284,5 @@ namespace ECM2.Examples.Slide
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             _rigidbody.isKinematic = true;
         }
-
-        //private void GameOver()
-        //{
-        //    _stageController.GameOver();
-        //}
     }
 }

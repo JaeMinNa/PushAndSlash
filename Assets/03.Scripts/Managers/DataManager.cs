@@ -44,6 +44,13 @@ public class CharacterData
     public int Level;
     public int CurrentExp;
     public int MaxExp;
+    public float OriginSpeed;
+    public float OriginDashImpulse;
+    public float OriginDashCoolTime;
+    public float OriginAtk;
+    public float OriginDef;
+    public float OriginSkillAtk;
+    public float OriginSkillCoolTime;
     public float Speed;
     public float DashImpulse;
     public float DashCoolTime;
@@ -54,7 +61,7 @@ public class CharacterData
 }
 
 [System.Serializable]
-public class EnemyData
+public struct EnemyData
 {
     [Header("Common Stats")]
     public string Tag;
@@ -71,14 +78,14 @@ public class DataManager : MonoBehaviour
     public CharacterData PlayerData;
     public GameData GameData;
     public DataWrapper DataWrapper;
-    public CharacterData[] CharacterDatas;
+    //public CharacterData[] CharacterDatas;
 
     public void Init()
     {
         DataLoad();
         //CharacterDatas = (CharacterData[])DataWrapper.CharacterDatas.Clone();
-        CharacterDatas = new CharacterData[DataWrapper.CharacterDatas.Length];
-        Array.Copy(DataWrapper.CharacterDatas, CharacterDatas, DataWrapper.CharacterDatas.Length);
+        //CharacterDatas = new CharacterData[DataWrapper.CharacterDatas.Length];
+        //Array.Copy(DataWrapper.CharacterDatas, CharacterDatas, DataWrapper.CharacterDatas.Length);
     }
 
     public void Release()

@@ -9,6 +9,7 @@ public class LobbyController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text _coinText;
     [SerializeField] private TMP_Text _userNameText;
+    [SerializeField] private TMP_Text _selectCharacterNameText;
     [SerializeField] private Slider _expSlider;
     [SerializeField] private TMP_Text _levelText;
     [SerializeField] private TMP_Text _expText;
@@ -66,14 +67,14 @@ public class LobbyController : MonoBehaviour
     private GameData _gameData;
     private CharacterData _playerData;
     private DataWrapper _dataWrapper;
-    private CharacterData[] _characterDatas;
+    //private CharacterData[] _characterDatas;
 
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
         _dataWrapper = GameManager.I.DataManager.DataWrapper;
         _playerData = GameManager.I.DataManager.PlayerData;
-        _characterDatas = GameManager.I.DataManager.CharacterDatas;
+        //_characterDatas = GameManager.I.DataManager.CharacterDatas;
         _inventory = _dataWrapper.CharacterInventory;
         _inventorySelectData = _playerData;
         _characterNum = -1;
@@ -91,7 +92,7 @@ public class LobbyController : MonoBehaviour
         UserNameSetting();
         StageSetting();
         CharacterSetting();
-        //CharacterStatSetting();
+        CharacterStatSetting();
     }
 
     public void ButtonClickMiss()
@@ -115,6 +116,7 @@ public class LobbyController : MonoBehaviour
     public void UserNameSetting()
     {
         _userNameText.text = _gameData.UserName;
+        _selectCharacterNameText.text = GameManager.I.DataManager.PlayerData.KoreaTag.ToString();
     }
 
     private void StageSetting()
@@ -124,7 +126,7 @@ public class LobbyController : MonoBehaviour
 
     private void LevelSetting()
     {
-        _levelText.text = _playerData.Level.ToString();
+        _levelText.text = "Lv " + _playerData.Level.ToString();
     }
 
     private void ExpSetting()
@@ -147,29 +149,29 @@ public class LobbyController : MonoBehaviour
         {
             int CharactersDataOrder = FindCharacterDataOrder(_inventory[i]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Atk
-                = _dataWrapper.CharacterDatas[CharactersDataOrder].Atk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+                = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Def
-                = _dataWrapper.CharacterDatas[CharactersDataOrder].Def + ((_inventory[i].Star * 0.1f) - 0.1f);
+                = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginDef + ((_inventory[i].Star * 0.1f) - 0.1f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].Speed
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].Speed + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginSpeed + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].SkillAtk
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].SkillAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginSkillAtk + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].SkillCoolTime
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].SkillCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginSkillCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].DashImpulse
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].DashImpulse + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginDashImpulse + ((_inventory[i].Level * 0.1f) - 0.1f) + ((_inventory[i].Star * 0.5f) - 0.5f);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[i].DashCoolTime
-               = _dataWrapper.CharacterDatas[CharactersDataOrder].DashCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
+               = _dataWrapper.CharacterDatas[CharactersDataOrder].OriginDashCoolTime - ((_inventory[i].Level * 0.1f) - 0.1f) - ((_inventory[i].Star * 0.5f) - 0.5f);
         }
     }
 
     private int FindCharacterDataOrder(CharacterData data)
     {
-        int count = _characterDatas.Length;
+        int count = _dataWrapper.CharacterDatas.Length;
 
         for (int i = 0; i < count; i++)
         {
-            if (data.Tag == _characterDatas[i].Tag) return i;
+            if (data.Tag == _dataWrapper.CharacterDatas[i].Tag) return i;
             else continue;
         }
 
@@ -183,6 +185,7 @@ public class LobbyController : MonoBehaviour
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         _inventory = _dataWrapper.CharacterInventory;
         InventorySetting();
+        CharacterStatSetting();
         _inventoryPanel.SetActive(true);
     }
 
@@ -196,27 +199,27 @@ public class LobbyController : MonoBehaviour
     {
         ActiveStar(_playerData.Star);
 
-        _playerTagText.text = _playerData.KoreaTag.ToString();
-        _playerLevelText.text = _playerData.Level.ToString();
-        _playerExpSlider.value = (float)_playerData.CurrentExp / _playerData.MaxExp;
-        _playerExpPercent.text = (((float)_playerData.CurrentExp / _playerData.MaxExp) * 100).ToString("N1") + "%";
-        _playerUpgradeSlider.value = (float)_playerData.CurrentStarExp / _playerData.MaxStarExp;
-        _playerUpgradeText.text = _playerData.CurrentStarExp.ToString() + "/" + _playerData.MaxStarExp.ToString();
-        _rankText.text = _playerData.CharacterRank.ToString();
-        _atkText.text = _playerData.Atk.ToString();
-        _defText.text = _playerData.Def.ToString();
-        _speedText.text = _playerData.Speed.ToString();
-        _skillAtkText.text = _playerData.SkillAtk.ToString();
-        _skillCoolTimeText.text = _playerData.SkillCoolTime.ToString();
-        _dashPowerText.text = _playerData.DashImpulse.ToString();
-        _dashCoolTimeText.text = _playerData.DashCoolTime.ToString();
+        _playerTagText.text = GameManager.I.DataManager.PlayerData.KoreaTag.ToString();
+        _playerLevelText.text = GameManager.I.DataManager.PlayerData.Level.ToString();
+        _playerExpSlider.value = (float)GameManager.I.DataManager.PlayerData.CurrentExp / GameManager.I.DataManager.PlayerData.MaxExp;
+        _playerExpPercent.text = (((float)GameManager.I.DataManager.PlayerData.CurrentExp / GameManager.I.DataManager.PlayerData.MaxExp) * 100).ToString("N1") + "%";
+        _playerUpgradeSlider.value = (float)GameManager.I.DataManager.PlayerData.CurrentStarExp / GameManager.I.DataManager.PlayerData.MaxStarExp;
+        _playerUpgradeText.text = GameManager.I.DataManager.PlayerData.CurrentStarExp.ToString() + "/" + GameManager.I.DataManager.PlayerData.MaxStarExp.ToString();
+        _rankText.text = GameManager.I.DataManager.PlayerData.CharacterRank.ToString();
+        _atkText.text = GameManager.I.DataManager.PlayerData.Atk.ToString();
+        _defText.text = GameManager.I.DataManager.PlayerData.Def.ToString();
+        _speedText.text = GameManager.I.DataManager.PlayerData.Speed.ToString();
+        _skillAtkText.text = GameManager.I.DataManager.PlayerData.SkillAtk.ToString();
+        _skillCoolTimeText.text = GameManager.I.DataManager.PlayerData.SkillCoolTime.ToString();
+        _dashPowerText.text = GameManager.I.DataManager.PlayerData.DashImpulse.ToString();
+        _dashCoolTimeText.text = GameManager.I.DataManager.PlayerData.DashCoolTime.ToString();
         InventoryImageSetting();
     }
 
     public void InventorySlotButton(int num)
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        _inventorySelectData = _characterDatas[num];
+        _inventorySelectData = _dataWrapper.CharacterDatas[num];
         _characterNum = num;
         
         if (!CharacterIsGet(_inventorySelectData))
@@ -316,6 +319,7 @@ public class LobbyController : MonoBehaviour
             GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
         }
 
+        UserNameSetting();
         GameManager.I.DataManager.DataSave();
     }
 
@@ -361,23 +365,24 @@ public class LobbyController : MonoBehaviour
 
         if(_charactetSelectNum == 0)
         {
-            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_characterDatas[0]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[0]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
             GameManager.I.DataManager.PlayerData = _inventory[0];
         }
         else if (_charactetSelectNum == 1)
         {
-            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_characterDatas[3]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[3]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
             GameManager.I.DataManager.PlayerData = _inventory[0];
         }
         else if (_charactetSelectNum == 2)
         {
-            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_characterDatas[1]);
+            GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_dataWrapper.CharacterDatas[1]);
             GameManager.I.DataManager.DataWrapper.CharacterInventory[0].IsEquip = true;
             GameManager.I.DataManager.PlayerData = _inventory[0];
         }
 
+        UserNameSetting();
         _CharacterSelectPanel.SetActive(false);
         GameManager.I.DataManager.DataSave();
     }
@@ -399,7 +404,7 @@ public class LobbyController : MonoBehaviour
 
     public void DrawCharacter(int B, int A, int S, int SS)
     {
-        int count = _characterDatas.Length;
+        int count = _dataWrapper.CharacterDatas.Length;
 
         while (true)
         {
@@ -409,12 +414,12 @@ public class LobbyController : MonoBehaviour
 
             if(CharacterRank == 0)  // B·©Å©
             {
-                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.B) continue;
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.B) continue;
                 else
                 {
                     if (randomValue <= B)  // B·©Å© È®·ü
                     {
-                        _drawCharacter = _characterDatas[CharacterNum];
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else
@@ -429,12 +434,12 @@ public class LobbyController : MonoBehaviour
             }
             else if(CharacterRank == 1) // A·©Å©
             {
-                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.A) continue;
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.A) continue;
                 else
                 {
                     if (randomValue <= A)  // A·©Å© È®·ü
                     {
-                        _drawCharacter = _characterDatas[CharacterNum];
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else
@@ -449,12 +454,12 @@ public class LobbyController : MonoBehaviour
             }
             else if(CharacterRank == 2) // S·©Å©
             {
-                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.S) continue;
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.S) continue;
                 else
                 {
                     if (randomValue <= S)  // S·©Å© È®·ü
                     {
-                        _drawCharacter = _characterDatas[CharacterNum];
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else
@@ -469,12 +474,12 @@ public class LobbyController : MonoBehaviour
             }
             else if (CharacterRank == 3) // SS·©Å©
             {
-                if (_characterDatas[CharacterNum].CharacterRank != CharacterData.Rank.SS) continue;
+                if (_dataWrapper.CharacterDatas[CharacterNum].CharacterRank != CharacterData.Rank.SS) continue;
                 else
                 {
                     if (randomValue <= SS)  // SS·©Å© È®·ü
                     {
-                        _drawCharacter = _characterDatas[CharacterNum];
+                        _drawCharacter = _dataWrapper.CharacterDatas[CharacterNum];
 
                         if (!CharacterIsGet(_drawCharacter)) GameManager.I.DataManager.DataWrapper.CharacterInventory.Add(_drawCharacter);
                         else

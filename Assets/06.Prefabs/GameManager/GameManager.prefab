@@ -55,6 +55,13 @@ MonoBehaviour:
     Level: 1
     CurrentExp: 0
     MaxExp: 30
+    OriginSpeed: 0
+    OriginDashImpulse: 0
+    OriginDashCoolTime: 0
+    OriginAtk: 0
+    OriginDef: 0
+    OriginSkillAtk: 0
+    OriginSkillCoolTime: 0
     Speed: 4
     DashImpulse: 40
     DashCoolTime: 10
@@ -81,10 +88,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 4
+      OriginDashImpulse: 40
+      OriginDashCoolTime: 15
+      OriginAtk: 4
+      OriginDef: 0
+      OriginSkillAtk: 15
+      OriginSkillCoolTime: 20
       Speed: 4
       DashImpulse: 40
-      DashCoolTime: 10
-      Atk: 3
+      DashCoolTime: 15
+      Atk: 4
       Def: 0
       SkillAtk: 15
       SkillCoolTime: 20
@@ -98,10 +112,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
-      Speed: 5
-      DashImpulse: 42
-      DashCoolTime: 9.5
-      Atk: 3.2
+      OriginSpeed: 4.5
+      OriginDashImpulse: 40
+      OriginDashCoolTime: 15
+      OriginAtk: 4.5
+      OriginDef: 0
+      OriginSkillAtk: 15
+      OriginSkillCoolTime: 20
+      Speed: 4.5
+      DashImpulse: 40
+      DashCoolTime: 15
+      Atk: 4.5
       Def: 0
       SkillAtk: 15
       SkillCoolTime: 20
@@ -115,10 +136,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
-      Speed: 6
-      DashImpulse: 45
-      DashCoolTime: 7.5
-      Atk: 4.2
+      OriginSpeed: 5.5
+      OriginDashImpulse: 43
+      OriginDashCoolTime: 13
+      OriginAtk: 5.5
+      OriginDef: 0.5
+      OriginSkillAtk: 17.5
+      OriginSkillCoolTime: 18
+      Speed: 5.5
+      DashImpulse: 43
+      DashCoolTime: 13
+      Atk: 5.5
       Def: 0.5
       SkillAtk: 17.5
       SkillCoolTime: 18
@@ -132,10 +160,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 4
+      OriginDashImpulse: 40
+      OriginDashCoolTime: 15
+      OriginAtk: 3.5
+      OriginDef: 0
+      OriginSkillAtk: 15
+      OriginSkillCoolTime: 20
       Speed: 4
       DashImpulse: 40
-      DashCoolTime: 10
-      Atk: 3
+      DashCoolTime: 15
+      Atk: 3.5
       Def: 0
       SkillAtk: 15
       SkillCoolTime: 20
@@ -149,10 +184,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 7
+      OriginDashImpulse: 50
+      OriginDashCoolTime: 9
+      OriginAtk: 6.5
+      OriginDef: 1.5
+      OriginSkillAtk: 25
+      OriginSkillCoolTime: 14
       Speed: 7
       DashImpulse: 50
-      DashCoolTime: 4
-      Atk: 7.5
+      DashCoolTime: 9
+      Atk: 6.5
       Def: 1.5
       SkillAtk: 25
       SkillCoolTime: 14
@@ -166,10 +208,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 4
+      OriginDashImpulse: 40
+      OriginDashCoolTime: 15
+      OriginAtk: 4
+      OriginDef: 0
+      OriginSkillAtk: 15
+      OriginSkillCoolTime: 20
       Speed: 4
       DashImpulse: 40
-      DashCoolTime: 10
-      Atk: 3
+      DashCoolTime: 15
+      Atk: 4
       Def: 0
       SkillAtk: 15
       SkillCoolTime: 20
@@ -183,9 +232,16 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
-      Speed: 4
+      OriginSpeed: 3
+      OriginDashImpulse: 40
+      OriginDashCoolTime: 13
+      OriginAtk: 3
+      OriginDef: 0
+      OriginSkillAtk: 15
+      OriginSkillCoolTime: 20
+      Speed: 3
       DashImpulse: 40
-      DashCoolTime: 10
+      DashCoolTime: 13
       Atk: 3
       Def: 0
       SkillAtk: 15
@@ -200,9 +256,16 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 5
+      OriginDashImpulse: 43
+      OriginDashCoolTime: 13
+      OriginAtk: 4
+      OriginDef: 0.5
+      OriginSkillAtk: 17.5
+      OriginSkillCoolTime: 18
       Speed: 5
       DashImpulse: 43
-      DashCoolTime: 8
+      DashCoolTime: 13
       Atk: 4
       Def: 0.5
       SkillAtk: 17.5
@@ -217,9 +280,16 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
-      Speed: 6
+      OriginSpeed: 5
+      OriginDashImpulse: 46
+      OriginDashCoolTime: 11
+      OriginAtk: 5
+      OriginDef: 1
+      OriginSkillAtk: 20
+      OriginSkillCoolTime: 16
+      Speed: 5
       DashImpulse: 46
-      DashCoolTime: 6
+      DashCoolTime: 11
       Atk: 5
       Def: 1
       SkillAtk: 20
@@ -234,11 +304,18 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 4
+      OriginDashImpulse: 40
+      OriginDashCoolTime: 15
+      OriginAtk: 4.5
+      OriginDef: 0
+      OriginSkillAtk: 15
+      OriginSkillCoolTime: 20
       Speed: 4
       DashImpulse: 40
-      DashCoolTime: 10
-      Atk: 3
-      Def: 1
+      DashCoolTime: 15
+      Atk: 4.5
+      Def: 0
       SkillAtk: 15
       SkillCoolTime: 20
     - Tag: Sangyeong
@@ -251,10 +328,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 5
+      OriginDashImpulse: 43
+      OriginDashCoolTime: 13
+      OriginAtk: 5.5
+      OriginDef: 0.5
+      OriginSkillAtk: 17.5
+      OriginSkillCoolTime: 18
       Speed: 5
       DashImpulse: 43
-      DashCoolTime: 8
-      Atk: 4
+      DashCoolTime: 13
+      Atk: 5.5
       Def: 0.5
       SkillAtk: 17.5
       SkillCoolTime: 18
@@ -268,10 +352,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 5
+      OriginDashImpulse: 43
+      OriginDashCoolTime: 13
+      OriginAtk: 5
+      OriginDef: 0.5
+      OriginSkillAtk: 17.5
+      OriginSkillCoolTime: 18
       Speed: 5
       DashImpulse: 43
-      DashCoolTime: 8
-      Atk: 4
+      DashCoolTime: 13
+      Atk: 5
       Def: 0.5
       SkillAtk: 17.5
       SkillCoolTime: 18
@@ -285,10 +376,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 6
+      OriginDashImpulse: 46
+      OriginDashCoolTime: 11
+      OriginAtk: 6
+      OriginDef: 1
+      OriginSkillAtk: 20
+      OriginSkillCoolTime: 16
       Speed: 6
       DashImpulse: 46
-      DashCoolTime: 6
-      Atk: 5
+      DashCoolTime: 11
+      Atk: 6
       Def: 1
       SkillAtk: 20
       SkillCoolTime: 16
@@ -302,10 +400,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 7
+      OriginDashImpulse: 50
+      OriginDashCoolTime: 9
+      OriginAtk: 7
+      OriginDef: 1.5
+      OriginSkillAtk: 25
+      OriginSkillCoolTime: 14
       Speed: 7
       DashImpulse: 50
-      DashCoolTime: 4
-      Atk: 6
+      DashCoolTime: 9
+      Atk: 7
       Def: 1.5
       SkillAtk: 25
       SkillCoolTime: 14
@@ -319,10 +424,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 5
+      OriginDashImpulse: 43
+      OriginDashCoolTime: 13
+      OriginAtk: 5
+      OriginDef: 0.5
+      OriginSkillAtk: 17.5
+      OriginSkillCoolTime: 18
       Speed: 5
       DashImpulse: 43
-      DashCoolTime: 8
-      Atk: 4
+      DashCoolTime: 13
+      Atk: 5
       Def: 0.5
       SkillAtk: 17.5
       SkillCoolTime: 18
@@ -336,10 +448,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 6
+      OriginDashImpulse: 46
+      OriginDashCoolTime: 11
+      OriginAtk: 6
+      OriginDef: 1
+      OriginSkillAtk: 20
+      OriginSkillCoolTime: 16
       Speed: 6
       DashImpulse: 46
-      DashCoolTime: 6
-      Atk: 5
+      DashCoolTime: 11
+      Atk: 6
       Def: 1
       SkillAtk: 20
       SkillCoolTime: 16
@@ -353,10 +472,17 @@ MonoBehaviour:
       Level: 1
       CurrentExp: 0
       MaxExp: 30
+      OriginSpeed: 5
+      OriginDashImpulse: 43
+      OriginDashCoolTime: 13
+      OriginAtk: 5
+      OriginDef: 0.5
+      OriginSkillAtk: 17.5
+      OriginSkillCoolTime: 18
       Speed: 5
       DashImpulse: 43
-      DashCoolTime: 8
-      Atk: 4
+      DashCoolTime: 13
+      Atk: 5
       Def: 0.5
       SkillAtk: 17.5
       SkillCoolTime: 18
@@ -597,6 +723,7 @@ MonoBehaviour:
   _dashImage: {fileID: 0}
   _skillImage: {fileID: 0}
   _pause: {fileID: 0}
+  _pauseChapterText: {fileID: 0}
   _settingPanel: {fileID: 0}
   _audioMixer: {fileID: 24100000, guid: f8837ca6f653e2d4aa5e096219eda27b, type: 2}
   _sfxSlider: {fileID: 0}

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public Vector3 OriginCameraRotation;
     public Vector3 Offset;
-
     private GameObject _player;
 
     private void Start()

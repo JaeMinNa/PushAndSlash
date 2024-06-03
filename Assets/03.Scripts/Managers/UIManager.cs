@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Panel")]
     [SerializeField] private GameObject _pause;
+    [SerializeField] private TMP_Text _pauseChapterText;
 
     [Header("Setting")]
     [SerializeField] private GameObject _settingPanel;
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
     private Animator _playerAnimator;
     private PlayerCharacter _playerCharacter;
     private CharacterData _playerData;
+    private GameData _gameData;
     private LobbyController _lobbyController;
     //private GameData _gameData;
     private float _dashTime;
@@ -60,6 +62,7 @@ public class UIManager : MonoBehaviour
         _playerCharacter = _player.GetComponent<PlayerCharacter>();
         _playerAnimator = _player.transform.GetChild(0).GetComponent<Animator>();
         _playerData = GameManager.I.DataManager.PlayerData;
+        _gameData = GameManager.I.DataManager.GameData;
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbySence")
         {
@@ -219,6 +222,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         Time.timeScale = 0f;
+        _pauseChapterText.text = "CHAPTER 1-" + _gameData.Stage;
         _pause.SetActive(true);
     }
 

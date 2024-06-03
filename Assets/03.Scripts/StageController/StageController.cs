@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class StageController : MonoBehaviour
 {
@@ -30,11 +31,15 @@ public class StageController : MonoBehaviour
     [SerializeField] private TMP_Text _stageGameOverLevelText;
     [SerializeField] private TMP_Text _stageGameOverExpText;
     [SerializeField] private Slider _stageGameOverExpSlider;
-
     private bool _isGameOver;
 
     [Header("StageTitle")]
     [SerializeField] private TMP_Text _stageTitleText;
+
+    [Header("Camera")]
+    [SerializeField] private GameObject _virtualCamera;
+    private Camera _mainCamera;
+    private CameraController _cameraController;
 
     [HideInInspector] public int StageExp;
     private float _time;
@@ -49,6 +54,8 @@ public class StageController : MonoBehaviour
         _gameData = GameManager.I.DataManager.GameData;
         _dataManager = GameManager.I.DataManager;
         _inventory = _dataManager.DataWrapper.CharacterInventory;
+        _mainCamera = Camera.main;
+        _cameraController = _mainCamera.GetComponent<CameraController>();
         _time = 180f;
         _isGameClear = false;
         _isGameOver = false;
@@ -58,12 +65,14 @@ public class StageController : MonoBehaviour
         StageSetting();
         StageTextSetting();
         CoinSetting();
+        StartCoroutine(COStartCameraSetting());
 
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     private void Update()
     {
+
         _time -= Time.deltaTime;
         TimeTextUpdate();
 
@@ -136,7 +145,7 @@ public class StageController : MonoBehaviour
         _stageClearExpText.text = _dataManager.PlayerData.CurrentExp.ToString() + "/" + _dataManager.PlayerData.MaxExp.ToString();
         _stageClearExpSlider.value = (float)_dataManager.PlayerData.CurrentExp / _dataManager.PlayerData.MaxExp;
 
-        //GameManager.I.DataManager.GameData.Stage++;
+        GameManager.I.DataManager.GameData.Stage++;
         _gameClear.SetActive(true);
 
         GameManager.I.DataManager.DataSave();
@@ -262,4 +271,15 @@ public class StageController : MonoBehaviour
         return -1;
     }
     #endregion
+
+    #region Camera
+    IEnumerator COStartCameraSetting()
+    {
+        yield return new WaitForSecondsRealtime(4f);
+
+        _virtualCamera.SetActive(false);
+        _mainCamera.transform.rotation = Quaternion.Euler(_cameraController.OriginCameraRotation);
+    }
+    #endregion
+
 }
