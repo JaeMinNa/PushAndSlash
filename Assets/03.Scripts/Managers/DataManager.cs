@@ -10,8 +10,11 @@ public class GameData
     public string UserName;
     public int Stage;
     public int Coin;
+
+    [Header("Settings")]
     public float SFXValume;
     public float BGMValume;
+    public int CameraSettingValue;
 }
 
 [System.Serializable]

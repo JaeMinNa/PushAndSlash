@@ -75,6 +75,7 @@ MonoBehaviour:
     Coin: 0
     SFXValume: 0
     BGMValume: 0
+    CameraSettingValue: 3
   DataWrapper:
     CharacterInventory: []
     CharacterDatas:

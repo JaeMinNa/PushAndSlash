@@ -39,11 +39,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.I.ScenesManager.CurrentSceneName == "LobbySence")
-        {
-            
-        }
-        else
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
             _dashTime += Time.deltaTime;
             _skillTime += Time.deltaTime;
@@ -52,7 +48,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SoundSetting();
+        if (GameManager.I.ScenesManager.CurrentSceneName != "StartScene") SoundSetting();
+        
         //inputField.ActivateInputField();
     }
 
@@ -64,11 +61,7 @@ public class UIManager : MonoBehaviour
         _playerData = GameManager.I.DataManager.PlayerData;
         _gameData = GameManager.I.DataManager.GameData;
 
-        if (GameManager.I.ScenesManager.CurrentSceneName == "LobbySence")
-        {
-
-        }
-        else
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
             _dashTime = 0f;
             _skillTime = 0f;
@@ -306,7 +299,7 @@ public class UIManager : MonoBehaviour
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         GameManager.I.DataManager.DataSave();
-        GameManager.I.ScenesManager.LoadScene("LobbySence");
+        GameManager.I.ScenesManager.LoadLoadingScene("LobbySence");
     }
     #endregion
 }

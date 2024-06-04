@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    //private Vector3 _originRotation;
     private CameraController _cameraController;
 
     private void Start()
     {
         _cameraController = GetComponent<CameraController>();
-        //_originRotation = transform.rotation.eulerAngles;
     }
 
     public IEnumerator COShake(float shakeAmount, float shakeTime)

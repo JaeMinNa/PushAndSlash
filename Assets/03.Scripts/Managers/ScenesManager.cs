@@ -11,7 +11,7 @@ public class ScenesManager : MonoBehaviour
     {
         CurrentSceneName = SceneManager.GetActiveScene().name;
 
-        if (CurrentSceneName == "BattleSence1")
+        if (CurrentSceneName == "BattleScene1")
         {
             GameObject playerPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/" + GameManager.I.DataManager.PlayerData.Tag), Vector3.zero, Quaternion.identity);
             GameManager.I.PlayerManager.Player = playerPrefab;
@@ -21,6 +21,11 @@ public class ScenesManager : MonoBehaviour
     public void Release()
     {
 
+    }
+
+    public void LoadLoadingScene(string name)
+    {
+        LoadingScene.LoadScene(name);
     }
 
     public void LoadScene(string name)
