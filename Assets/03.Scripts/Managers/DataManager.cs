@@ -10,6 +10,7 @@ public class GameData
     public string UserName;
     public int Stage;
     public int Coin;
+    public int RankPoint;
 
     [Header("Settings")]
     public float SFXValume;
@@ -81,14 +82,10 @@ public class DataManager : MonoBehaviour
     public CharacterData PlayerData;
     public GameData GameData;
     public DataWrapper DataWrapper;
-    //public CharacterData[] CharacterDatas;
 
     public void Init()
     {
         DataLoad();
-        //CharacterDatas = (CharacterData[])DataWrapper.CharacterDatas.Clone();
-        //CharacterDatas = new CharacterData[DataWrapper.CharacterDatas.Length];
-        //Array.Copy(DataWrapper.CharacterDatas, CharacterDatas, DataWrapper.CharacterDatas.Length);
     }
 
     public void Release()

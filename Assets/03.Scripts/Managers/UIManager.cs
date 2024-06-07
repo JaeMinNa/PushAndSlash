@@ -266,7 +266,7 @@ public class UIManager : MonoBehaviour
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         GameManager.I.DataManager.GameData.UserName = _userNameInputField.text;
 
-        if(GameManager.I.ScenesManager.CurrentSceneName == "LobbySence")
+        if(GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
             _lobbyController = GameObject.FindWithTag("LobbyController").GetComponent<LobbyController>();
             _lobbyController.UserNameSetting();

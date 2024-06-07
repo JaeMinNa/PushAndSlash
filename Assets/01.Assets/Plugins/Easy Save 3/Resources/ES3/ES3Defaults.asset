@@ -33,6 +33,11 @@ MonoBehaviour:
     - Assembly-CSharp
     - Cinemachine
     - ECM2
+    - PhotonChat
+    - PhotonRealtime
+    - PhotonUnityNetworking
+    - PhotonUnityNetworking.Demos
+    - PhotonUnityNetworking.Utilities
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

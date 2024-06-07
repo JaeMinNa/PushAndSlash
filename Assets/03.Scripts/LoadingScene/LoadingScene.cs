@@ -39,8 +39,7 @@ public class LoadingScene : MonoBehaviour
         {
             yield return null;
             timer += Time.deltaTime;
-            Debug.Log("_loadingBar : " + _loadingBar.value);
-            Debug.Log("progress : " + op.progress);
+           
             if (op.progress < 0.9f)
             {
                 _loadingBar.value = Mathf.Lerp(_loadingBar.value, op.progress, timer);
