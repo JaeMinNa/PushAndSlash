@@ -276,6 +276,7 @@ public class LobbyController : MonoBehaviour
             _InventoryImageObject.transform.GetChild(i).gameObject.SetActive(false);
         }
 
+        _InventoryImageObject.transform.Find("LenderCamera").gameObject.SetActive(true);
         _InventoryImageObject.transform.Find(GameManager.I.DataManager.PlayerData.Tag).gameObject.SetActive(true);
         _InventoryImage.color = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
     }
