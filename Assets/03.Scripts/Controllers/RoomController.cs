@@ -3,28 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
-using TMPro;
 
 public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
 {
-    //[SerializeField] private TMP_Text _roomEnemyCharacterNameText;
-    //[SerializeField] private TMP_Text _roomEnemyCharacterLevelText;
-    //[SerializeField] private TMP_Text _roomEnemyCharacterRankText;
-    //[SerializeField] private TMP_Text _roomEnemyUserNameText;
-    //[SerializeField] private TMP_Text _roomEnemyRankPointText;
-    //[SerializeField] private GameObject _roomEnemyCharacterImageObject;
-    //[SerializeField] private GameObject[] _roomEnemyCharacterUpgradeStars;
+    [SerializeField] private bool _myIsReady;
+    [SerializeField] private bool _enemyIsReady;
     private PhotonView _photonView;
     private NetworkManager _networkManager;
-    public bool _isJoin;
-    public string _roomEnemyCharacterName;
-    public int _roomEnemyCharacterLevel;
-    public string _roomEnemyCharacterRank;
-    public string _roomEnemyUserName;
-    public int _roomEnemyRankPoint;
-    public int _roomEnemyCharacterStar;
-    public string _roomEnemyCharacterKorTag;
+    private bool _isJoin;
+    private bool _isGameStart;
+    private bool _isReady;
+    private string _roomEnemyCharacterName;
+    private int _roomEnemyCharacterLevel;
+    private string _roomEnemyCharacterRank;
+    private string _roomEnemyUserName;
+    private int _roomEnemyRankPoint;
+    private int _roomEnemyCharacterStar;
+    private string _roomEnemyCharacterKorTag;
 
 
     private void Awake()
@@ -36,7 +31,36 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         _isJoin = false;
+        _isGameStart = false;
+        _isReady = false;
+        _myIsReady = false;
+        _enemyIsReady = false;
         StartCoroutine(COUpdate());
+    }
+
+    private void Update()
+    {
+        _myIsReady = _networkManager.IsReady;
+
+        if (!_photonView.IsMine)
+        {
+            if (_enemyIsReady && !_isReady)
+            {
+                _isReady = true;
+                _networkManager.EnemyReadyActive(true);
+            }
+            else if(!_enemyIsReady && _isReady)
+            {
+                _isReady = false;
+                _networkManager.EnemyReadyActive(false);
+            }
+
+            if (_myIsReady && _enemyIsReady && !_isGameStart)
+            {
+                _isGameStart = true;
+                Debug.Log("멀티 대전 시작!");
+            }
+        }
     }
 
 
@@ -57,48 +81,9 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            yield return null; // 다음 프레임까지 대기
+            yield return null;
         }
     }
-
-    //private void EnemyDataSettingInRoom()
-    //{
-    //    _roomEnemyCharacterNameText.text = _roomEnemyCharacterName;
-    //    _roomEnemyCharacterLevelText.text = "Lv " + _roomEnemyCharacterLevel.ToString();
-    //    _roomEnemyCharacterRankText.text = _roomEnemyCharacterRank;
-    //    _roomEnemyUserNameText.text = _roomEnemyUserName;
-    //    _roomEnemyRankPointText.text = _roomEnemyRankPoint.ToString();
-    //    MultiPlayEnemyImageSetting(_roomEnemyCharacterName);
-    //    ActiveEnemyStar(_roomEnemyCharacterStar);
-
-    //    for (int i = 0; i < _roomEnemyInfoObjects.Length; i++)
-    //    {
-    //        _roomEnemyInfoObjects[i].SetActive(true);
-    //    }
-    //}
-
-    //private void ActiveEnemyStar(int starNum)
-    //{
-    //    for (int i = 0; i < 5; i++)
-    //    {
-    //        _roomEnemyCharacterUpgradeStars[i].SetActive(false);
-    //    }
-
-    //    if (starNum == 0) return;
-    //    else _roomEnemyCharacterUpgradeStars[starNum - 1].SetActive(true);
-    //}
-
-    //private void MultiPlayEnemyImageSetting(string tag)
-    //{
-    //    int count = _roomEnemyCharacterImageObject.transform.childCount;
-
-    //    for (int i = 0; i < count; i++)
-    //    {
-    //        _roomEnemyCharacterImageObject.transform.GetChild(i).gameObject.SetActive(false);
-    //    }
-
-    //    _roomEnemyCharacterImageObject.transform.Find(tag).gameObject.SetActive(true);
-    //}
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -111,6 +96,7 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(GameManager.I.DataManager.GameData.RankPoint);
             stream.SendNext(GameManager.I.DataManager.PlayerData.Star);
             stream.SendNext(GameManager.I.DataManager.PlayerData.Tag);
+            stream.SendNext(_myIsReady);
         }
         else
         {
@@ -121,6 +107,7 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
             _roomEnemyRankPoint = (int)stream.ReceiveNext();
             _roomEnemyCharacterStar = (int)stream.ReceiveNext();
             _roomEnemyCharacterKorTag = (string)stream.ReceiveNext();
+            _enemyIsReady = (bool)stream.ReceiveNext();
         }
     }
 }

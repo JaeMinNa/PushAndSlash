@@ -9,6 +9,7 @@ using TMPro;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _multiPlayPanel;
+    public bool IsReady;
 
     [Header("RoomMyCharacterInfo")]
     [SerializeField] private GameObject[] _roomMyInfoObjects;
@@ -19,6 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text _roomMyRankPointText;
     [SerializeField] private GameObject _roomMyCharacterImageObject;
     [SerializeField] private GameObject[] _roomMyCharacterUpgradeStars;
+    [SerializeField] private GameObject _roomMyReadyText;
 
     [Header("RoomEnemyCharacterInfo")]
     [SerializeField] private GameObject[] _roomEnemyInfoObjects;
@@ -29,26 +31,18 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text _roomEnemyRankPointText;
     [SerializeField] private GameObject _roomEnemyCharacterImageObject;
     [SerializeField] private GameObject[] _roomEnemyCharacterUpgradeStars;
+    [SerializeField] private GameObject _roomEnemyReadyText;
 
     private bool _isNoEnemy;
-    //public string _roomEnemyCharacterName;
-    //public int _roomEnemyCharacterLevel;
-    //public string _roomEnemyCharacterRank;
-    //public string _roomEnemyUserName;
-    //public int _roomEnemyRankPoint;
-    //public int _roomEnemyCharacterStar;
-
-    //private PhotonView _photonView;
 
     private void Start()
     {
         _isNoEnemy = true;
+        IsReady = false;
     }
 
     private void Awake()
     {
-        //_photonView = GetComponent<PhotonView>();
-
         Screen.SetResolution(960, 540, false);
     }
 
@@ -200,6 +194,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             _roomEnemyInfoObjects[i].SetActive(false);
         }
 
+        IsReady = false;
+        _roomMyReadyText.SetActive(false);
+        _roomEnemyReadyText.SetActive(false);
+
         _multiPlayPanel.SetActive(true);
         Connect();
     }
@@ -229,11 +227,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void EnemyDataSettingInRoom(string characterName, int level, string rank, string userName, int rankPoint, int star, string tag)
     {
-        //for (int i = 0; i < _roomEnemyInfoObjects.Length; i++)
-        //{
-        //    _roomEnemyInfoObjects[i].SetActive(true);
-        //}
-
         _roomEnemyCharacterNameText.text = characterName;
         _roomEnemyCharacterLevelText.text = "Lv " + level.ToString();
         _roomEnemyCharacterRankText.text = rank;
@@ -302,48 +295,41 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             _roomEnemyInfoObjects[i].SetActive(false);
         }
+
+        _roomEnemyReadyText.SetActive(false);
     }
 
-    //[PunRPC]
-    //private void JoinRoom(CharacterData playerData, GameData gameData)
-    //{
-    //    _roomEnemyCharacterNameText.text = playerData.KoreaTag;
-    //    _roomEnemyCharacterLevelText.text = "Lv " + playerData.Level.ToString();
-    //    _roomEnemyCharacterRankText.text = playerData.CharacterRank.ToString();
-    //    _roomEnemyUserNameText.text = PhotonNetwork.LocalPlayer.NickName;
-    //    _roomEnemyRankPointText.text = gameData.RankPoint.ToString();
-    //    MultiPlayEnemyImageSetting(playerData);
-    //    ActiveEnemyStar(playerData.Star);
-
-    //    EnemyDataSettingInRoom();
-
-    //public string _roomEnemyCharacterName;
-    //public int _roomEnemyCharacterLevel;
-    //public string _roomEnemyCharacterRank;
-    //public string _roomEnemyUserName;
-    //public int _roomEnemyRankPoint;
-    //}
-
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if(stream.IsWriting)
-    //    {
-    //        stream.SendNext(GameManager.I.DataManager.PlayerData.KoreaTag);
-    //        stream.SendNext(GameManager.I.DataManager.PlayerData.Level);
-    //        stream.SendNext(GameManager.I.DataManager.PlayerData.CharacterRank);
-    //        stream.SendNext(GameManager.I.DataManager.GameData.UserName);
-    //        stream.SendNext(GameManager.I.DataManager.GameData.RankPoint);
-    //        stream.SendNext(GameManager.I.DataManager.PlayerData.Star);
-    //    }
-    //    else
-    //    {
-    //        _roomEnemyCharacterName = (string)stream.ReceiveNext();
-    //        _roomEnemyCharacterLevel = (int)stream.ReceiveNext();
-    //        _roomEnemyCharacterRank = (string)stream.ReceiveNext();
-    //        _roomEnemyUserName = (string)stream.ReceiveNext();
-    //        _roomEnemyRankPoint = (int)stream.ReceiveNext();
-    //        _roomEnemyCharacterStar = (int)stream.ReceiveNext();
-    //    }
-    //}
+    public void ReadyButton()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            if (IsReady)
+            {
+                GameManager.I.SoundManager.StartSFX("ButtonClick");
+                IsReady = false;
+                _roomMyReadyText.SetActive(false);
+            }
+            else
+            {
+                GameManager.I.SoundManager.StartSFX("Ready");
+                IsReady = true;
+                _roomMyReadyText.SetActive(true);
+            }
+        }
+        else GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+    }
+    
+    public void EnemyReadyActive(bool bo)
+    {
+        if (bo)
+        {
+            GameManager.I.SoundManager.StartSFX("Ready");
+            _roomEnemyReadyText.SetActive(true);
+        }
+        else
+        {
+            _roomEnemyReadyText.SetActive(false);
+        }
+    }
     #endregion
 }

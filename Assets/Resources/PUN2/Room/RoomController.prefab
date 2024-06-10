@@ -45,14 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767b867ab527dca478de84bb18306c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isJoin: 0
-  _roomEnemyCharacterName: 
-  _roomEnemyCharacterLevel: 0
-  _roomEnemyCharacterRank: 
-  _roomEnemyUserName: 
-  _roomEnemyRankPoint: 0
-  _roomEnemyCharacterStar: 0
-  _roomEnemyCharacterKorTag: 
+  _myIsReady: 0
+  _enemyIsReady: 0
 --- !u!114 &2987085882084407143
 MonoBehaviour:
   m_ObjectHideFlags: 0
