@@ -32,7 +32,6 @@ public class UIManager : MonoBehaviour
     private CharacterData _playerData;
     private GameData _gameData;
     private LobbyController _lobbyController;
-    //private GameData _gameData;
     private float _dashTime;
     private float _skillTime;
     private TouchScreenKeyboard _keyboard;

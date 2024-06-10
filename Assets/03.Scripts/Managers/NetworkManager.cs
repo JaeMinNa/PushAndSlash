@@ -9,7 +9,7 @@ using TMPro;
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject _multiPlayPanel;
-    public bool IsReady;
+    [HideInInspector] public bool IsReady;
 
     [Header("RoomMyCharacterInfo")]
     [SerializeField] private GameObject[] _roomMyInfoObjects;
@@ -33,6 +33,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] _roomEnemyCharacterUpgradeStars;
     [SerializeField] private GameObject _roomEnemyReadyText;
 
+    [Header("Chat")]
+    public TMP_InputField ChatInputText;
+    public TMP_Text[] ChatTexts;
+    public Button SendChatButton;
+
     private bool _isNoEnemy;
 
     private void Start()
@@ -43,6 +48,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        //_photonView = GetComponent<PhotonView>();
         Screen.SetResolution(960, 540, false);
     }
 
@@ -192,6 +198,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < _roomEnemyInfoObjects.Length; i++)
         {
             _roomEnemyInfoObjects[i].SetActive(false);
+        }
+
+        for (int i = 0; i < ChatTexts.Length; i++)
+        {
+            ChatTexts[i].text = "";
         }
 
         IsReady = false;

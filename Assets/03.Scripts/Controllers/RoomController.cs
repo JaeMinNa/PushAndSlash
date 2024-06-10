@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
+using UnityEngine.UI;
 
 public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -20,12 +22,17 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
     private int _roomEnemyRankPoint;
     private int _roomEnemyCharacterStar;
     private string _roomEnemyCharacterKorTag;
+    private TMP_Text[] _chatTexts;
+    private Button _sendChatButton;
 
 
     private void Awake()
     {
+        Screen.SetResolution(960, 540, false);
         _networkManager = GameObject.FindWithTag("NetworkManager").GetComponent<NetworkManager>();
         _photonView = GetComponent<PhotonView>();
+        _chatTexts = _networkManager.ChatTexts;
+        _sendChatButton = _networkManager.SendChatButton;
     }
 
     private void Start()
@@ -35,6 +42,11 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
         _isReady = false;
         _myIsReady = false;
         _enemyIsReady = false;
+        _sendChatButton.onClick.AddListener(SendChat);
+
+        if (_photonView.IsMine)
+            _photonView.RPC("ChatRPC", RpcTarget.All, "<color=yellow>" + PhotonNetwork.NickName + "¥‘¿Ã ¬¸∞°«œºÃΩ¿¥œ¥Ÿ.</color>");
+
         StartCoroutine(COUpdate());
     }
 
@@ -63,6 +75,12 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    #region Join
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        if (_photonView.IsMine)
+            _photonView.RPC("ChatRPC", RpcTarget.All, "<color=yellow>" + otherPlayer.NickName + "¥‘¿Ã ≈¿Â«œºÃΩ¿¥œ¥Ÿ.</color>");
+    }
 
     IEnumerator COUpdate()
     {
@@ -77,14 +95,59 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
                     _isJoin = true;
 
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-                        _networkManager.EnemyDataSettingInRoom(_roomEnemyCharacterName, _roomEnemyCharacterLevel, _roomEnemyCharacterRank.ToString(), _roomEnemyUserName, _roomEnemyRankPoint, _roomEnemyCharacterStar, _roomEnemyCharacterKorTag);
+                    {
+                        _networkManager.EnemyDataSettingInRoom(_roomEnemyCharacterName, _roomEnemyCharacterLevel, _roomEnemyCharacterRank.ToString(),
+                            _roomEnemyUserName, _roomEnemyRankPoint, _roomEnemyCharacterStar, _roomEnemyCharacterKorTag);
+                    }             
                 }
             }
 
             yield return null;
         }
     }
+    #endregion
 
+    #region Chat
+    private void SendChat()
+    {
+        if (_photonView.IsMine)
+        {
+            GameManager.I.SoundManager.StartSFX("ButtonClick");
+
+            string chat = PhotonNetwork.NickName + " : " + _networkManager.ChatInputText.text;
+            _photonView.RPC("ChatRPC", RpcTarget.All, chat);
+            _networkManager.ChatInputText.text = "";
+        }
+    }
+
+    [PunRPC]
+    public void ChatRPC(string str)
+    {
+        bool isInput = false;
+
+        for (int i = 0; i < _chatTexts.Length; i++)
+        {
+            if (_chatTexts[i].text == "")
+            {
+                isInput = true;
+                _chatTexts[i].text = str;
+                break;
+            }
+        }
+
+        if (!isInput)
+        {
+            for (int i = 1; i < _chatTexts.Length; i++)
+            {
+                _chatTexts[i - 1].text = _chatTexts[i].text;
+            }
+
+            _chatTexts[_chatTexts.Length - 1].text = str;
+        }
+    }
+    #endregion
+
+    #region Data
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -110,4 +173,5 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
             _enemyIsReady = (bool)stream.ReceiveNext();
         }
     }
+    #endregion
 }
