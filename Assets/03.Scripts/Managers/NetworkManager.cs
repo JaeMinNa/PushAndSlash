@@ -32,13 +32,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _roomEnemyCharacterImageObject;
     [SerializeField] private GameObject[] _roomEnemyCharacterUpgradeStars;
     [SerializeField] private GameObject _roomEnemyReadyText;
+    private bool _isNoEnemy;
 
     [Header("Chat")]
     public TMP_InputField ChatInputText;
     public TMP_Text[] ChatTexts;
     public Button SendChatButton;
-
-    private bool _isNoEnemy;
 
     private void Start()
     {
