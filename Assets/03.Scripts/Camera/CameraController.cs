@@ -10,11 +10,16 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        _player = GameManager.I.PlayerManager.Player;
+        CameraSetting();
     }
 
     void LateUpdate()
     {
         transform.position = _player.transform.position + Offset;
+    }
+
+    public void CameraSetting()
+    {
+        _player = GameManager.I.PlayerManager.Player;
     }
 }

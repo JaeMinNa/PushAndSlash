@@ -17,9 +17,6 @@ namespace ECM2.Examples.Slide
         private CharacterData _playerData;
         private Rigidbody _rigidbody;
         private Animator _anim;
-        //private StageController _stageController;
-        //private float _time;
-        //private bool _isGameOver;
 
         /// <summary>
         /// Our custom movement mode(s) id(s).
@@ -36,37 +33,18 @@ namespace ECM2.Examples.Slide
             _playerData = GameManager.I.DataManager.PlayerData;
             _rigidbody = GetComponent<Rigidbody>();
             _anim = transform.GetChild(0).GetComponent<Animator>();
-            //_stageController = GameObject.Find("StageController").GetComponent<StageController>();
         }
 
         protected override void Start()
         {
             base.Start();
-            //_rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             PlayerSetting();
             IsSkill = false;
-            //_time = 0f;
-            //_isGameOver = false;
         }
 
         private void Update()
         {
-            Debug.Log(IsGrounded());
 
-            //if(!IsGrounded())
-            //{
-            //    _time += Time.deltaTime;
-            //}
-            //else
-            //{
-            //    _time = 0f;
-            //}
-
-            //if (_time >= 3f && !_isGameOver)
-            //{
-            //    _isGameOver = true;
-            //    GameOver();
-            //}
         }
 
         /// <summary>

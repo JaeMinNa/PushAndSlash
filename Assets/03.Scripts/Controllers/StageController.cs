@@ -63,7 +63,10 @@ public class StageController : MonoBehaviour
         StageCoin = 0;
         _stageCoinBondus = 0;
 
-        StageSetting();
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        {
+            StageSetting();
+        }
         StageTextSetting();
         CoinSetting();
         StartCoroutine(COStartCameraSetting());
@@ -72,20 +75,22 @@ public class StageController : MonoBehaviour
 
     private void Update()
     {
-
-        _time -= Time.deltaTime;
-        TimeTextUpdate();
-
-        if (!IsEnemy() && !_isGameClear)
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
-            _isGameClear = true;
-            GameClear();
-        }
+            _time -= Time.deltaTime;
+            TimeTextUpdate();
 
-        if ((_time <= 0 || !IsPlayer()) && !_isGameOver)
-        {
-            _isGameOver = true;
-            GameOver();
+            if (!IsEnemy() && !_isGameClear)
+            {
+                _isGameClear = true;
+                GameClear();
+            }
+
+            if ((_time <= 0 || !IsPlayer()) && !_isGameOver)
+            {
+                _isGameOver = true;
+                GameOver();
+            }
         }
     }
 
@@ -104,9 +109,18 @@ public class StageController : MonoBehaviour
 
     private void StageTextSetting()
     {
-        string name = GameManager.I.ScenesManager.CurrentSceneName.Substring(11);
-        _stageTitleText.text = _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
-        _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        {
+            string name = GameManager.I.ScenesManager.CurrentSceneName.Substring(11);
+            _stageTitleText.text = _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
+            _stageText.text = "Chapter " + name + "-" + _gameData.Stage;
+        }
+        else if(GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            _stageTitleText.text = "MULTI PLAY";
+            _stageText.text = "MULTI PLAY";
+        }
+        
     }
 
     public void CoinSetting()

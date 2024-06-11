@@ -39,10 +39,38 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public TMP_Text[] ChatTexts;
     public Button SendChatButton;
 
+    [Header("BattleScene")]
+    [SerializeField] private Transform _startposition1;
+    [SerializeField] private Transform _startposition2;
+    private GameData _gameData;
+    private CharacterData _playerData;
+    private CameraController _cameraControler;
+
     private void Start()
     {
         _isNoEnemy = true;
         IsReady = false;
+        _gameData = GameManager.I.DataManager.GameData;
+        _playerData = GameManager.I.DataManager.PlayerData;
+
+        if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            _cameraControler = Camera.main.GetComponent<CameraController>();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                GameObject playerPrefab = PhotonNetwork.Instantiate("Prefabs/Characters/" + _playerData.Tag, _startposition1.position, Quaternion.identity);
+                GameManager.I.PlayerManager.Player = playerPrefab;
+            }
+            else
+            {
+                GameObject playerPrefab = PhotonNetwork.Instantiate("Prefabs/Characters/" + _playerData.Tag, _startposition2.position, Quaternion.identity);
+                GameManager.I.PlayerManager.Player = playerPrefab;
+            }
+            _cameraControler.CameraSetting();
+
+            //Connect();
+        }
     }
 
     private void Awake()
@@ -53,18 +81,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (PhotonNetwork.InRoom)
+        if(GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && _isNoEnemy)
+            if (PhotonNetwork.InRoom)
             {
-                _isNoEnemy = false;
-                NoEnemyInRoom();
-            }
-            else if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && !_isNoEnemy)
-            {
-                _isNoEnemy = true;
+                if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && _isNoEnemy)
+                {
+                    _isNoEnemy = false;
+                    NoEnemyInRoom();
+                }
+                else if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && !_isNoEnemy)
+                {
+                    _isNoEnemy = true;
+                }
             }
         }
+        else if(GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+
+        }
+    }
+
+    public void MultiSceneTestButton()
+    {
+        GameManager.I.DataManager.DataSave();
+        GameManager.I.ScenesManager.LoadLoadingScene("MultiBattleScene1");
     }
 
     #region Common
@@ -76,8 +117,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("서버접속완료");
         PhotonNetwork.LocalPlayer.NickName = GameManager.I.DataManager.GameData.UserName;
-        MyDataSettingInRoom();
-        JoinRandomOrCreateRoom();
+
+        if(GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
+        {
+            MyDataSettingInRoom();
+            JoinRandomOrCreateRoom();
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            //JoinOrCreateRoom();
+        }
     }
 
     public void DisConnect()
@@ -112,7 +161,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinOrCreateRoom()
     {
-        string roomName = "Room";
+        string roomName = "";
         PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 2 }, null);
     }
 
@@ -139,7 +188,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방참가완료");
-        PhotonNetwork.Instantiate("PUN2/Room/RoomController", transform.position, Quaternion.identity);
+
+        if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
+        {
+            PhotonNetwork.Instantiate("PUN2/Room/RoomController", transform.position, Quaternion.identity);
+
+            //GameManager.I.DataManager.GameData.RoomName = PhotonNetwork.CurrentRoom.Name;
+
+            if (PhotonNetwork.IsMasterClient) GameManager.I.DataManager.GameData.IsMaster = true;
+            else GameManager.I.DataManager.GameData.IsMaster = false;
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -165,6 +223,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Debug.Log("현재 방 이름 : " + PhotonNetwork.CurrentRoom.Name);
             Debug.Log("현재 방 인원수 : " + PhotonNetwork.CurrentRoom.PlayerCount);
             Debug.Log("현재 방 최대 인원수 : " + PhotonNetwork.CurrentRoom.MaxPlayers);
+            Debug.Log("현재 방의 마스터 클라이언트인지? : " + PhotonNetwork.IsMasterClient);
 
             string playerStr = "방에 있는 플레이어 목록 : ";
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)

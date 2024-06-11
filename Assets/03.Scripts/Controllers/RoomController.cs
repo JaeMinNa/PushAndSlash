@@ -29,6 +29,8 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
     private void Awake()
     {
         Screen.SetResolution(960, 540, false);
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         _networkManager = GameObject.FindWithTag("NetworkManager").GetComponent<NetworkManager>();
         _photonView = GetComponent<PhotonView>();
         _chatTexts = _networkManager.ChatTexts;
@@ -66,11 +68,16 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
                 _isReady = false;
                 _networkManager.EnemyReadyActive(false);
             }
+        }
 
+        if(PhotonNetwork.IsMasterClient)
+        {
             if (_myIsReady && _enemyIsReady && !_isGameStart)
             {
                 _isGameStart = true;
-                Debug.Log("멀티 대전 시작!");
+                GameManager.I.DataManager.DataSave();
+                //GameManager.I.ScenesManager.LoadLoadingScene("MultiBattleScene1");
+                PhotonNetwork.LoadLevel("MultiBattleScene1");
             }
         }
     }

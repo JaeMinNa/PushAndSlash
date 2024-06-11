@@ -6,6 +6,8 @@ using ECM2.Examples.Slide;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class UIManager : MonoBehaviour
 {
@@ -38,7 +40,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1" || GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
             _dashTime += Time.deltaTime;
             _skillTime += Time.deltaTime;
@@ -60,7 +62,7 @@ public class UIManager : MonoBehaviour
         _playerData = GameManager.I.DataManager.PlayerData;
         _gameData = GameManager.I.DataManager.GameData;
 
-        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1" || GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
             _dashTime = 0f;
             _skillTime = 0f;
@@ -194,7 +196,6 @@ public class UIManager : MonoBehaviour
             if (timer >= time)
             {
                 image.fillAmount = 1f;
-                //_playerCharacter.IsSkill = false;
                 break;
             }
             yield return null;
@@ -213,8 +214,17 @@ public class UIManager : MonoBehaviour
     public void PauseStartButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        Time.timeScale = 0f;
-        _pauseChapterText.text = "CHAPTER 1-" + _gameData.Stage;
+
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        {
+            Time.timeScale = 0f;
+            _pauseChapterText.text = "CHAPTER 1-" + _gameData.Stage;
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            _pauseChapterText.text = "MULTI PLAY";
+        }
+
         _pause.SetActive(true);
     }
 
@@ -297,8 +307,14 @@ public class UIManager : MonoBehaviour
     public void LobbyButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        GameManager.I.DataManager.DataSave();
-        GameManager.I.ScenesManager.LoadLoadingScene("LobbySence");
+        //GameManager.I.DataManager.DataSave();
+        DisConnect();
+        GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
+    }
+
+    private void DisConnect()
+    {
+        PhotonNetwork.Disconnect();
     }
     #endregion
 }

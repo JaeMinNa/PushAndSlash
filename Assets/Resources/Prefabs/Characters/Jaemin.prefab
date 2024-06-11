@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5033037537972506058}
   - component: {fileID: 3080837945109909839}
   - component: {fileID: 4760144916118084482}
+  - component: {fileID: 3484322314978756330}
+  - component: {fileID: 264581207647945506}
   m_Layer: 7
   m_Name: Jaemin
   m_TagString: Player
@@ -148,6 +150,7 @@ MonoBehaviour:
   maxPitch: 80
   _dashSpeed: 5
   _dashTime: 0.7
+  _photonView: {fileID: 0}
 --- !u!114 &4760144916118084482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +209,44 @@ MonoBehaviour:
   slideImpulse: 50
   slideDownAcceleration: 20
   IsSkill: 0
+--- !u!114 &3484322314978756330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817880634313213296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &264581207647945506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817880634313213296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1010807039127229326
 GameObject:
   m_ObjectHideFlags: 0

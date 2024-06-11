@@ -1,5 +1,7 @@
 using UnityEngine;
 using ECM2.Examples.Slide;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace ECM2.Examples.ThirdPerson
 {
@@ -47,12 +49,10 @@ namespace ECM2.Examples.ThirdPerson
         private PlayerCharacter _playerCharacter;
         private Rigidbody _rigidbody;
         private VariableJoystick _joystick;
-        //private Vector3 _playerDir;
-        //private bool _isDashMode;
-        //private float _time;
-        //private float _originPlayerSpeed;
+  
         public float _dashSpeed;
         public float _dashTime;
+        public PhotonView _photonView;
 
         /// <summary>
         /// Add input (affecting Yaw).
@@ -123,6 +123,7 @@ namespace ECM2.Examples.ThirdPerson
             _playerCharacter = GetComponent<PlayerCharacter>();
             _rigidbody = GetComponent<Rigidbody>();
             _joystick = GameObject.FindWithTag("Joystick").GetComponent<VariableJoystick>();
+            _photonView = GetComponent<PhotonView>();
         }
 
         protected virtual void Start()
@@ -141,31 +142,6 @@ namespace ECM2.Examples.ThirdPerson
 
         protected virtual void Update()
         {
-            //Vector3 movementDirection = Vector3.zero;
-
-            //Vector2 inputKeyboardMove = new Vector2()
-            //{
-            //    x = Input.GetAxisRaw("Horizontal"),
-            //    y = Input.GetAxisRaw("Vertical")
-            //};
-
-            //Vector2 inputJoystickMove = new Vector2()
-            //{
-            //    x = _joystick.Horizontal,
-            //    y = _joystick.Vertical
-            //};
-
-            //movementDirection += Vector3.right * inputKeyboardMove.x;
-            //movementDirection += Vector3.forward * inputKeyboardMove.y;
-            //movementDirection += Vector3.right * inputJoystickMove.x;
-            //movementDirection += Vector3.forward * inputJoystickMove.y;
-
-            //if (_playerCharacter.cameraTransform)
-            //    movementDirection = movementDirection.relativeTo(_playerCharacter.cameraTransform, _playerCharacter.GetUpVector());
-
-            //_playerCharacter.SetMovementDirection(movementDirection);
-
-
             // Movement input
 
             Vector2 inputKeyboardMove = new Vector2()
@@ -175,17 +151,30 @@ namespace ECM2.Examples.ThirdPerson
             };
 
             Vector2 inputJoystickMove = new Vector2()
-            {
+            {               
                 x = _joystick.Horizontal,
-                y = _joystick.Vertical
+                y = _joystick.Vertical           
             };
 
             Vector3 movementDirection = Vector3.zero;
 
-            movementDirection += Vector3.right * inputKeyboardMove.x;
-            movementDirection += Vector3.forward * inputKeyboardMove.y;
-            movementDirection += Vector3.right * inputJoystickMove.x;
-            movementDirection += Vector3.forward * inputJoystickMove.y;
+            if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+            {
+                movementDirection += Vector3.right * inputKeyboardMove.x;
+                movementDirection += Vector3.forward * inputKeyboardMove.y;
+                movementDirection += Vector3.right * inputJoystickMove.x;
+                movementDirection += Vector3.forward * inputJoystickMove.y;
+            }
+            else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+            {
+                if (_photonView.IsMine)
+                {
+                    movementDirection += Vector3.right * inputKeyboardMove.x;
+                    movementDirection += Vector3.forward * inputKeyboardMove.y;
+                    movementDirection += Vector3.right * inputJoystickMove.x;
+                    movementDirection += Vector3.forward * inputJoystickMove.y;
+                }
+            }
 
             if (_playerCharacter.cameraTransform)
                 movementDirection = movementDirection.relativeTo(_playerCharacter.cameraTransform, _playerCharacter.GetUpVector());

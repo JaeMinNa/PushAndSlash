@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4296552168637588752}
   - component: {fileID: 7295304316246970167}
   - component: {fileID: 2487601123939808815}
+  - component: {fileID: -255419832971837527}
+  - component: {fileID: -2430112434429979854}
   m_Layer: 7
   m_Name: Sangyeong
   m_TagString: Player
@@ -148,6 +150,7 @@ MonoBehaviour:
   maxPitch: 80
   _dashSpeed: 5
   _dashTime: 0.7
+  _photonView: {fileID: 0}
 --- !u!114 &2487601123939808815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +209,44 @@ MonoBehaviour:
   slideImpulse: 50
   slideDownAcceleration: 20
   IsSkill: 0
+--- !u!114 &-255419832971837527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114194583034395407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &-2430112434429979854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114194583034395407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3163181637635823306
 GameObject:
   m_ObjectHideFlags: 0
