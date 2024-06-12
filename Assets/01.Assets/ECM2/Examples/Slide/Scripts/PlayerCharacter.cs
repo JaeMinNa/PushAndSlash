@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace ECM2.Examples.Slide
 {
@@ -17,6 +19,7 @@ namespace ECM2.Examples.Slide
         private CharacterData _playerData;
         private Rigidbody _rigidbody;
         private Animator _anim;
+        private PhotonView _photonView;
 
         /// <summary>
         /// Our custom movement mode(s) id(s).
@@ -33,6 +36,7 @@ namespace ECM2.Examples.Slide
             _playerData = GameManager.I.DataManager.PlayerData;
             _rigidbody = GetComponent<Rigidbody>();
             _anim = transform.GetChild(0).GetComponent<Animator>();
+            _photonView = GetComponent<PhotonView>();
         }
 
         protected override void Start()
@@ -262,5 +266,53 @@ namespace ECM2.Examples.Slide
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             _rigidbody.isKinematic = true;
         }
+
+        #region RPC Animator
+        //public void SetBoolRun(bool bo)
+        //{
+        //    if(bo) _photonView.RPC("IsRun", RpcTarget.All, true);
+        //    else _photonView.RPC("IsRun", RpcTarget.All, false);
+        //}
+        //[PunRPC]
+        //public void IsRun(bool bo, PhotonMessageInfo info)
+        //{
+        //    if(bo) _anim.SetBool("Run", true);
+        //    else _anim.SetBool("Run", false);
+        //}
+
+        //public void SetBoolJump(bool bo)
+        //{
+        //    if (bo) _photonView.RPC("IsJump", RpcTarget.All, true);
+        //    else _photonView.RPC("IsJump", RpcTarget.All, false);
+        //}
+        //[PunRPC]
+        //public void IsJump(bool bo, PhotonMessageInfo info)
+        //{
+        //    if (bo) _anim.SetBool("Jump", true);
+        //    else _anim.SetBool("Jump", false);
+        //}
+
+        //public void SetBoolGround(bool bo)
+        //{
+        //    if (bo) _photonView.RPC("IsGround", RpcTarget.All, true);
+        //    else _photonView.RPC("IsGround", RpcTarget.All, false);
+        //}
+        //[PunRPC]
+        //public void IsGround(bool bo, PhotonMessageInfo info)
+        //{
+        //    if (bo) _anim.SetBool("Ground", true);
+        //    else _anim.SetBool("Ground", false);
+        //}
+
+        public void SetTriggerAttackRPC()
+        {
+            _photonView.RPC("AttackTrigger", RpcTarget.All);
+        }
+        [PunRPC]
+        private void AttackTrigger(PhotonMessageInfo info)
+        {
+            _anim.SetTrigger("Attack");
+         }
+        #endregion
     }
 }

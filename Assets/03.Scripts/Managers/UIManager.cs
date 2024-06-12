@@ -54,6 +54,14 @@ public class UIManager : MonoBehaviour
         //inputField.ActivateInputField();
     }
 
+    public void PlayerSetting()
+    {
+        _player = GameManager.I.PlayerManager.Player;
+        _playerAnimator = _player.transform.GetChild(0).GetComponent<Animator>();
+        _playerCharacter = _player.GetComponent<PlayerCharacter>();
+        _playerData = GameManager.I.DataManager.PlayerData;
+    }
+
     public void Init()
     {
         _player = GameManager.I.PlayerManager.Player;
@@ -142,44 +150,105 @@ public class UIManager : MonoBehaviour
     #region Joystick
     public void PlayerJumpButtonUp()
     {
-        _player.GetComponent<Character>().StopJumping();
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+            _player.GetComponent<Character>().StopJumping();
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if(_player.GetComponent<PhotonView>().IsMine)
+                _player.GetComponent<Character>().StopJumping();
+        }
+
     }
 
     public void PlayerJumpButtonDown()
     {
         _player.GetComponent<Character>().Jump();
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+            _player.GetComponent<Character>().Jump();
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_player.GetComponent<PhotonView>().IsMine)
+                _player.GetComponent<Character>().Jump();
+        }
     }
 
     public void PlayerAttack()
     {
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
             _playerAnimator.SetTrigger("Attack");
+            //_playerCharacter.SetTriggerAttackRPC();
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_player.GetComponent<PhotonView>().IsMine)
+                _playerAnimator.SetTrigger("Attack");
+                //_playerCharacter.SetTriggerAttackRPC();
+        }
     }
 
     public void PlayerDashButtonUp()
     {
-        _playerCharacter.UnCrouch();
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+            _playerCharacter.UnCrouch();
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_player.GetComponent<PhotonView>().IsMine)
+                _playerCharacter.UnCrouch();
+        }
     }
 
     public void PlayerDashButtonDown()
     {
-        if(_dashTime >= _playerData.DashCoolTime)
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
-            StartCoroutine(COCoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
-            _playerAnimator.SetTrigger("Dash");
-            _playerCharacter.Crouch();
-            _dashTime = 0f;
+            if (_dashTime >= _playerData.DashCoolTime)
+            {
+                StartCoroutine(COCoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
+                _playerAnimator.SetTrigger("Dash");
+                _playerCharacter.Crouch();
+                _dashTime = 0f;
+            }
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_player.GetComponent<PhotonView>().IsMine)
+            {
+                if (_dashTime >= _playerData.DashCoolTime)
+                {
+                    StartCoroutine(COCoolTimeRoutine(_dashImage, _playerData.DashCoolTime));
+                    _playerAnimator.SetTrigger("Dash");
+                    _playerCharacter.Crouch();
+                    _dashTime = 0f;
+                }
+            }
         }
     }
 
     public void PlayerSkillButton()
     {
-        if (_skillTime >= _playerData.SkillCoolTime)
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
-            StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
-            StartCoroutine(COIsSkillFalse());
-            _playerAnimator.SetTrigger("Skill");
-            _skillTime = 0f;
-            _playerCharacter.IsSkill = true;
+            if (_skillTime >= _playerData.SkillCoolTime)
+            {
+                StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+                StartCoroutine(COIsSkillFalse());
+                _playerAnimator.SetTrigger("Skill");
+                _skillTime = 0f;
+                _playerCharacter.IsSkill = true;
+            }
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_player.GetComponent<PhotonView>().IsMine)
+            {
+                if (_skillTime >= _playerData.SkillCoolTime)
+                {
+                    StartCoroutine(COCoolTimeRoutine(_skillImage, _playerData.SkillCoolTime));
+                    StartCoroutine(COIsSkillFalse());
+                    _playerAnimator.SetTrigger("Skill");
+                    _skillTime = 0f;
+                    _playerCharacter.IsSkill = true;
+                }
+            }
         }
     }
 

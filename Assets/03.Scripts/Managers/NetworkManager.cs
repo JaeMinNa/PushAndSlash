@@ -48,6 +48,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         _isNoEnemy = true;
         IsReady = false;
         _gameData = GameManager.I.DataManager.GameData;
@@ -68,6 +69,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 GameManager.I.PlayerManager.Player = playerPrefab;
             }
             _cameraControler.CameraSetting();
+            GameManager.I.UIManager.PlayerSetting();
 
             //Connect();
         }
@@ -105,7 +107,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void MultiSceneTestButton()
     {
         GameManager.I.DataManager.DataSave();
-        GameManager.I.ScenesManager.LoadLoadingScene("MultiBattleScene1");
+        PhotonNetwork.LoadLevel("MultiBattleScene1");
     }
 
     #region Common
