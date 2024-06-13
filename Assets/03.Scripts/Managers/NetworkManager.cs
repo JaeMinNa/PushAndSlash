@@ -54,8 +54,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         _gameData = GameManager.I.DataManager.GameData;
         _playerData = GameManager.I.DataManager.PlayerData;
 
-        if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
+            PhotonNetwork.SendRate = 20;
+            PhotonNetwork.SerializationRate = 10;
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 60;
             _cameraControler = Camera.main.GetComponent<CameraController>();
 
             if (PhotonNetwork.IsMasterClient)
@@ -70,8 +77,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
             _cameraControler.CameraSetting();
             GameManager.I.UIManager.PlayerSetting();
-
-            //Connect();
         }
     }
 

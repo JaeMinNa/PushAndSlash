@@ -9,7 +9,7 @@ namespace ECM2.Examples.Slide
     /// This example extends a Character (through inheritance) implementing a slide mechanic.
     /// </summary>
     
-    public class PlayerCharacter : Character
+    public class PlayerCharacter : Character, IPunObservable
     {
         [Space(15.0f)]
         public float slideImpulse = 20.0f;
@@ -20,6 +20,11 @@ namespace ECM2.Examples.Slide
         private Rigidbody _rigidbody;
         private Animator _anim;
         private PhotonView _photonView;
+
+        [Header("Multi Data")]
+        //public float LerpSpeed = 0.5f;
+        private Vector3 _playerPosition;
+        private Quaternion _playerRotation;
 
         /// <summary>
         /// Our custom movement mode(s) id(s).
@@ -48,7 +53,11 @@ namespace ECM2.Examples.Slide
 
         private void Update()
         {
-
+            if(!_photonView.IsMine)
+            {
+                transform.position = Vector3.Lerp(transform.position, _playerPosition, 100 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _playerRotation, 100 * Time.deltaTime);
+            }
         }
 
         /// <summary>
@@ -267,6 +276,22 @@ namespace ECM2.Examples.Slide
             _rigidbody.isKinematic = true;
         }
 
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            // 데이터 보내기 (isMine == true)
+            if (stream.IsWriting)
+            {
+                stream.SendNext(transform.position);
+                stream.SendNext(transform.rotation);
+            }
+            // 데이터 받기 (isMine == false)
+            else
+            {
+                _playerPosition = (Vector3)stream.ReceiveNext();
+                _playerRotation = (Quaternion)stream.ReceiveNext();
+            }
+        }
+
         #region RPC Animator
         //public void SetBoolRun(bool bo)
         //{
@@ -304,15 +329,15 @@ namespace ECM2.Examples.Slide
         //    else _anim.SetBool("Ground", false);
         //}
 
-        public void SetTriggerAttackRPC()
-        {
-            _photonView.RPC("AttackTrigger", RpcTarget.All);
-        }
-        [PunRPC]
-        private void AttackTrigger(PhotonMessageInfo info)
-        {
-            _anim.SetTrigger("Attack");
-         }
+        //public void SetTriggerAttackRPC()
+        //{
+        //    _photonView.RPC("AttackTrigger", RpcTarget.All);
+        //}
+        //[PunRPC]
+        //private void AttackTrigger(PhotonMessageInfo info)
+        //{
+        //    _anim.SetTrigger("Attack");
+        // }
         #endregion
     }
 }
