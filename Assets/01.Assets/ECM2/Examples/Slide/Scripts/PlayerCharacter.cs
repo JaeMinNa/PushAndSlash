@@ -20,11 +20,15 @@ namespace ECM2.Examples.Slide
         private Rigidbody _rigidbody;
         private Animator _anim;
         private PhotonView _photonView;
+        private PhotonAnimatorView _photonAnimatorView;
 
         [Header("Multi Data")]
-        //public float LerpSpeed = 0.5f;
         private Vector3 _playerPosition;
         private Quaternion _playerRotation;
+        [HideInInspector] public Vector3 PlayerDirection;
+        [HideInInspector] public float Atk;
+        [HideInInspector] public float SkillAtk;
+        [HideInInspector] public float Def;
 
         /// <summary>
         /// Our custom movement mode(s) id(s).
@@ -49,15 +53,22 @@ namespace ECM2.Examples.Slide
             base.Start();
             PlayerSetting();
             IsSkill = false;
+
+            Debug.Log(_photonView.IsMine);
         }
 
         private void Update()
         {
-            if(!_photonView.IsMine)
+            if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
             {
-                transform.position = Vector3.Lerp(transform.position, _playerPosition, 100 * Time.deltaTime);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _playerRotation, 100 * Time.deltaTime);
+                if (!_photonView.IsMine)
+                {
+                    transform.position = Vector3.Lerp(transform.position, _playerPosition, 100 * Time.deltaTime);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, _playerRotation, 100 * Time.deltaTime);
+                }
             }
+
+            Debug.Log(_photonView.IsMine);
         }
 
         /// <summary>
@@ -263,8 +274,17 @@ namespace ECM2.Examples.Slide
             StartCoroutine(COFinishNuckback(attackPosition));
             _anim.SetTrigger("Hit");
             _rigidbody.isKinematic = false;
+
             Vector3 dir = (transform.position - attackPosition).normalized;
-            _rigidbody.velocity = new Vector3(dir.x, 0, dir.z) * (power - _playerData.Def);
+            if (_photonView.IsMine)
+            {
+                _rigidbody.velocity = new Vector3(dir.x, 0, dir.z) * (power - _playerData.Def);
+            }
+            else
+            {
+                _rigidbody.velocity = new Vector3(dir.x, 0, dir.z) * (power - Def);
+            }
+
             transform.LookAt(attackPosition);
         }
 
@@ -283,12 +303,20 @@ namespace ECM2.Examples.Slide
             {
                 stream.SendNext(transform.position);
                 stream.SendNext(transform.rotation);
+                stream.SendNext(new Vector3(transform.forward.x, 0, transform.forward.z));
+                stream.SendNext(GameManager.I.DataManager.PlayerData.Atk);
+                stream.SendNext(GameManager.I.DataManager.PlayerData.SkillAtk);
+                stream.SendNext(GameManager.I.DataManager.PlayerData.Def);
             }
             // 데이터 받기 (isMine == false)
             else
             {
                 _playerPosition = (Vector3)stream.ReceiveNext();
                 _playerRotation = (Quaternion)stream.ReceiveNext();
+                PlayerDirection = (Vector3)stream.ReceiveNext();
+                Atk = (float)stream.ReceiveNext();
+                SkillAtk = (float)stream.ReceiveNext();
+                Def = (float)stream.ReceiveNext();
             }
         }
 

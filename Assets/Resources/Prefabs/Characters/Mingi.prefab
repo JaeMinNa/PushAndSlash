@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7415166834207229664}
   - component: {fileID: 8609369349282002912}
   - component: {fileID: 6169862179097527715}
-  - component: {fileID: -8181695426458008776}
   - component: {fileID: 7718067500849279201}
   m_Layer: 7
   m_Name: Mingi
@@ -209,22 +208,10 @@ MonoBehaviour:
   slideImpulse: 50
   slideDownAcceleration: 20
   IsSkill: 0
---- !u!114 &-8181695426458008776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006098404494982902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  PlayerDirection: {x: 0, y: 0, z: 0}
+  Atk: 0
+  SkillAtk: 0
+  Def: 0
 --- !u!114 &7718067500849279201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +230,9 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 6169862179097527715}
+  - {fileID: 7268351445870011362}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -752,6 +741,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9162616272119168361, guid: 1e357149d191f5f4ca03728966593bef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7660335029803052927}
+    - targetCorrespondingSourceObject: {fileID: 9162616272119168361, guid: 1e357149d191f5f4ca03728966593bef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7268351445870011362}
   m_SourcePrefab: {fileID: 100100000, guid: 1e357149d191f5f4ca03728966593bef, type: 3}
 --- !u!4 &173036588244448819 stripped
 Transform:
@@ -791,6 +783,45 @@ MonoBehaviour:
   _weaponColliders:
   - {fileID: 7511953501212192956}
   _skillCollider: {fileID: 8073550596494823436}
+--- !u!114 &7268351445870011362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661307250035715209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 2
+    Name: Run
+  - Type: 4
+    SynchronizeType: 2
+    Name: Jump
+  - Type: 4
+    SynchronizeType: 2
+    Name: Ground
+  - Type: 9
+    SynchronizeType: 2
+    Name: Attack
+  - Type: 9
+    SynchronizeType: 2
+    Name: Dash
+  - Type: 9
+    SynchronizeType: 2
+    Name: Skill
+  - Type: 9
+    SynchronizeType: 2
+    Name: Hit
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!65 &7511953501212192956 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 2178220960822698332, guid: 1e357149d191f5f4ca03728966593bef, type: 3}

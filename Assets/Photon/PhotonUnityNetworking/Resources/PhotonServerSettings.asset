@@ -45,6 +45,7 @@ MonoBehaviour:
   - IsJump
   - IsGround
   - AttackTrigger
+  - ShootRangedAttackRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

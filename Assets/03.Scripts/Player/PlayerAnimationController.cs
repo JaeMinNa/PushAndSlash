@@ -13,6 +13,8 @@ public class PlayerAnimationController : MonoBehaviour
     private Character _character;
     private Animator _animator;
     private CharacterData _playerData;
+    private GameObject _player;
+    private PhotonView _photonView;
     private PlayerCharacter _playerCharacter;
 
     private void Start()
@@ -21,6 +23,8 @@ public class PlayerAnimationController : MonoBehaviour
         _playerCharacter = transform.parent.GetComponent<PlayerCharacter>();
         _animator = GetComponent<Animator>();
         _playerData = GameManager.I.DataManager.PlayerData;
+        _player = GameManager.I.PlayerManager.Player;
+        _photonView = transform.parent.GetComponent<PhotonView>();
     }
 
     private void Update()
@@ -40,20 +44,6 @@ public class PlayerAnimationController : MonoBehaviour
                 _animator.SetBool("Ground", false);
                 _animator.SetBool("Jump", true);
             }
-
-            //if (_character.IsGrounded())
-            //{
-            //    _playerCharacter.SetBoolGround(true);
-            //    _playerCharacter.SetBoolJump(false);
-
-            //    if (_character.GetSpeed() > 0) _playerCharacter.SetBoolRun(true);
-            //    else _playerCharacter.SetBoolRun(false);
-            //}
-            //else
-            //{
-            //    _playerCharacter.SetBoolGround(false);
-            //    _playerCharacter.SetBoolJump(true);
-            //}
         }
         else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
@@ -72,20 +62,6 @@ public class PlayerAnimationController : MonoBehaviour
                     _animator.SetBool("Ground", false);
                     _animator.SetBool("Jump", true);
                 }
-
-                //if (_character.IsGrounded())
-                //{
-                //    _playerCharacter.SetBoolGround(true);
-                //    _playerCharacter.SetBoolJump(false);
-
-                //    if (_character.GetSpeed() > 0) _playerCharacter.SetBoolRun(true);
-                //    else _playerCharacter.SetBoolRun(false);
-                //}
-                //else
-                //{
-                //    _playerCharacter.SetBoolGround(false);
-                //    _playerCharacter.SetBoolJump(true);
-                //}
             }
         }
     }
@@ -99,20 +75,61 @@ public class PlayerAnimationController : MonoBehaviour
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Player/" + name), _shootPosition.position, Quaternion.identity);
 
-        //if (_enemyController.Type == EnemyController.EnemyType.Enemy4)
-        //{
-        //    obj.GetComponent<ETFXProjectileScript>().Atk = _enemyController.Atk;
-        //}
-        //else if (_enemyController.Type == EnemyController.EnemyType.Enemy5)
-        //{
-        //    obj.GetComponent<Arrow>().Atk = _enemyController.Atk;
-        //}
+        if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_photonView.IsMine)
+            {
+                if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerAttack)
+                    obj.GetComponent<ETFXProjectileScript>().SetInit(_playerData.Atk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
+                else if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerSkill)
+                    obj.GetComponent<ETFXProjectileScript>().SetInit(_playerData.SkillAtk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
+            }
+            else
+            {
+                if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerAttack)
+                    obj.GetComponent<ETFXProjectileScript>().SetInit(_playerCharacter.Atk, _playerCharacter.PlayerDirection);
+                else if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerSkill)
+                    obj.GetComponent<ETFXProjectileScript>().SetInit(_playerCharacter.SkillAtk, _playerCharacter.PlayerDirection);
+            }
+        }
+        else if(GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        {
+            if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerAttack)
+                obj.GetComponent<ETFXProjectileScript>().SetInit(_playerData.Atk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
+            else if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerSkill)
+                obj.GetComponent<ETFXProjectileScript>().SetInit(_playerData.SkillAtk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
+        }
 
-        obj.GetComponent<ETFXProjectileScript>().Atk = _playerData.SkillAtk;
+        //_photonView.RPC("ShootRangedAttackRPC", RpcTarget.AllBuffered, name);
     }
+
+    //[PunRPC]
+    //private void ShootRangedAttackRPC(string name)
+    //{
+    //    GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Player/" + name), _shootPosition.position, Quaternion.identity);
+
+    //    if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerAttack)
+    //        obj.GetComponent<ETFXProjectileScript>().Atk = _playerData.Atk;
+    //    else if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerSkill)
+    //        obj.GetComponent<ETFXProjectileScript>().Atk = _playerData.SkillAtk;
+    //}
+
 
     public void ShootArrowAttack(string name)
     {
         GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Player/" + name), _shootPosition.position, Quaternion.identity);
+
+        if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            if (_photonView.IsMine)
+                obj.GetComponent<Arrow>().SetInit(_playerData.Atk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
+            else
+                obj.GetComponent<Arrow>().SetInit(_playerCharacter.Atk, _playerCharacter.PlayerDirection);
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        {
+            obj.GetComponent<Arrow>().SetInit(_playerData.Atk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
+        }
+
     }
 }

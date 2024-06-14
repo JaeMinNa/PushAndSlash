@@ -15,7 +15,6 @@ public class ScenesManager : MonoBehaviour
 
         if (CurrentSceneName == "BattleScene1")
         {
-            PhotonNetwork.OfflineMode = true;
             GameObject playerPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/" + GameManager.I.DataManager.PlayerData.Tag), Vector3.zero, Quaternion.identity);
             GameManager.I.PlayerManager.Player = playerPrefab;
         }

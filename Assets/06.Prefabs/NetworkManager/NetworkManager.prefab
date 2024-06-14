@@ -108,6 +108,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   SendChatButton: {fileID: 0}
+  _startposition1: {fileID: 0}
+  _startposition2: {fileID: 0}
 --- !u!114 &4879310775050665149
 MonoBehaviour:
   m_ObjectHideFlags: 0

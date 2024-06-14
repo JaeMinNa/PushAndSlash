@@ -37,8 +37,7 @@ public class Arrow : MonoBehaviour
         }      
         else if (CharacterType == Type.Player)
         {
-            _dir = new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z);
-            transform.LookAt(transform.position + _dir);
+            
         }
 
         StartCoroutine(CODestroyAttack());
@@ -50,6 +49,15 @@ public class Arrow : MonoBehaviour
         transform.position += _dir * _speed * Time.deltaTime;
         
     }
+
+    public void SetInit(float atk, Vector3 dir)
+    {
+        _dir = dir;
+        transform.LookAt(transform.position + _dir);
+
+        Atk = atk;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -69,6 +77,14 @@ public class Arrow : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 other.GetComponent<EnemyController>().IsHit_attack = true;
+                GameManager.I.SoundManager.StartSFX("ArrowHit", other.transform.position);
+                StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+                _effect.Play();
+                _renderer.enabled = false;
+            }
+            else if (other.CompareTag("Player"))
+            {
+                other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
                 GameManager.I.SoundManager.StartSFX("ArrowHit", other.transform.position);
                 StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
                 _effect.Play();

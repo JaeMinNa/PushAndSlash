@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ECM2.Examples.Slide;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace EpicToonFX
 {
@@ -46,13 +48,22 @@ namespace EpicToonFX
             {
                 _layerMask = LayerMask.NameToLayer("Player");
                 _dir = (_player.transform.position - transform.position).normalized;
+                transform.LookAt(transform.position + _dir);
             }
             else
             {
-                _layerMask = LayerMask.NameToLayer("Enemy");
-                _dir = new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z);
+                if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1") _layerMask = LayerMask.NameToLayer("Enemy");
+                else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1") _layerMask = LayerMask.NameToLayer("Player");
+
+                //if (_phtonView.IsMine) _dir = new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z);
+                //else
+                //{
+                //    if(_enemyPlayer != null)
+                //    _dir = new Vector3(_enemyPlayer.transform.forward.x, 0, _enemyPlayer.transform.forward.z);
+                //}
+                //_dir = Vector3.zero;
             }
-            transform.LookAt(transform.position + _dir);
+            //transform.LookAt(transform.position + _dir);
 
             projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
             if (CharacterType == Type.PlayerSkill) projectileParticle.transform.localScale = _skillScale;
@@ -66,7 +77,7 @@ namespace EpicToonFX
 
             StartCoroutine(CODestroyAttack());
         }
-		
+
         void FixedUpdate()
         {
             //if (GetComponent<Rigidbody>().velocity.magnitude != 0)
@@ -74,19 +85,10 @@ namespace EpicToonFX
             //    transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity); // Sets rotation to look at direction of movement
             //}
 
-            //if(CharacterType == Type.Enemy)
-            //{
-            //    transform.position += _dir * _speed * Time.deltaTime;
-            //}
-            //else if(CharacterType == Type.Player)
-            //{
-
-            //}
-
             transform.position += _dir * _speed * Time.deltaTime;
 
             RaycastHit hit;
-			
+
             float radius; // Sets the radius of the collision detection
             if (transform.GetComponent<SphereCollider>())
                 radius = transform.GetComponent<SphereCollider>().radius;
@@ -124,12 +126,22 @@ namespace EpicToonFX
                 Destroy(impactP, 3.5f); // Removes impact effect after delay
                 Targetting();
                 Destroy(gameObject); // Removes the projectile
-                
+                //PhotonNetwork.Destroy(gameObject);
+
                 string name = gameObject.name.Substring(0, gameObject.name.Length - 7);
                 if (CharacterType == Type.Enemy) GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion", transform.position);
                 else GameManager.I.SoundManager.StartSFX("Player" + name + "Explosion", transform.position);
             }
         }
+
+        public void SetInit(float atk, Vector3 dir)
+        {
+            _dir = dir;
+            transform.LookAt(transform.position + dir);
+
+            Atk = atk;
+        }
+
         private void Targetting()
         {
             int layerMask = (1 << _layerMask);  // Layer 설정
@@ -154,22 +166,48 @@ namespace EpicToonFX
             {
                 if (_targets != null)
                 {
-                    if (CharacterType == Type.PlayerAttack)
+                    if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
                     {
-                        StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
-
-                        for (int i = 0; i < _targets.Length; i++)
+                        if (CharacterType == Type.PlayerAttack)
                         {
-                            _targets[i].GetComponent<EnemyController>().IsHit_attack = true;
+                            StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+
+                            for (int i = 0; i < _targets.Length; i++)
+                            {
+                                _targets[i].GetComponent<EnemyController>().IsHit_attack = true;
+                            }
+                        }
+                        else if (CharacterType == Type.PlayerSkill)
+                        {
+                            StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
+
+                            for (int i = 0; i < _targets.Length; i++)
+                            {
+                                _targets[i].GetComponent<EnemyController>().IsHit_skill = true;
+                            }
                         }
                     }
-                    else if (CharacterType == Type.PlayerSkill)
+                    else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
                     {
-                        StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
-
-                        for (int i = 0; i < _targets.Length; i++)
+                        if (CharacterType == Type.PlayerAttack)
                         {
-                            _targets[i].GetComponent<EnemyController>().IsHit_skill = true;
+                            StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
+
+                            for (int i = 0; i < _targets.Length; i++)
+                            {
+                                //if(_targets[i] != _player.GetComponent<CapsuleCollider>())
+                                _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                            }
+                        }
+                        else if (CharacterType == Type.PlayerSkill)
+                        {
+                            StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
+
+                            for (int i = 0; i < _targets.Length; i++)
+                            {
+                                //if (_targets[i] != _player.GetComponent<CapsuleCollider>())
+                                _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
+                            }
                         }
                     }
                 }
@@ -182,6 +220,7 @@ namespace EpicToonFX
             if (gameObject != null)
             {
                 Destroy(gameObject);
+                //PhotonNetwork.Destroy(gameObject);
             }
         }
 
