@@ -11,15 +11,16 @@ public class GameData
     public int Stage;
     public int Coin;
     public int RankPoint;
+    public int Win;
+    public int Lose;
 
     [Header("Settings")]
     public float SFXValume;
     public float BGMValume;
     public int CameraSettingValue;
 
-    [Header("Multi")]
-    //public string RoomName;
-    public bool IsMaster;
+    //[Header("Multi")]
+    //public bool IsMaster;
 }
 
 [System.Serializable]

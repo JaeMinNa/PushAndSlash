@@ -43,11 +43,12 @@ public class StageController : MonoBehaviour
     private CameraController _cameraController;
 
     [HideInInspector] public int StageExp;
-    private float _time;
+    [HideInInspector] public float _time;
     private GameObject _player;
     private GameData _gameData;
     private DataManager _dataManager;
     private List<CharacterData> _inventory;
+    private NetworkManager _networkManager;
 
     private void Start()
     {
@@ -57,7 +58,6 @@ public class StageController : MonoBehaviour
         _inventory = _dataManager.DataWrapper.CharacterInventory;
         _mainCamera = Camera.main;
         _cameraController = _mainCamera.GetComponent<CameraController>();
-        _time = 180f;
         _isGameClear = false;
         _isGameOver = false;
         StageCoin = 0;
@@ -65,8 +65,15 @@ public class StageController : MonoBehaviour
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
+            _time = 180f;
             StageSetting();
         }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            _networkManager = GameObject.FindWithTag("NetworkManager").GetComponent<NetworkManager>();
+            _time = 0;
+        }
+
         StageTextSetting();
         CoinSetting();
         StartCoroutine(COStartCameraSetting());
@@ -86,11 +93,16 @@ public class StageController : MonoBehaviour
                 GameClear();
             }
 
-            if ((_time <= 0 || !IsPlayer()) && !_isGameOver)
+            if ((_time <= 0 || !IsSurvive()) && !_isGameOver)
             {
                 _isGameOver = true;
                 GameOver();
             }
+        }
+        else if(GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            _time += Time.deltaTime;
+            TimeTextUpdate();
         }
     }
 
@@ -130,56 +142,100 @@ public class StageController : MonoBehaviour
     #endregion
 
     #region Game
-    private void GameClear()
+    public void GameClear()
     {
         Time.timeScale = 0f;
-        _stageClearCoinText.text = StageCoin.ToString();
-        if(_time >= 120)
+
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
-            StarEffectSetting(3);
-            _stageCoinBondus = 300;
+            _stageClearCoinText.text = StageCoin.ToString();
+            if (_time >= 120)
+            {
+                StarEffectSetting(3);
+                _stageCoinBondus = 300;
+            }
+            else if (_time >= 60)
+            {
+                StarEffectSetting(2);
+                _stageCoinBondus = 200;
+            }
+            else
+            {
+                StarEffectSetting(1);
+                _stageCoinBondus = 100;
+            }
+
+            LevelExpUp(StageExp);
+            GameManager.I.DataManager.GameData.Coin += StageCoin;
+            if (_gameData.Stage <= 19) GameManager.I.DataManager.GameData.Stage++;
         }
-        else if(_time >= 60)
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
-            StarEffectSetting(2);
-            _stageCoinBondus = 200;
+            _stageClearCoinText.text = "500";
+
+            if (_time <= 60)
+            {
+                StarEffectSetting(3);
+                _stageCoinBondus = 300;
+                LevelExpUp(40);
+            }
+            else if (_time <= 120)
+            {
+                StarEffectSetting(2);
+                _stageCoinBondus = 200;
+                LevelExpUp(30);
+            }
+            else
+            {
+                StarEffectSetting(1);
+                _stageCoinBondus = 100;
+                LevelExpUp(20);
+            }
+
+            GameManager.I.DataManager.GameData.Coin += 500;
+            GameManager.I.DataManager.GameData.RankPoint++;
+            GameManager.I.DataManager.GameData.Win++;
         }
-        else
-        {
-            StarEffectSetting(1);
-            _stageCoinBondus = 100;
-        }
+
         _stageCoinBonusText.text = _stageCoinBondus.ToString();
-        GameManager.I.DataManager.GameData.Coin += StageCoin;
         GameManager.I.DataManager.GameData.Coin += _stageCoinBondus;
 
-        LevelExpUp(StageExp);
         PlayerDataToInventoryData();
         _stageClearLevelText.text = _dataManager.PlayerData.Level.ToString();
         _stageClearExpText.text = _dataManager.PlayerData.CurrentExp.ToString() + "/" + _dataManager.PlayerData.MaxExp.ToString();
         _stageClearExpSlider.value = (float)_dataManager.PlayerData.CurrentExp / _dataManager.PlayerData.MaxExp;
 
-        if(_gameData.Stage <= 19) GameManager.I.DataManager.GameData.Stage++;
-        
         _gameClear.SetActive(true);
-
         GameManager.I.DataManager.DataSave();
     }
 
     public void GameOver()
     {
         Time.timeScale = 0f;
-        _stageGameOverCoinText.text = StageCoin.ToString();
-        GameManager.I.DataManager.GameData.Coin += StageCoin;
-        
-        LevelExpUp(StageExp);
+
+        if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
+        {
+            _stageGameOverCoinText.text = StageCoin.ToString();
+            GameManager.I.DataManager.GameData.Coin += StageCoin;
+
+            LevelExpUp(StageExp);
+        }
+        else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
+        {
+            _stageGameOverCoinText.text = "300";
+            GameManager.I.DataManager.GameData.Coin += 300;
+            GameManager.I.DataManager.GameData.Lose++;
+            if(_gameData.RankPoint >= 1) GameManager.I.DataManager.GameData.RankPoint--;
+
+            LevelExpUp(10);
+        }
+
         PlayerDataToInventoryData();
         _stageGameOverLevelText.text = _dataManager.PlayerData.Level.ToString();
         _stageGameOverExpText.text = _dataManager.PlayerData.CurrentExp.ToString() + "/" + _dataManager.PlayerData.MaxExp.ToString();
         _stageGameOverExpSlider.value = (float)_dataManager.PlayerData.CurrentExp / _dataManager.PlayerData.MaxExp;
 
         _gameOver.SetActive(true);
-
         GameManager.I.DataManager.DataSave();
     }
 
@@ -200,7 +256,7 @@ public class StageController : MonoBehaviour
         return false;
     }
 
-    private bool IsPlayer()
+    private bool IsSurvive()
     {
         if (_player.transform.position.y <= -10f) return false;
 
@@ -214,7 +270,20 @@ public class StageController : MonoBehaviour
 
     public void LobbySceneButton()
     {
+        if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1") _networkManager.DisConnect();
+
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
+    }
+
+    public void GiveUpMultiButton()
+    {
+        if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1") _networkManager.DisConnect();
+
+        GameManager.I.DataManager.GameData.Lose++;
+        GameManager.I.DataManager.GameData.RankPoint--;
         GameManager.I.DataManager.DataSave();
+
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
     }
@@ -253,7 +322,11 @@ public class StageController : MonoBehaviour
 
     private void LevelExpUp(int exp)
     {
-        if (_dataManager.PlayerData.Level >= 30) return;
+        if (_dataManager.PlayerData.Level >= 30)
+        {
+            GameManager.I.DataManager.PlayerData.CurrentExp += 0;
+            return;
+        }
 
         GameManager.I.DataManager.PlayerData.CurrentExp += exp;
 

@@ -20,6 +20,8 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
     private string _roomEnemyCharacterRank;
     private string _roomEnemyUserName;
     private int _roomEnemyRankPoint;
+    private int _roomEnemyWin;
+    private int _roomEnemyLose;
     private int _roomEnemyCharacterStar;
     private string _roomEnemyCharacterKorTag;
     private TMP_Text[] _chatTexts;
@@ -104,7 +106,7 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
                     if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
                     {
                         _networkManager.EnemyDataSettingInRoom(_roomEnemyCharacterName, _roomEnemyCharacterLevel, _roomEnemyCharacterRank.ToString(),
-                            _roomEnemyUserName, _roomEnemyRankPoint, _roomEnemyCharacterStar, _roomEnemyCharacterKorTag);
+                            _roomEnemyUserName, _roomEnemyRankPoint, _roomEnemyWin, _roomEnemyLose, _roomEnemyCharacterStar, _roomEnemyCharacterKorTag);
                     }             
                 }
             }
@@ -164,6 +166,8 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(GameManager.I.DataManager.PlayerData.CharacterRank.ToString());
             stream.SendNext(GameManager.I.DataManager.GameData.UserName);
             stream.SendNext(GameManager.I.DataManager.GameData.RankPoint);
+            stream.SendNext(GameManager.I.DataManager.GameData.Win);
+            stream.SendNext(GameManager.I.DataManager.GameData.Lose);
             stream.SendNext(GameManager.I.DataManager.PlayerData.Star);
             stream.SendNext(GameManager.I.DataManager.PlayerData.Tag);
             stream.SendNext(_myIsReady);
@@ -175,6 +179,8 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
             _roomEnemyCharacterRank = (string)stream.ReceiveNext();
             _roomEnemyUserName = (string)stream.ReceiveNext();
             _roomEnemyRankPoint = (int)stream.ReceiveNext();
+            _roomEnemyWin = (int)stream.ReceiveNext();
+            _roomEnemyLose = (int)stream.ReceiveNext();
             _roomEnemyCharacterStar = (int)stream.ReceiveNext();
             _roomEnemyCharacterKorTag = (string)stream.ReceiveNext();
             _enemyIsReady = (bool)stream.ReceiveNext();

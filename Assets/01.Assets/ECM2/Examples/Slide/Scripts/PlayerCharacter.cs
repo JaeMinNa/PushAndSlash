@@ -20,9 +20,11 @@ namespace ECM2.Examples.Slide
         private Rigidbody _rigidbody;
         private Animator _anim;
         private PhotonView _photonView;
-        private PhotonAnimatorView _photonAnimatorView;
+        private StageController _stageController;
+        public bool IsFinish;
 
         [Header("Multi Data")]
+        public bool _isSurvive;
         private Vector3 _playerPosition;
         private Quaternion _playerRotation;
         [HideInInspector] public Vector3 PlayerDirection;
@@ -53,22 +55,38 @@ namespace ECM2.Examples.Slide
             base.Start();
             PlayerSetting();
             IsSkill = false;
-
-            Debug.Log(_photonView.IsMine);
+            _isSurvive = true;
+            IsFinish = false;
         }
 
         private void Update()
         {
             if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
             {
+                _isSurvive = IsSurvive();
+
                 if (!_photonView.IsMine)
                 {
                     transform.position = Vector3.Lerp(transform.position, _playerPosition, 100 * Time.deltaTime);
                     transform.rotation = Quaternion.Lerp(transform.rotation, _playerRotation, 100 * Time.deltaTime);
+
+                    if (!IsSurvive() && !IsFinish)
+                    {
+                        IsFinish = true;
+                        _stageController = GameObject.FindWithTag("StageController").GetComponent<StageController>();
+                        _stageController.GameClear();
+                    }
+                }
+                else
+                {
+                    if (!IsSurvive() && !IsFinish)
+                    {
+                        IsFinish = true;
+                        _stageController = GameObject.FindWithTag("StageController").GetComponent<StageController>();
+                        _stageController.GameOver();
+                    }
                 }
             }
-
-            Debug.Log(_photonView.IsMine);
         }
 
         /// <summary>
@@ -263,6 +281,15 @@ namespace ECM2.Examples.Slide
                 SlidingMovementMode(deltaTime);
         }
 
+        private bool IsSurvive()
+        {
+            //if (!_photonView.IsMine) return true;
+
+            if (transform.position.y <= -10f) return false;
+
+            return true;
+        }
+
         private void PlayerSetting()
         {
             maxWalkSpeed = _playerData.Speed;
@@ -319,53 +346,5 @@ namespace ECM2.Examples.Slide
                 Def = (float)stream.ReceiveNext();
             }
         }
-
-        #region RPC Animator
-        //public void SetBoolRun(bool bo)
-        //{
-        //    if(bo) _photonView.RPC("IsRun", RpcTarget.All, true);
-        //    else _photonView.RPC("IsRun", RpcTarget.All, false);
-        //}
-        //[PunRPC]
-        //public void IsRun(bool bo, PhotonMessageInfo info)
-        //{
-        //    if(bo) _anim.SetBool("Run", true);
-        //    else _anim.SetBool("Run", false);
-        //}
-
-        //public void SetBoolJump(bool bo)
-        //{
-        //    if (bo) _photonView.RPC("IsJump", RpcTarget.All, true);
-        //    else _photonView.RPC("IsJump", RpcTarget.All, false);
-        //}
-        //[PunRPC]
-        //public void IsJump(bool bo, PhotonMessageInfo info)
-        //{
-        //    if (bo) _anim.SetBool("Jump", true);
-        //    else _anim.SetBool("Jump", false);
-        //}
-
-        //public void SetBoolGround(bool bo)
-        //{
-        //    if (bo) _photonView.RPC("IsGround", RpcTarget.All, true);
-        //    else _photonView.RPC("IsGround", RpcTarget.All, false);
-        //}
-        //[PunRPC]
-        //public void IsGround(bool bo, PhotonMessageInfo info)
-        //{
-        //    if (bo) _anim.SetBool("Ground", true);
-        //    else _anim.SetBool("Ground", false);
-        //}
-
-        //public void SetTriggerAttackRPC()
-        //{
-        //    _photonView.RPC("AttackTrigger", RpcTarget.All);
-        //}
-        //[PunRPC]
-        //private void AttackTrigger(PhotonMessageInfo info)
-        //{
-        //    _anim.SetTrigger("Attack");
-        // }
-        #endregion
     }
 }

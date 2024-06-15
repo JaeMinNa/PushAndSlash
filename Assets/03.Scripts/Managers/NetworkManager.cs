@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
+using ECM2.Examples.Slide;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -17,6 +18,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text _roomMyCharacterLevelText;
     [SerializeField] private TMP_Text _roomMyCharacterRankText;
     [SerializeField] private TMP_Text _roomMyUserNameText;
+    [SerializeField] private TMP_Text _roomMyWinLoseText;
     [SerializeField] private TMP_Text _roomMyRankPointText;
     [SerializeField] private GameObject _roomMyCharacterImageObject;
     [SerializeField] private GameObject[] _roomMyCharacterUpgradeStars;
@@ -28,6 +30,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text _roomEnemyCharacterLevelText;
     [SerializeField] private TMP_Text _roomEnemyCharacterRankText;
     [SerializeField] private TMP_Text _roomEnemyUserNameText;
+    [SerializeField] private TMP_Text _roomEnemyWinLoseText;
     [SerializeField] private TMP_Text _roomEnemyRankPointText;
     [SerializeField] private GameObject _roomEnemyCharacterImageObject;
     [SerializeField] private GameObject[] _roomEnemyCharacterUpgradeStars;
@@ -39,20 +42,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public TMP_Text[] ChatTexts;
     public Button SendChatButton;
 
-    [Header("BattleScene")]
+    [Header("MultiScene")]
     [SerializeField] private Transform _startposition1;
     [SerializeField] private Transform _startposition2;
-    private GameData _gameData;
+    private bool _isMultiFull;
+    private StageController _stageController;
+
     private CharacterData _playerData;
     private CameraController _cameraControler;
+    private GameObject _player;
+    private GameData _gameData;
 
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         _isNoEnemy = true;
         IsReady = false;
-        _gameData = GameManager.I.DataManager.GameData;
+        _isMultiFull = false;
         _playerData = GameManager.I.DataManager.PlayerData;
+        _player = GameManager.I.PlayerManager.Player;
+        _gameData = GameManager.I.DataManager.GameData;
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
@@ -66,6 +75,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.SendRate = 60;
             PhotonNetwork.SerializationRate = 60;
             _cameraControler = Camera.main.GetComponent<CameraController>();
+            _stageController = GameObject.FindWithTag("StageController").GetComponent<StageController>();
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -112,7 +122,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
         else if(GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
-
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            {
+                _isMultiFull = true;
+            }
+            else if(PhotonNetwork.CurrentRoom.PlayerCount == 1 && _isMultiFull && !_player.GetComponent<PlayerCharacter>().IsFinish)
+            {
+                _isMultiFull = false;
+                _stageController.GameClear();
+            }
         }
     }
 
@@ -210,11 +228,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
             PhotonNetwork.Instantiate("PUN2/Room/RoomController", transform.position, Quaternion.identity);
-
-            //GameManager.I.DataManager.GameData.RoomName = PhotonNetwork.CurrentRoom.Name;
-
-            if (PhotonNetwork.IsMasterClient) GameManager.I.DataManager.GameData.IsMaster = true;
-            else GameManager.I.DataManager.GameData.IsMaster = false;
         }
     }
 
@@ -303,6 +316,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         _roomMyCharacterRankText.text = GameManager.I.DataManager.PlayerData.CharacterRank.ToString();
         _roomMyUserNameText.text = PhotonNetwork.LocalPlayer.NickName;
         _roomMyRankPointText.text = GameManager.I.DataManager.GameData.RankPoint.ToString();
+
+        int percent = (_gameData.Win + _gameData.Lose == 0) ? 0 : (int)((float)_gameData.Win / (_gameData.Win + _gameData.Lose) * 100);
+        _roomMyWinLoseText.text = _gameData.Win + " ½Â " + _gameData.Lose + " ÆÐ (½Â·ü : " + percent + "%)";
+
         MultiPlayMyImageSetting();
         ActiveMyStar(GameManager.I.DataManager.PlayerData.Star);
 
@@ -312,13 +329,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void EnemyDataSettingInRoom(string characterName, int level, string rank, string userName, int rankPoint, int star, string tag)
+    public void EnemyDataSettingInRoom(string characterName, int level, string rank, string userName, int rankPoint, int win, int lose, int star, string tag)
     {
         _roomEnemyCharacterNameText.text = characterName;
         _roomEnemyCharacterLevelText.text = "Lv " + level.ToString();
         _roomEnemyCharacterRankText.text = rank;
         _roomEnemyUserNameText.text = userName;
         _roomEnemyRankPointText.text = rankPoint.ToString();
+
+        int percent = (win + lose == 0) ? 0 : (int)((float)win / (win + lose) * 100);
+        _roomEnemyWinLoseText.text =  win + " ½Â " + lose + " ÆÐ (½Â·ü : " + percent + "%)";
+        
         MultiPlayEnemyImageSetting(tag);
         ActiveEnemyStar(star);
 
@@ -419,4 +440,5 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
     #endregion
+
 }
