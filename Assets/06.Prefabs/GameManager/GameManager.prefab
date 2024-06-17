@@ -73,6 +73,9 @@ MonoBehaviour:
     UserName: UserName
     Stage: 1
     Coin: 0
+    RankPoint: 0
+    Win: 0
+    Lose: 0
     SFXValume: 0
     BGMValume: 0
     CameraSettingValue: 3
@@ -583,6 +586,50 @@ MonoBehaviour:
   - {fileID: 0}
   _maxDistance: 15
   StartVolume: 1
+--- !u!1 &3468684128813057599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3025047161557838485}
+  - component: {fileID: 2022464094086823971}
+  m_Layer: 0
+  m_Name: BackendManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3025047161557838485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3468684128813057599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 561468392359120175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2022464094086823971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3468684128813057599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28783189c47ee9042871c4828b395b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5400881682989419139
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +665,7 @@ Transform:
   - {fileID: 7751639879872202388}
   - {fileID: 4016987315382413960}
   - {fileID: 2814261709081632647}
+  - {fileID: 3025047161557838485}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8917558773457501724
