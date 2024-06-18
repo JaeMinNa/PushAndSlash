@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public SoundManager SoundManager { get; private set; }
     public ScenesManager ScenesManager { get; private set; }
     public BackendManager BackendManager { get; private set; }
+    public GPGSManager GPGSManager { get; private set; }
 
     public static GameManager I;
 
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         SoundManager = GetComponentInChildren<SoundManager>();
         UIManager = GetComponentInChildren<UIManager>();
         BackendManager = GetComponentInChildren<BackendManager>();
+        GPGSManager = GetComponentInChildren<GPGSManager>();
 
         Init();
     }
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
         ScenesManager.Init();
         UIManager.Init();
         BackendManager.Init();
+        GPGSManager.Init();
     }
 
     private void Release()
@@ -50,5 +53,6 @@ public class GameManager : MonoBehaviour
         ScenesManager.Release();
         UIManager.Release();
         BackendManager.Release();
+        GPGSManager.Release();
     }
 }

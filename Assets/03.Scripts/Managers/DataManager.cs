@@ -18,9 +18,6 @@ public class GameData
     public float SFXValume;
     public float BGMValume;
     public int CameraSettingValue;
-
-    //[Header("Multi")]
-    //public bool IsMaster;
 }
 
 [System.Serializable]

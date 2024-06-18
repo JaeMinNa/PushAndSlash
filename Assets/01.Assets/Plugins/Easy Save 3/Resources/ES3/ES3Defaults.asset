@@ -33,6 +33,7 @@ MonoBehaviour:
     - Assembly-CSharp
     - Cinemachine
     - ECM2
+    - Google.Play.Games
     - PhotonChat
     - PhotonRealtime
     - PhotonUnityNetworking

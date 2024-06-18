@@ -68,6 +68,10 @@ public class LobbyController : MonoBehaviour
     private CharacterData _playerData;
     private DataWrapper _dataWrapper;
 
+    [SerializeField] private TMP_Text text1;
+    [SerializeField] private TMP_Text text2;
+    [SerializeField] private TMP_Text text3;
+
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
@@ -94,6 +98,13 @@ public class LobbyController : MonoBehaviour
         EquipSetting();
 
         GameManager.I.DataManager.DataSave();
+    }
+
+    private void Update()
+    {
+        text1.text = "GPGS UserID : " + GameManager.I.GPGSManager.GetGPGSUserID();
+        text2.text = "第场 UserID : " + GameManager.I.GPGSManager.GetGPGSUserID();
+        text3.text = "第场 NickName : " + GameManager.I.GPGSManager.GetGPGSUserID();
     }
 
     public void ButtonClickMiss()
