@@ -7,11 +7,9 @@ using GooglePlayGames.BasicApi;
 
 public class GPGSManager : MonoBehaviour
 {
-    public bool IsLogin;
-
     public void Init()
     {
-        IsLogin = false;
+        
     }
 
     public void Release()
@@ -37,12 +35,10 @@ public class GPGSManager : MonoBehaviour
             string userID = PlayGamesPlatform.Instance.GetUserId(); // 유저가 변경 불가능
 
             Debug.Log("로그인 성공, " + "DisplayName : " + displayName + ", UserID : " + userID);
-            IsLogin = true;
         }
         else
         {
             Debug.Log("로그인 실패");
-            IsLogin = false;
         }
     }
 

@@ -14,29 +14,30 @@ public class StartSceneController : MonoBehaviour
         _idText.text = "GPGS UserID : " + GameManager.I.GPGSManager.GetGPGSUserID();
     }
 
-    public void GameStartButton()
+    public void Save()
     {
-        if(GameManager.I.GPGSManager.GetGPGSUserID() == "0")
-        {
-            GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
-        }
-        else
-        {
-            GameManager.I.SoundManager.StartSFX("ButtonClick");
-            GameManager.I.BackendManager.Login();
-            GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
-        }
+        GameManager.I.BackendManager.Save();
     }
 
-    //public void LoginGoogleButton()
-    //{
-    //    GameManager.I.SoundManager.StartSFX("ButtonClick");
-    //    GameManager.I.GPGSManager.GPGSLogin();
+    public void Load()
+    {
+        GameManager.I.BackendManager.Load();
+    }
 
-    //    if (GameManager.I.GPGSManager.IsLogin)
-    //    {
-    //        _loginGoogleButton.SetActive(false);
-    //        _startButton.SetActive(true);
-    //    }
-    //}
+    public void GameStartButton()
+    {
+        //if (GameManager.I.GPGSManager.GetGPGSUserID() == "0")
+        //{
+        //    GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
+        //}
+        //else
+        //{
+        //    GameManager.I.DataManager.DataSave();
+        //    GameManager.I.SoundManager.StartSFX("ButtonClick");
+        //    GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
+        //}
+
+        GameManager.I.DataManager.DataSave();
+        GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
+    }
 }

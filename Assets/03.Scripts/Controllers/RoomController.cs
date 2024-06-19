@@ -78,7 +78,6 @@ public class RoomController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 _isGameStart = true;
                 GameManager.I.DataManager.DataSave();
-                //GameManager.I.ScenesManager.LoadLoadingScene("MultiBattleScene1");
                 PhotonNetwork.LoadLevel("MultiBattleScene1");
             }
         }

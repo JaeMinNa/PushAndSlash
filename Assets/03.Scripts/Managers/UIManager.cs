@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     private LobbyController _lobbyController;
     private float _dashTime;
     private float _skillTime;
-    private TouchScreenKeyboard _keyboard;
+    //private TouchScreenKeyboard _keyboard;
 
     private void Update()
     {
@@ -333,10 +333,11 @@ public class UIManager : MonoBehaviour
     public void UserNameSettingActive()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _userNameInputField.text = GameManager.I.DataManager.GameData.UserName;
         _userNamePanel.SetActive(true);
         //inputField.ActivateInputField();
         //TouchScreenKeyboard.Open()
-        _keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+        //_keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
     }
 
     public void UserNameInput()
@@ -352,6 +353,7 @@ public class UIManager : MonoBehaviour
 
         _userNamePanel.SetActive(false);
         GameManager.I.DataManager.DataSave();
+        GameManager.I.BackendManager.Save();
     }
 
     public void DataDeleteSettingActive()
@@ -376,7 +378,6 @@ public class UIManager : MonoBehaviour
     public void LobbyButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        //GameManager.I.DataManager.DataSave();
         DisConnect();
         GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
     }

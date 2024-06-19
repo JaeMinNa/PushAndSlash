@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using System;
 
 [System.Serializable]
 public class GameData
@@ -18,6 +15,14 @@ public class GameData
     public float SFXValume;
     public float BGMValume;
     public int CameraSettingValue;
+
+    public void Reset()
+    {
+        UserName = "UserName";
+        RankPoint = 0;
+        Win = 0;
+        Lose = 0;
+    }
 }
 
 [System.Serializable]
@@ -124,6 +129,13 @@ public class DataManager : MonoBehaviour
 
     public void DataDelete()
     {
+        // 서버 데이터 삭제
+        GameData.UserName = "";
+        GameData.RankPoint = 0;
+        GameData.Win = 0;
+        GameData.Lose = 0;
+        GameManager.I.BackendManager.Save();
+
         // 저장 파일 삭제
         ES3.DeleteFile("SaveFile.txt");
 
