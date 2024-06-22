@@ -7,7 +7,7 @@ using TMPro;
 
 public class RankSystem : MonoBehaviour
 {
-    private const string RANK_UUID = "ca724250-2fb0-11ef-a678-3bbc47fe804b";
+    private const string RANK_UUID = "731769e0-303c-11ef-8d93-2749de6cc326";
     private const int MAX_RANK_LIST = 10;
 
     [Header("My Rank")]
@@ -67,10 +67,6 @@ public class RankSystem : MonoBehaviour
             Debug.LogError("데이터가 존재하지 않습니다.");
         }
 
-        int[] winLose = new int[2];
-        winLose[0] = GameManager.I.DataManager.GameData.Win;
-        winLose[1] = GameManager.I.DataManager.GameData.Lose;
-
         Param param = new Param()
         {
             {"RankPoint",  value},
@@ -88,10 +84,10 @@ public class RankSystem : MonoBehaviour
             Debug.LogError("랭킹 등록에 실패했습니다." + bro);
         }
 
-        if(bro.IsServerError())
-        {
-            Debug.LogError("서버가 과부화상태이거나 불안정할 경우 발생합니다.");
-        }
+        //if(bro.IsServerError())
+        //{
+        //    Debug.LogError("서버가 과부화상태이거나 불안정할 경우 발생합니다.");
+        //}
     }
 
     public void GetRankList()
@@ -127,13 +123,14 @@ public class RankSystem : MonoBehaviour
                         _rankPoint = int.Parse(rankDataJson[i]["score"].ToString());
                         _rank = int.Parse(rankDataJson[i]["rank"].ToString());
                         _userName = rankDataJson[i]["nickname"].ToString();
-                        _win = int.Parse(rankDataJson[i]["WinLose"][0].ToString());
-                        _lose = int.Parse(rankDataJson[i]["WinLose"][1].ToString());
+                        string[] extraData = rankDataJson[i]["WinLose"].ToString().Split("|");
+                        _win = int.Parse(extraData[0].ToString());
+                        _lose = int.Parse(extraData[1].ToString());
 
-                        _rankText = _rankList.transform.GetChild(i).GetChild(0).GetComponent<TextMeshPro>();
-                        _userNameText = _rankList.transform.GetChild(i).GetChild(2).GetComponent<TextMeshPro>();
-                        _rankPointText = _rankList.transform.GetChild(i).GetChild(3).GetComponent<TextMeshPro>();
-                        _winLoseText = _rankList.transform.GetChild(i).GetChild(5).GetComponent<TextMeshPro>();
+                        _rankText = _rankList.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>();
+                        _userNameText = _rankList.transform.GetChild(i).GetChild(2).GetComponent<TextMeshProUGUI>();
+                        _rankPointText = _rankList.transform.GetChild(i).GetChild(3).GetComponent<TextMeshProUGUI>();
+                        _winLoseText = _rankList.transform.GetChild(i).GetChild(5).GetComponent<TextMeshProUGUI>();
                         _rankText.text = _rank.ToString();
                         _userNameText.text = _userName;
                         _rankPointText.text = _rankPoint.ToString();

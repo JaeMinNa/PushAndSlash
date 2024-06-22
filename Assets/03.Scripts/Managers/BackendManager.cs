@@ -104,14 +104,10 @@ public class BackendManager : MonoBehaviour
     // param : 데이터를 송수신할 때 사용하는 class
     private Param GetUserDataParam()
     {
-        int[] winLose = new int[2];
-        winLose[0] = GameManager.I.DataManager.GameData.Win;
-        winLose[1] = GameManager.I.DataManager.GameData.Lose;
-
         Param param = new Param();
         param.Add("UserName", GameManager.I.DataManager.GameData.UserName);
         param.Add("RankPoint", GameManager.I.DataManager.GameData.RankPoint);
-        param.Add("WinLose", winLose);
+        param.Add("WinLose", GameManager.I.DataManager.GameData.Win.ToString() + "|" + GameManager.I.DataManager.GameData.Lose.ToString());
 
         return param;
     }
@@ -169,14 +165,16 @@ public class BackendManager : MonoBehaviour
         GameManager.I.DataManager.GameData.UserName = json["UserName"][0].ToString();
         GameManager.I.DataManager.GameData.RankPoint = int.Parse(json["RankPoint"][0].ToString());
 
-        int[] winLose = new int[2];
-        for (int i = 0; i < json["WinLose"]["L"].Count; i++)
-        {
-            winLose[i] = int.Parse(json["WinLose"]["L"][i][0].ToString());
-        }
+        string[] extraData = json["extraData"].ToString().Split("|");
+        GameManager.I.DataManager.GameData.Win = int.Parse(extraData[0].ToString());
+        GameManager.I.DataManager.GameData.Lose = int.Parse(extraData[1].ToString());
 
-        GameManager.I.DataManager.GameData.Win = winLose[0];
-        GameManager.I.DataManager.GameData.Lose = winLose[1];
+        //int[] winLose = new int[2];
+        //for (int i = 0; i < json["WinLose"]["L"].Count; i++)
+        //{
+        //    winLose[i] = int.Parse(json["WinLose"]["L"][i][0].ToString());
+        //}
+
     }
 
     public bool IsConnect()
