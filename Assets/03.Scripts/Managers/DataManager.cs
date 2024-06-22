@@ -4,6 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public string LoginID;
     public string UserName;
     public int Stage;
     public int Coin;

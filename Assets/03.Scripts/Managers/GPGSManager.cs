@@ -9,12 +9,20 @@ public class GPGSManager : MonoBehaviour
 {
     public void Init()
     {
-        
+        if (GameManager.I.ScenesManager.CurrentSceneName == "StartScene")
+        {
+            GPGSLogin();
+        }
     }
 
     public void Release()
     {
 
+    }
+
+    public string GetGPGSUserDisplayName()
+    {
+        return PlayGamesPlatform.Instance.GetUserDisplayName();
     }
 
     public string GetGPGSUserID()

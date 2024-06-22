@@ -15,7 +15,7 @@ MonoBehaviour:
   clientAppID: a3d3bd80-2caa-11ef-ad04-3f8071424c347809
   signatureKey: a3d3bd81-2caa-11ef-ad04-3f8071424c347809
   functionAuthKey: 
-  packageName: com.Jaemin-s-Game.PushAndSlash
+  packageName: com.JaeminsGame.PushAndSlash
   isAllPlatform: 1
   sendLogReport: 1
   rateCountActive: 0

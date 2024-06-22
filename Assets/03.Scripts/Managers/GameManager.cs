@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
         SoundManager.Init();
         ScenesManager.Init();
         UIManager.Init();
-        BackendManager.Init();
         GPGSManager.Init();
+        BackendManager.Init();
     }
 
     private void Release()
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         SoundManager.Release();
         ScenesManager.Release();
         UIManager.Release();
-        BackendManager.Release();
         GPGSManager.Release();
+        BackendManager.Release();
     }
 }

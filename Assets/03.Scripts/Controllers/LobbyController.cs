@@ -64,11 +64,21 @@ public class LobbyController : MonoBehaviour
     private CharacterData _drawCharacter;
     private int _drawCount;
 
+    [Header("Rank")]
+    [SerializeField] private GameObject _rankPanel;
+
     private GameData _gameData;
     private CharacterData _playerData;
     private DataWrapper _dataWrapper;
+    private RankSystem _rankSystem;
 
     [SerializeField] private TMP_Text text1;
+    [SerializeField] private TMP_Text text2;
+
+    private void Awake()
+    {
+        _rankSystem = GetComponent<RankSystem>();
+    }
 
     private void Start()
     {
@@ -84,6 +94,7 @@ public class LobbyController : MonoBehaviour
         if (PlayerPrefs.GetInt("Tutorial") == 0)
         {
             PlayerPrefs.SetInt("Tutorial", -1);
+            GameManager.I.DataManager.GameData.UserName = GameManager.I.GPGSManager.GetGPGSUserID();
             _CharacterSelectPanel.SetActive(true);
             GameManager.I.UIManager.UserNameSettingActive();
         }
@@ -101,6 +112,7 @@ public class LobbyController : MonoBehaviour
     private void Update()
     {
         text1.text = "GPGS UserID : " + GameManager.I.GPGSManager.GetGPGSUserID();
+        text2.text = "GPGS DisplayName : " + GameManager.I.GPGSManager.GetGPGSUserDisplayName();
     }
 
     public void ButtonClickMiss()
@@ -869,6 +881,27 @@ public class LobbyController : MonoBehaviour
         if (num == 0) return;
 
         _heroPanelOKButton.transform.GetChild(num - 1).gameObject.SetActive(true);
+    }
+    #endregion
+
+    #region Rank
+    public void RankActive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _rankSystem.GetMyRank();
+        _rankSystem.GetRankList();
+        _rankPanel.SetActive(true);
+    }
+
+    public void RankInactive()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        _rankPanel.SetActive(false);
+    }
+
+    public void UpdateRank(int value)
+    {
+        _rankSystem.UpdateRank(value);
     }
     #endregion
 }

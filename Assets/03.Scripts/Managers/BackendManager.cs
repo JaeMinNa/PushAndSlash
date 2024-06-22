@@ -10,7 +10,11 @@ public class BackendManager : MonoBehaviour
     public void Init()
     {
         BackendSetup();
-        Login();
+
+        if (GameManager.I.ScenesManager.CurrentSceneName != "StartScene")
+        {
+            Login();
+        }
     }
 
     public void Release()
@@ -35,7 +39,7 @@ public class BackendManager : MonoBehaviour
 
     public void SignUp()
     {
-        BackendReturnObject bro = Backend.BMember.CustomSignUp(GameManager.I.GPGSManager.GetGPGSUserID(), "1234");
+        BackendReturnObject bro = Backend.BMember.CustomSignUp(GameManager.I.DataManager.GameData.LoginID, "1234");
         if (bro.IsSuccess())
         {
             Debug.Log("회원가입에 성공했습니다.");
@@ -50,11 +54,16 @@ public class BackendManager : MonoBehaviour
 
     public void Login()
     {
-        BackendReturnObject bro = Backend.BMember.CustomLogin(GameManager.I.GPGSManager.GetGPGSUserID(), "1234");
+        BackendReturnObject bro = Backend.BMember.CustomLogin(GameManager.I.DataManager.GameData.LoginID, "1234");
         if (bro.IsSuccess())
         {
             Debug.Log("로그인에 성공했습니다.");
-            //GameManager.I.DataManager.DataSave();
+
+            if (GameManager.I.ScenesManager.CurrentSceneName == "StartScene")
+            {
+                GameManager.I.DataManager.DataSave();
+                GameManager.I.ScenesManager.LoadLoadingScene("LobbyScene");
+            }
         }
         else
         {
@@ -95,11 +104,14 @@ public class BackendManager : MonoBehaviour
     // param : 데이터를 송수신할 때 사용하는 class
     private Param GetUserDataParam()
     {
+        int[] winLose = new int[2];
+        winLose[0] = GameManager.I.DataManager.GameData.Win;
+        winLose[1] = GameManager.I.DataManager.GameData.Lose;
+
         Param param = new Param();
         param.Add("UserName", GameManager.I.DataManager.GameData.UserName);
         param.Add("RankPoint", GameManager.I.DataManager.GameData.RankPoint);
-        param.Add("Win", GameManager.I.DataManager.GameData.Win);
-        param.Add("Lose", GameManager.I.DataManager.GameData.Lose);
+        param.Add("WinLose", winLose);
 
         return param;
     }
@@ -118,6 +130,9 @@ public class BackendManager : MonoBehaviour
         if (bro.IsSuccess())
         {
             Debug.Log("데이터 저장 성공했습니다.");
+
+            // 닉네임 설정
+            bro = Backend.BMember.UpdateNickname(GameManager.I.DataManager.GameData.UserName);
         }
         else
         {
@@ -153,13 +168,21 @@ public class BackendManager : MonoBehaviour
     {
         GameManager.I.DataManager.GameData.UserName = json["UserName"][0].ToString();
         GameManager.I.DataManager.GameData.RankPoint = int.Parse(json["RankPoint"][0].ToString());
-        GameManager.I.DataManager.GameData.Win = int.Parse(json["Win"][0].ToString());
-        GameManager.I.DataManager.GameData.Lose = int.Parse(json["Lose"][0].ToString());
 
-        //GameData의 변수가 배열이라면 ?
-        //for (int i = 0; i < json["Items"]["L"].Count; i++)
-        //{
-        //    GameManager.I.DataManager.GameData.Items[i] = int.Parse(json["Items"]["L"][i][0].ToString());
-        //}
+        int[] winLose = new int[2];
+        for (int i = 0; i < json["WinLose"]["L"].Count; i++)
+        {
+            winLose[i] = int.Parse(json["WinLose"]["L"][i][0].ToString());
+        }
+
+        GameManager.I.DataManager.GameData.Win = winLose[0];
+        GameManager.I.DataManager.GameData.Lose = winLose[1];
+    }
+
+    public bool IsConnect()
+    {
+        if (Backend.IsInitialized) return true;
+
+        return false;
     }
 }
