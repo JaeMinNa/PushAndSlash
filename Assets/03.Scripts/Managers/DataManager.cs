@@ -12,6 +12,8 @@ public class GameData
     public int Win;
     public int Lose;
 
+    public string Country;
+
     [Header("Settings")]
     public float SFXValume;
     public float BGMValume;

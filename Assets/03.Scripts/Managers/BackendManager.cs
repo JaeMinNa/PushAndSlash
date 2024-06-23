@@ -168,13 +168,6 @@ public class BackendManager : MonoBehaviour
         string[] extraData = json["extraData"].ToString().Split("|");
         GameManager.I.DataManager.GameData.Win = int.Parse(extraData[0].ToString());
         GameManager.I.DataManager.GameData.Lose = int.Parse(extraData[1].ToString());
-
-        //int[] winLose = new int[2];
-        //for (int i = 0; i < json["WinLose"]["L"].Count; i++)
-        //{
-        //    winLose[i] = int.Parse(json["WinLose"]["L"][i][0].ToString());
-        //}
-
     }
 
     public bool IsConnect()

@@ -11,6 +11,7 @@ public class RankSystem : MonoBehaviour
     private const int MAX_RANK_LIST = 10;
 
     [Header("My Rank")]
+    [SerializeField] private GameObject _myRankMedals;
     [SerializeField] private TMP_Text _myRankText;
     [SerializeField] private TMP_Text _myUserNameText;
     [SerializeField] private TMP_Text _myRankPointText;
@@ -20,6 +21,7 @@ public class RankSystem : MonoBehaviour
 
     [Header("All Rank")]
     [SerializeField] private GameObject _rankList;
+    private GameObject _rankMedals;
     private TMP_Text _rankText;
     private TMP_Text _userNameText;
     private TMP_Text _rankPointText;
@@ -36,6 +38,12 @@ public class RankSystem : MonoBehaviour
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
+
+        BackendReturnObject bro = Backend.BMember.GetMyCountryCode();
+        GameManager.I.DataManager.GameData.Country = bro.GetReturnValuetoJSON()["country"]["S"].ToString();
+
+        //국가코드로 변환
+        BackEnd.GlobalSupport.CountryCode countryCode = BackEnd.GlobalSupport.CountryCodeDic.GetCountryName(GameManager.I.DataManager.GameData.Country);
     }
 
     public void UpdateRank(int value)
@@ -126,6 +134,12 @@ public class RankSystem : MonoBehaviour
                         string[] extraData = rankDataJson[i]["WinLose"].ToString().Split("|");
                         _win = int.Parse(extraData[0].ToString());
                         _lose = int.Parse(extraData[1].ToString());
+                        
+                        if(i >= 0 && i <= 2)
+                        {
+                            _rankMedals = _rankList.transform.GetChild(i).GetChild(6).gameObject;
+                            MedalActive(_rank);
+                        }
 
                         _rankText = _rankList.transform.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>();
                         _userNameText = _rankList.transform.GetChild(i).GetChild(2).GetComponent<TextMeshProUGUI>();
@@ -171,7 +185,7 @@ public class RankSystem : MonoBehaviour
     }
 
     public void GetMyRank()
-    {
+    {    
         // 내 랭킹 정보 불러오기
         BackendReturnObject bro = Backend.URank.User.GetMyRank(RANK_UUID);
 
@@ -186,6 +200,7 @@ public class RankSystem : MonoBehaviour
                 {
                     Debug.Log("나의 랭킹 데이터가 존재하지 않습니다.");
 
+                    MedalActive(0);
                     _myFlag.SetActive(false);
                     _myRankText.text = "-";
                     _myRankPointText.text = "-";
@@ -198,6 +213,7 @@ public class RankSystem : MonoBehaviour
                     _rankPoint = int.Parse(rankDataJson[0]["score"].ToString());
                     _rank = int.Parse(rankDataJson[0]["rank"].ToString());
 
+                    MyMedalActive(_rank);
                     _myFlag.SetActive(true);
                     _myRankText.text = _rank.ToString();
                     _myRankPointText.text = _rankPoint.ToString();
@@ -229,5 +245,29 @@ public class RankSystem : MonoBehaviour
             _myUserNameText.text = "-";
             _myWinLoseText.text = "-";
         }
+    }
+
+    private void MedalActive(int rank)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            _rankMedals.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        if (rank == 0) return;
+
+        _rankMedals.transform.GetChild(rank - 1).gameObject.SetActive(true);
+    }
+
+    private void MyMedalActive(int rank)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            _myRankMedals.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        if (rank == 0) return;
+
+        _myRankMedals.transform.GetChild(rank - 1).gameObject.SetActive(true);
     }
 }
