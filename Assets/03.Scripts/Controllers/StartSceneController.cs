@@ -13,6 +13,10 @@ public class StartSceneController : MonoBehaviour
     [SerializeField] private TMP_Text _idText2;
     [SerializeField] private TMP_Text _idText3;
 
+    private void Start()
+    {
+        GameManager.I.SoundManager.StartBGM("StartScene");
+    }
 
     private void Update()
     {

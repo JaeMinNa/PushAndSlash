@@ -207,7 +207,8 @@ public class RankSystem : MonoBehaviour
                     _rankPoint = int.Parse(rankDataJson[0]["score"].ToString());
                     _rank = int.Parse(rankDataJson[0]["rank"].ToString());
 
-                    MyMedalActive(_rank);
+                    if(_rank >= 1 && _rank <= 3) MyMedalActive(_rank);
+                    else MyMedalActive(0);
                     _myFlag.SetActive(true);
                     _myRankText.text = _rank.ToString();
                     _myRankPointText.text = _rankPoint.ToString();
