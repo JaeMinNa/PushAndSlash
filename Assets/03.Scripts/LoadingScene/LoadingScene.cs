@@ -10,11 +10,13 @@ public class LoadingScene : MonoBehaviour
     public static string NextScene;
     [SerializeField] Slider _loadingBar;
     [SerializeField] TMP_Text _loadingText;
+    [SerializeField] TMP_Text _LoadingDescriptionText;
 
     private void Start()
     {
         Time.timeScale = 1f;
         StartCoroutine(LoadScene());
+        LoadingDescription();
     }
 
     private void Update()
@@ -26,6 +28,32 @@ public class LoadingScene : MonoBehaviour
     {
         NextScene = sceneName;
         SceneManager.LoadScene("LoadingScene");
+    }
+
+    private void LoadingDescription()
+    {
+        int index = Random.Range(0, 5);
+
+        if (index == 0)
+        {
+            _LoadingDescriptionText.text = "멀티 대전을 통해 1:1 대전을 즐기세요.";
+        }
+        else if (index == 1)
+        {
+            _LoadingDescriptionText.text = "멀티 대전에서 승리해서 랭킹을 올려보세요.";
+        }
+        else if (index == 2)
+        {
+            _LoadingDescriptionText.text = "다양한 개성을 가진 캐릭터를 수집하세요.";
+        }
+        else if (index == 3)
+        {
+            _LoadingDescriptionText.text = "전략적으로 적을 떨어뜨리세요.";
+        }
+        else if (index == 4)
+        {
+            _LoadingDescriptionText.text = "캐릭터의 랭크가 더 높을수록 더 강합니다.";
+        }
     }
 
     IEnumerator LoadScene()

@@ -265,6 +265,7 @@ public class AdsManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
+        GameManager.I.SoundManager.StartSFX("Coin");
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
             _lobbyController.CoinSetting();
