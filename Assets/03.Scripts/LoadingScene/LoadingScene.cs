@@ -32,7 +32,7 @@ public class LoadingScene : MonoBehaviour
 
     private void LoadingDescription()
     {
-        int index = Random.Range(0, 5);
+        int index = Random.Range(0, 6);
 
         if (index == 0)
         {
@@ -52,7 +52,11 @@ public class LoadingScene : MonoBehaviour
         }
         else if (index == 4)
         {
-            _LoadingDescriptionText.text = "캐릭터의 랭크가 더 높을수록 더 강합니다.";
+            _LoadingDescriptionText.text = "레벨업을 통해 캐릭터를 성장하세요.";
+        }
+        else if (index == 5)
+        {
+            _LoadingDescriptionText.text = "뽑기를 통해 동일한 캐릭터를 얻으면 자동으로 강화됩니다.";
         }
     }
 
