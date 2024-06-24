@@ -38,12 +38,6 @@ public class RankSystem : MonoBehaviour
     private void Start()
     {
         _gameData = GameManager.I.DataManager.GameData;
-
-        BackendReturnObject bro = Backend.BMember.GetMyCountryCode();
-        GameManager.I.DataManager.GameData.Country = bro.GetReturnValuetoJSON()["country"]["S"].ToString();
-
-        //국가코드로 변환
-        BackEnd.GlobalSupport.CountryCode countryCode = BackEnd.GlobalSupport.CountryCodeDic.GetCountryName(GameManager.I.DataManager.GameData.Country);
     }
 
     public void UpdateRank(int value)
