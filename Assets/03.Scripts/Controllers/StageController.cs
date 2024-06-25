@@ -67,13 +67,11 @@ public class StageController : MonoBehaviour
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
-            GameManager.I.SoundManager.StartBGM("BattleScene");
             _time = 180f;
             StageSetting();
         }
         else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
-            GameManager.I.SoundManager.StartBGM("MultiScene");
             _networkManager = GameObject.FindWithTag("NetworkManager").GetComponent<NetworkManager>();
             _time = 0;
         }

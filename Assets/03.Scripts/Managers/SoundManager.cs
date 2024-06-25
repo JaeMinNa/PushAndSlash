@@ -35,12 +35,6 @@ public class SoundManager : MonoBehaviour
         }
 
         // BGM
-        _bgm.Add("MultiScene", Resources.Load<AudioClip>("Sounds/BGM/Boss Battle Theme"));
-        _bgm.Add("BattleScene", Resources.Load<AudioClip>("Sounds/BGM/Dungeon 1"));
-        _bgm.Add("BossScene", Resources.Load<AudioClip>("Sounds/BGM/Final Boss Battle"));
-        _bgm.Add("StartScene", Resources.Load<AudioClip>("Sounds/BGM/Overworld 1"));
-        _bgm.Add("LobbyScene", Resources.Load<AudioClip>("Sounds/BGM/Town Theme"));
-        _bgm.Add("MultiLobbyScene", Resources.Load<AudioClip>("Sounds/BGM/Downtime"));
 
         // SFX
         _sfx.Add("PlayerDash", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerDash"));

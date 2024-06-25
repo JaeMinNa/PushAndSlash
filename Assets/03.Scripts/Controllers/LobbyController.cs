@@ -109,7 +109,6 @@ public class LobbyController : MonoBehaviour
         GameManager.I.BackendManager.Save();
         UpdateRank(GameManager.I.DataManager.GameData.RankPoint);
         GameManager.I.DataManager.DataSave();
-        GameManager.I.SoundManager.StartBGM("LobbyScene");
     }
 
     private void Update()
