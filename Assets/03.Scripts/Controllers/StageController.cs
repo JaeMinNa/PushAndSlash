@@ -23,7 +23,7 @@ public class StageController : MonoBehaviour
     [SerializeField] private TMP_Text _stageClearExpText;
     [SerializeField] private Slider _stageClearExpSlider;
     private bool _isGameClear;
-    [HideInInspector] public int StageCoinBondus;
+    private int _stageCoinBondus;
 
     [Header("GameOver")]
     [SerializeField] private GameObject _gameOver;
@@ -49,7 +49,6 @@ public class StageController : MonoBehaviour
     private DataManager _dataManager;
     private List<CharacterData> _inventory;
     private NetworkManager _networkManager;
-    private bool _isAd;
 
     private void Start()
     {
@@ -61,9 +60,8 @@ public class StageController : MonoBehaviour
         _cameraController = _mainCamera.GetComponent<CameraController>();
         _isGameClear = false;
         _isGameOver = false;
-        _isAd = false;
         StageCoin = 0;
-        StageCoinBondus = 0;
+        _stageCoinBondus = 0;
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
@@ -108,11 +106,6 @@ public class StageController : MonoBehaviour
             _time += Time.deltaTime;
             TimeTextUpdate();
         }
-    }
-
-    public void ButtonClickMiss()
-    {
-        GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
     }
 
     #region UI
@@ -163,17 +156,17 @@ public class StageController : MonoBehaviour
             if (_time >= 120)
             {
                 StarEffectSetting(3);
-                StageCoinBondus = 300;
+                _stageCoinBondus = 300;
             }
             else if (_time >= 60)
             {
                 StarEffectSetting(2);
-                StageCoinBondus = 200;
+                _stageCoinBondus = 200;
             }
             else
             {
                 StarEffectSetting(1);
-                StageCoinBondus = 100;
+                _stageCoinBondus = 100;
             }
 
             LevelExpUp(StageExp);
@@ -187,19 +180,19 @@ public class StageController : MonoBehaviour
             if (_time <= 60)
             {
                 StarEffectSetting(3);
-                StageCoinBondus = 300;
+                _stageCoinBondus = 300;
                 LevelExpUp(40);
             }
             else if (_time <= 120)
             {
                 StarEffectSetting(2);
-                StageCoinBondus = 200;
+                _stageCoinBondus = 200;
                 LevelExpUp(30);
             }
             else
             {
                 StarEffectSetting(1);
-                StageCoinBondus = 100;
+                _stageCoinBondus = 100;
                 LevelExpUp(20);
             }
 
@@ -208,8 +201,8 @@ public class StageController : MonoBehaviour
             GameManager.I.DataManager.GameData.Win++;
         }
 
-        _stageCoinBonusText.text = StageCoinBondus.ToString();
-        GameManager.I.DataManager.GameData.Coin += StageCoinBondus;
+        _stageCoinBonusText.text = _stageCoinBondus.ToString();
+        GameManager.I.DataManager.GameData.Coin += _stageCoinBondus;
 
         PlayerDataToInventoryData();
         _stageClearLevelText.text = _dataManager.PlayerData.Level.ToString();
@@ -250,29 +243,6 @@ public class StageController : MonoBehaviour
 
         _gameOver.SetActive(true);
         GameManager.I.DataManager.DataSave();
-    }
-
-    public void EquipBonusAdsButton()
-    {
-        if(!_isAd)
-        {
-            _isAd = true;
-
-            GameManager.I.SoundManager.StartSFX("ButtonClick");
-            GameManager.I.AdsManager.LoadRewardedAd();
-
-        }
-        else
-        {
-            GameManager.I.SoundManager.StartSFX("ButtonClickMiss");
-        }
-
-    }
-
-    public void EquipCoinSetting()
-    {
-        _stageCoinBonusText.text = (StageCoinBondus * 2).ToString();
-        _stageClearCoinText.text = (StageCoin * 2).ToString();
     }
 
     private void StageSetting()
