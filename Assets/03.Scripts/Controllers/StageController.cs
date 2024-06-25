@@ -23,7 +23,7 @@ public class StageController : MonoBehaviour
     [SerializeField] private TMP_Text _stageClearExpText;
     [SerializeField] private Slider _stageClearExpSlider;
     private bool _isGameClear;
-    private int _stageCoinBondus;
+    [HideInInspector] public int StageCoinBondus;
 
     [Header("GameOver")]
     [SerializeField] private GameObject _gameOver;
@@ -61,7 +61,7 @@ public class StageController : MonoBehaviour
         _isGameClear = false;
         _isGameOver = false;
         StageCoin = 0;
-        _stageCoinBondus = 0;
+        StageCoinBondus = 0;
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
@@ -152,17 +152,17 @@ public class StageController : MonoBehaviour
             if (_time >= 120)
             {
                 StarEffectSetting(3);
-                _stageCoinBondus = 300;
+                StageCoinBondus = 300;
             }
             else if (_time >= 60)
             {
                 StarEffectSetting(2);
-                _stageCoinBondus = 200;
+                StageCoinBondus = 200;
             }
             else
             {
                 StarEffectSetting(1);
-                _stageCoinBondus = 100;
+                StageCoinBondus = 100;
             }
 
             LevelExpUp(StageExp);
@@ -176,19 +176,19 @@ public class StageController : MonoBehaviour
             if (_time <= 60)
             {
                 StarEffectSetting(3);
-                _stageCoinBondus = 300;
+                StageCoinBondus = 300;
                 LevelExpUp(40);
             }
             else if (_time <= 120)
             {
                 StarEffectSetting(2);
-                _stageCoinBondus = 200;
+                StageCoinBondus = 200;
                 LevelExpUp(30);
             }
             else
             {
                 StarEffectSetting(1);
-                _stageCoinBondus = 100;
+                StageCoinBondus = 100;
                 LevelExpUp(20);
             }
 
@@ -197,8 +197,8 @@ public class StageController : MonoBehaviour
             GameManager.I.DataManager.GameData.Win++;
         }
 
-        _stageCoinBonusText.text = _stageCoinBondus.ToString();
-        GameManager.I.DataManager.GameData.Coin += _stageCoinBondus;
+        _stageCoinBonusText.text = StageCoinBondus.ToString();
+        GameManager.I.DataManager.GameData.Coin += StageCoinBondus;
 
         PlayerDataToInventoryData();
         _stageClearLevelText.text = _dataManager.PlayerData.Level.ToString();
@@ -363,6 +363,19 @@ public class StageController : MonoBehaviour
         }
 
         return -1;
+    }
+
+    public void RewardAdButton()
+    {
+        GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.AdsManager.LoadRewardedAd();
+    }
+
+    public void RewardCoinSetting()
+    {
+        _stageClearCoinText.text = (StageCoin * 2).ToString();
+        _stageCoinBonusText.text = (StageCoinBondus * 2).ToString();
+        _stageGameOverCoinText.text = (StageCoin * 2).ToString();
     }
     #endregion
 
