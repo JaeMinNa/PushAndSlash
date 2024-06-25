@@ -106,6 +106,8 @@ public class LobbyController : MonoBehaviour
         CharacterStatSetting();
         EquipSetting();
 
+        GameManager.I.BackendManager.Save();
+        UpdateRank(GameManager.I.DataManager.GameData.RankPoint);
         GameManager.I.DataManager.DataSave();
     }
 
