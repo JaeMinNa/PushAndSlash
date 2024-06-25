@@ -27,11 +27,11 @@ public class SkillCollider : MonoBehaviour
             StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
             other.GetComponent<EnemyController>().IsHit_skill = true;
         }
-        else if (other.CompareTag("Player") /*&& !other.gameObject.Equals(_playerCharacter.gameObject)*/)
+        else if (other.CompareTag("Player") && !other.gameObject.Equals(_playerCharacter.gameObject))
         {
             StartCoroutine(_cameraShake.COShake(0.8f, 0.5f));
 
-            if(_photonView.IsMine) other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _playerCharacter.SkillAtk);
+            if(_photonView.IsMine) other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _playerData.SkillAtk);
             else other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _playerCharacter.SkillAtk);
         }
     }

@@ -21,12 +21,14 @@ public class AttackCollider : MonoBehaviour
     private CameraShake _cameraShake;
     private ParticleSystem _attackParticleSystem;
     private EffectFixedPosition _effectFixedPosition;
+    private CharacterData _playerData;
     private PhotonView _photonView;
 
     private void Start()
     {
         _player = GameManager.I.PlayerManager.Player;
         _cameraShake = Camera.main.GetComponent<CameraShake>();
+        _playerData = GameManager.I.DataManager.PlayerData;
 
         if (CharacterType == Type.Player)
         {
@@ -60,14 +62,14 @@ public class AttackCollider : MonoBehaviour
                 _attackParticleSystem.Play();
                 other.GetComponent<EnemyController>().IsHit_attack = true;
             }
-            else if (other.CompareTag("Player") /*&& !other.gameObject.Equals(_playerCharacter.gameObject)*/)
+            else if (other.CompareTag("Player") && !other.gameObject.Equals(_playerCharacter.gameObject))
             {
                 StartCoroutine(_cameraShake.COShake(0.3f, 0.3f));
                 Vector3 contactPoint = other.ClosestPointOnBounds(transform.position);
                 _effectFixedPosition.SetPosition(contactPoint);
                 _attackParticleSystem.Play();
 
-                if(_photonView.IsMine) other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _playerCharacter.Atk);
+                if(_photonView.IsMine) other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _playerData.Atk);
                 else other.GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, _playerCharacter.Atk);
             }
         }

@@ -86,7 +86,7 @@ public class AdsManager : MonoBehaviour
             DestroyAd();
         }
 
-        _bannerView = new BannerView(_adBannerUnitId, AdSize.Banner, AdPosition.Bottom);
+        _bannerView = new BannerView(_adBannerUnitId, AdSize.Leaderboard, AdPosition.Bottom);
 
         //적응형 배너(꽉찬 사이즈)
         //AdSize adaptiveSize = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);

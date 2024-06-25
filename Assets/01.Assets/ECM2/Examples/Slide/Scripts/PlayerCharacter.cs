@@ -317,7 +317,7 @@ namespace ECM2.Examples.Slide
 
         private IEnumerator COFinishNuckback(Vector3 attackPosition)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.5f);
             transform.LookAt(attackPosition);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             _rigidbody.isKinematic = true;
