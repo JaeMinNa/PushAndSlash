@@ -39,7 +39,7 @@ public class EnemyHitState : MonoBehaviour, IEnemyState
 
             if(_enemyController.IsGround())
             {
-                if (_time >= 0.2f)
+                if (_time >= 0.5f)
                 {
                     _enemyController.IsHit_attack = false;
                     _enemyController.IsHit_skill = false;
