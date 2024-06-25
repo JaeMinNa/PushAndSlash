@@ -92,7 +92,6 @@ public class DataManager : MonoBehaviour
     public CharacterData PlayerData;
     public GameData GameData;
     public DataWrapper DataWrapper;
-    private RankSystem _rankSystem;
 
     public void Init()
     {
