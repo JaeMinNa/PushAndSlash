@@ -154,8 +154,6 @@ public class StageController : MonoBehaviour
     public void GameClear()
     {
         Time.timeScale = 0f;
-        GameManager.I.SoundManager.StartBGM("Victory");
-        GameManager.I.SoundManager.StartSFX("WinStar");
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
@@ -223,8 +221,6 @@ public class StageController : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0f;
-        GameManager.I.SoundManager.StopBGM();
-        GameManager.I.SoundManager.StartSFX("LoseSFX");
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {

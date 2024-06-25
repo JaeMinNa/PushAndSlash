@@ -66,8 +66,6 @@ public class EnemyController : MonoBehaviour
     {
         CheckPlayer();
         transform.LookAt(Target.transform.position);
-
-        if (transform.position.y > 0) transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
     public void WalkStart()

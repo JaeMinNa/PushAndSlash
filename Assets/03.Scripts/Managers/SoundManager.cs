@@ -36,12 +36,11 @@ public class SoundManager : MonoBehaviour
 
         // BGM
         _bgm.Add("MultiScene", Resources.Load<AudioClip>("Sounds/BGM/Boss Battle Theme"));
-        _bgm.Add("BattleScene", Resources.Load<AudioClip>("Sounds/BGM/Battle Theme"));
+        _bgm.Add("BattleScene", Resources.Load<AudioClip>("Sounds/BGM/Dungeon 1"));
         _bgm.Add("BossScene", Resources.Load<AudioClip>("Sounds/BGM/Final Boss Battle"));
         _bgm.Add("StartScene", Resources.Load<AudioClip>("Sounds/BGM/Overworld 1"));
         _bgm.Add("LobbyScene", Resources.Load<AudioClip>("Sounds/BGM/Town Theme"));
         _bgm.Add("MultiLobbyScene", Resources.Load<AudioClip>("Sounds/BGM/Downtime"));
-        _bgm.Add("Victory", Resources.Load<AudioClip>("Sounds/BGM/Victory Fanfare"));
 
         // SFX
         _sfx.Add("PlayerDash", Resources.Load<AudioClip>("Sounds/SFX/Player/PlayerDash"));
@@ -92,9 +91,6 @@ public class SoundManager : MonoBehaviour
         _sfx.Add("EquipButton", Resources.Load<AudioClip>("Sounds/SFX/UI/EquipButton"));
         _sfx.Add("CharacterGetButton", Resources.Load<AudioClip>("Sounds/SFX/UI/CharacterGetButton"));
         _sfx.Add("Ready", Resources.Load<AudioClip>("Sounds/SFX/UI/Ready"));
-        _sfx.Add("Coin", Resources.Load<AudioClip>("Sounds/SFX/UI/Coin"));
-        _sfx.Add("WinStar", Resources.Load<AudioClip>("Sounds/SFX/UI/WinStar"));
-        _sfx.Add("LoseSFX", Resources.Load<AudioClip>("Sounds/SFX/UI/LoseSFX"));
     }
 
     // 메모리 해제
@@ -130,7 +126,7 @@ public class SoundManager : MonoBehaviour
         _cameraBGMAudioSource.Play();
     }
 
-    public void StopBGM()
+    public void StopBGM(string name)
     {
         if (_cameraBGMAudioSource != null) _cameraBGMAudioSource.Stop();
     }

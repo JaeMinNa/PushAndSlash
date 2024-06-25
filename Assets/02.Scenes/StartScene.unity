@@ -1807,146 +1807,6 @@ PrefabInstance:
       propertyPath: _etcSFXAudioSources.Array.data[3]
       value: 
       objectReference: {fileID: 2000365073}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[3].Atk
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[4].Atk
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[6].Atk
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[7].Atk
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[8].Atk
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[9].Atk
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[10].Atk
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[7].Speed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[1].SkillAtk
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[2].SkillAtk
-      value: 18.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[3].SkillAtk
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[4].SkillAtk
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[6].SkillAtk
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[7].SkillAtk
-      value: 19.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[8].SkillAtk
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[9].SkillAtk
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[10].SkillAtk
-      value: 19.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[3].OriginAtk
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[4].OriginAtk
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[6].OriginAtk
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[7].OriginAtk
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[8].OriginAtk
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[9].OriginAtk
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[10].OriginAtk
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[6].OriginSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[7].OriginSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[1].OriginSkillAtk
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[2].OriginSkillAtk
-      value: 18.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[3].OriginSkillAtk
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[4].OriginSkillAtk
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[6].OriginSkillAtk
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[7].OriginSkillAtk
-      value: 19.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[8].OriginSkillAtk
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[9].OriginSkillAtk
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7950144496846364888, guid: e50cafaa264e00c4e9b6cdf3e45102e7, type: 3}
-      propertyPath: DataWrapper.CharacterDatas.Array.data[10].OriginSkillAtk
-      value: 19.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2153,7 +2013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3761491173597051397
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2474,7 +2334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3761491174173271331
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2699,6 +2559,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7677,6 +7538,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12596,6 +12458,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

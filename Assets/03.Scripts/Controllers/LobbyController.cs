@@ -40,15 +40,6 @@ public class LobbyController : MonoBehaviour
     [Header("CharacterSelect")]
     [SerializeField] private GameObject _CharacterSelectPanel;
     [SerializeField] private GameObject _CharacterSelectOKPanel;
-    [SerializeField] private TMP_Text _Character1AtkText;
-    [SerializeField] private TMP_Text _Character1DefText;
-    [SerializeField] private TMP_Text _Character1SpeedText;
-    [SerializeField] private TMP_Text _Character2AtkText;
-    [SerializeField] private TMP_Text _Character2DefText;
-    [SerializeField] private TMP_Text _Character2SpeedText;
-    [SerializeField] private TMP_Text _Character3AtkText;
-    [SerializeField] private TMP_Text _Character3DefText;
-    [SerializeField] private TMP_Text _Character3SpeedText;
     private int _charactetSelectNum;
     private CharacterData _inventorySelectData;
 
@@ -102,7 +93,10 @@ public class LobbyController : MonoBehaviour
 
         if (PlayerPrefs.GetInt("Tutorial") == 0)
         {
-            CharacterSelectActive();
+            PlayerPrefs.SetInt("Tutorial", -1);
+            GameManager.I.DataManager.GameData.UserName = GameManager.I.GPGSManager.GetGPGSUserID();
+            _CharacterSelectPanel.SetActive(true);
+            GameManager.I.UIManager.UserNameSettingActive();
         }
 
         CoinSetting();
@@ -405,25 +399,6 @@ public class LobbyController : MonoBehaviour
     #endregion
 
     #region CharacterSelect
-    public void CharacterSelectActive()
-    {
-        PlayerPrefs.SetInt("Tutorial", -1);
-        GameManager.I.DataManager.GameData.UserName = GameManager.I.GPGSManager.GetGPGSUserID();
-
-        _Character1AtkText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[0].OriginAtk.ToString();
-        _Character1DefText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[0].OriginDef.ToString();
-        _Character1SpeedText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[0].OriginSpeed.ToString();
-        _Character2AtkText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[3].OriginAtk.ToString();
-        _Character2DefText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[3].OriginDef.ToString();
-        _Character2SpeedText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[3].OriginSpeed.ToString();
-        _Character3AtkText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[1].OriginAtk.ToString();
-        _Character3DefText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[1].OriginDef.ToString();
-        _Character3SpeedText.text = GameManager.I.DataManager.DataWrapper.CharacterDatas[1].OriginSpeed.ToString();
-
-        _CharacterSelectPanel.SetActive(true);
-        GameManager.I.UIManager.UserNameSettingActive();
-    }
-
     public void CharacterSelectCancleButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
