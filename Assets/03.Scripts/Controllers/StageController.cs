@@ -49,6 +49,7 @@ public class StageController : MonoBehaviour
     private DataManager _dataManager;
     private List<CharacterData> _inventory;
     private NetworkManager _networkManager;
+    private bool _isAd;
 
     private void Start()
     {
@@ -60,6 +61,7 @@ public class StageController : MonoBehaviour
         _cameraController = _mainCamera.GetComponent<CameraController>();
         _isGameClear = false;
         _isGameOver = false;
+        _isAd = false;
         StageCoin = 0;
         StageCoinBondus = 0;
 
@@ -67,11 +69,13 @@ public class StageController : MonoBehaviour
         {
             _time = 180f;
             StageSetting();
+            GameManager.I.SoundManager.StartBGM("BattleScene");
         }
         else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
             _networkManager = GameObject.FindWithTag("NetworkManager").GetComponent<NetworkManager>();
             _time = 0;
+            GameManager.I.SoundManager.StartBGM("MultiScene");
         }
 
         StageTextSetting();
@@ -145,6 +149,8 @@ public class StageController : MonoBehaviour
     public void GameClear()
     {
         Time.timeScale = 0f;
+        GameManager.I.SoundManager.StartBGM("Victory");
+        GameManager.I.SoundManager.StartSFX("Win");
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
@@ -212,6 +218,8 @@ public class StageController : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0f;
+        GameManager.I.SoundManager.StopBGM();
+        GameManager.I.SoundManager.StartSFX("Lose");
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
         {
@@ -367,8 +375,12 @@ public class StageController : MonoBehaviour
 
     public void RewardAdButton()
     {
-        GameManager.I.SoundManager.StartSFX("ButtonClick");
-        GameManager.I.AdsManager.LoadRewardedAd();
+        if(!_isAd)
+        {
+            _isAd = true;
+            GameManager.I.SoundManager.StartSFX("ButtonClick");
+            GameManager.I.AdsManager.LoadRewardedAd();
+        }
     }
 
     public void RewardCoinSetting()

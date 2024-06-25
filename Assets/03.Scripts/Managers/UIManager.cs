@@ -47,13 +47,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (GameManager.I.ScenesManager.CurrentSceneName != "StartScene") SoundSetting();
-        
-        //inputField.ActivateInputField();
-    }
-
     public void PlayerSetting()
     {
         _player = GameManager.I.PlayerManager.Player;
@@ -86,12 +79,16 @@ public class UIManager : MonoBehaviour
     }
 
     #region Sound
-    private void SoundSetting()
+    public void SoundSetting()
     {
         float sfx = GameManager.I.DataManager.GameData.SFXValume;
         float bgm = GameManager.I.DataManager.GameData.BGMValume;
-        _sfxSlider.value = sfx;
-        _bgmSlider.value = bgm;
+
+        if(GameManager.I.ScenesManager.CurrentSceneName != "StartScene")
+        {
+            _sfxSlider.value = sfx;
+            _bgmSlider.value = bgm;
+        }
 
         if (sfx == -40f)	// -40¿œ ∂ß, ¿Ωæ«¿ª ≤®¡‹
         {

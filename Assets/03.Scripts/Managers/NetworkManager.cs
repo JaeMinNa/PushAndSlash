@@ -278,6 +278,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void MultiPlayActive()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.SoundManager.StartBGM("MultiReady");
 
         for (int i = 0; i < _roomMyInfoObjects.Length; i++)
         {
@@ -305,6 +306,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void MultiPlayInactive()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
+        GameManager.I.SoundManager.StartBGM("LobbyScene");
         _multiPlayPanel.SetActive(false);
         DisConnect();
     }

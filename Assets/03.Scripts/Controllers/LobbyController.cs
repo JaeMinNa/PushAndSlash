@@ -38,8 +38,8 @@ public class LobbyController : MonoBehaviour
     private List<CharacterData> _inventory;
 
     [Header("CharacterSelect")]
-    [SerializeField] private GameObject _CharacterSelectPanel;
-    [SerializeField] private GameObject _CharacterSelectOKPanel;
+    [SerializeField] private GameObject _characterSelectPanel;
+    [SerializeField] private GameObject _characterSelectOKPanel;
     private int _charactetSelectNum;
     private CharacterData _inventorySelectData;
 
@@ -91,13 +91,7 @@ public class LobbyController : MonoBehaviour
         _charactetSelectNum = -1;
         _drawCount = 0;
 
-        if (PlayerPrefs.GetInt("Tutorial") == 0)
-        {
-            PlayerPrefs.SetInt("Tutorial", -1);
-            GameManager.I.DataManager.GameData.UserName = GameManager.I.GPGSManager.GetGPGSUserID();
-            _CharacterSelectPanel.SetActive(true);
-            GameManager.I.UIManager.UserNameSettingActive();
-        }
+        if (PlayerPrefs.GetInt("Tutorial") == 0) CharacterSelectActive();
 
         CoinSetting();
         UserNameSetting();
@@ -105,6 +99,7 @@ public class LobbyController : MonoBehaviour
         CharacterSetting();
         CharacterStatSetting();
         EquipSetting();
+        GameManager.I.SoundManager.StartBGM("LobbyScene");
 
         GameManager.I.BackendManager.Save();
         UpdateRank(GameManager.I.DataManager.GameData.RankPoint);
@@ -382,7 +377,7 @@ public class LobbyController : MonoBehaviour
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
         _charactetSelectNum = num;
-        _CharacterSelectOKPanel.SetActive(true);
+        _characterSelectOKPanel.SetActive(true);
     }
 
     private void ActiveStar(int starNum)
@@ -401,7 +396,7 @@ public class LobbyController : MonoBehaviour
     public void CharacterSelectCancleButton()
     {
         GameManager.I.SoundManager.StartSFX("ButtonClick");
-        _CharacterSelectOKPanel.SetActive(false);
+        _characterSelectOKPanel.SetActive(false);
     }
 
     public void CharacterSelectConfirmedButton()
@@ -428,8 +423,16 @@ public class LobbyController : MonoBehaviour
         }
 
         UserNameSetting();
-        _CharacterSelectPanel.SetActive(false);
+        _characterSelectPanel.SetActive(false);
         GameManager.I.DataManager.DataSave();
+    }
+
+    private void CharacterSelectActive()
+    {
+        PlayerPrefs.SetInt("Tutorial", -1);
+        GameManager.I.DataManager.GameData.UserName = GameManager.I.GPGSManager.GetGPGSUserID();
+        _characterSelectPanel.SetActive(true);
+        GameManager.I.UIManager.UserNameSettingActive();
     }
     #endregion
 
