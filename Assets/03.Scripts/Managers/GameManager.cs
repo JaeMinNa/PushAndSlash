@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public ScenesManager ScenesManager { get; private set; }
     public BackendManager BackendManager { get; private set; }
     public GPGSManager GPGSManager { get; private set; }
+    public AdsManager AdsManager { get; private set; }
 
     public static GameManager I;
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         UIManager = GetComponentInChildren<UIManager>();
         BackendManager = GetComponentInChildren<BackendManager>();
         GPGSManager = GetComponentInChildren<GPGSManager>();
+        AdsManager = GetComponentInChildren<AdsManager>();
 
         Init();
     }
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         UIManager.Init();
         GPGSManager.Init();
         BackendManager.Init();
+        AdsManager.Init();
     }
 
     private void Release()
@@ -54,5 +57,6 @@ public class GameManager : MonoBehaviour
         UIManager.Release();
         GPGSManager.Release();
         BackendManager.Release();
+        AdsManager.Release();
     }
 }
