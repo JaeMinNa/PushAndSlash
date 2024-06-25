@@ -106,8 +106,6 @@ public class LobbyController : MonoBehaviour
         CharacterStatSetting();
         EquipSetting();
 
-        GameManager.I.BackendManager.Save();
-        UpdateRank(GameManager.I.DataManager.GameData.RankPoint);
         GameManager.I.DataManager.DataSave();
     }
 
@@ -130,9 +128,9 @@ public class LobbyController : MonoBehaviour
         GameManager.I.ScenesManager.LoadLoadingScene("BattleScene1");
     }
 
-    public void CoinSetting()
+    private void CoinSetting()
     {
-        _coinText.text = GameManager.I.DataManager.GameData.Coin.ToString();
+        _coinText.text = _gameData.Coin.ToString();
     }
 
     public void UserNameSetting()
@@ -187,23 +185,17 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    //private int FindCharacterDataOrder(CharacterData data)
-    //{
-    //    int count = _dataWrapper.CharacterDatas.Length;
-
-    //    for (int i = 0; i < count; i++)
-    //    {
-    //        if (data.Tag == _dataWrapper.CharacterDatas[i].Tag) return i;
-    //        else continue;
-    //    }
-
-    //    return -1;
-    //}
-
-    public void CoinAdButton()
+    private int FindCharacterDataOrder(CharacterData data)
     {
-        GameManager.I.SoundManager.StartSFX("ButtonClick");
-        GameManager.I.AdsManager.LoadRewardedAd();
+        int count = _dataWrapper.CharacterDatas.Length;
+
+        for (int i = 0; i < count; i++)
+        {
+            if (data.Tag == _dataWrapper.CharacterDatas[i].Tag) return i;
+            else continue;
+        }
+
+        return -1;
     }
     #endregion
 
@@ -907,7 +899,7 @@ public class LobbyController : MonoBehaviour
         _rankPanel.SetActive(false);
     }
 
-    private void UpdateRank(int value)
+    public void UpdateRank(int value)
     {
         _rankSystem.UpdateRank(value);
     }

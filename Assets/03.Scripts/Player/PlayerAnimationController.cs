@@ -68,7 +68,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void StartSFX(string name)
     {
-        GameManager.I.SoundManager.StartSFX(name, transform.position);
+        GameManager.I.SoundManager.StartSFX(name);
     }
 
     public void ShootRangedAttack(string name)
@@ -99,7 +99,21 @@ public class PlayerAnimationController : MonoBehaviour
             else if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerSkill)
                 obj.GetComponent<ETFXProjectileScript>().SetInit(_playerData.SkillAtk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
         }
+
+        //_photonView.RPC("ShootRangedAttackRPC", RpcTarget.AllBuffered, name);
     }
+
+    //[PunRPC]
+    //private void ShootRangedAttackRPC(string name)
+    //{
+    //    GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Player/" + name), _shootPosition.position, Quaternion.identity);
+
+    //    if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerAttack)
+    //        obj.GetComponent<ETFXProjectileScript>().Atk = _playerData.Atk;
+    //    else if (obj.GetComponent<ETFXProjectileScript>().CharacterType == ETFXProjectileScript.Type.PlayerSkill)
+    //        obj.GetComponent<ETFXProjectileScript>().Atk = _playerData.SkillAtk;
+    //}
+
 
     public void ShootArrowAttack(string name)
     {
@@ -116,5 +130,6 @@ public class PlayerAnimationController : MonoBehaviour
         {
             obj.GetComponent<Arrow>().SetInit(_playerData.Atk, new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z));
         }
+
     }
 }
