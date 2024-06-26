@@ -17857,6 +17857,8 @@ MonoBehaviour:
   Target: {fileID: 0}
   EnemyData:
     Tag: 
+    Exp: 0
+    Coin: 0
     Speed: 0
     Atk: 0
     AttackCoolTime: 0
@@ -17866,8 +17868,22 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   PlayerData:
     Tag: 
+    KoreaTag: 
+    IsEquip: 0
     CharacterRank: 0
+    Star: 0
+    CurrentStarExp: 0
+    MaxStarExp: 0
     Level: 0
+    CurrentExp: 0
+    MaxExp: 0
+    OriginSpeed: 0
+    OriginDashImpulse: 0
+    OriginDashCoolTime: 0
+    OriginAtk: 0
+    OriginDef: 0
+    OriginSkillAtk: 0
+    OriginSkillCoolTime: 0
     Speed: 0
     DashImpulse: 0
     DashCoolTime: 0
@@ -17875,13 +17891,12 @@ MonoBehaviour:
     Def: 0
     SkillAtk: 0
     SkillCoolTime: 0
+  StageController: {fileID: 0}
   Speed: 0
   Atk: 0
   Def: 0
   IsHit_attack: 0
   IsHit_skill: 0
-  BowAnimator: {fileID: 0}
-  ArrowAnimator: {fileID: 0}
 --- !u!136 &3455976103677219311
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -21358,6 +21373,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2484628468444166173}
     m_Modifications:
+    - target: {fileID: -5463659567174628342, guid: 5b874176c08c06243b1a9e2ac272808e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5463659567174628342, guid: 5b874176c08c06243b1a9e2ac272808e, type: 3}
+      propertyPath: CharacterType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6295240397556903162, guid: 5b874176c08c06243b1a9e2ac272808e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0

@@ -7,6 +7,7 @@ public class EnemyHitState : MonoBehaviour, IEnemyState
     private EnemyController _enemyController;
     private float _time;
     private Vector3 _dir;
+    private bool _isHit;
 
     // Start문과 동일하게 사용
     public void Handle(EnemyController enemyController)
@@ -18,6 +19,7 @@ public class EnemyHitState : MonoBehaviour, IEnemyState
         _enemyController.EnemyAnimator.SetBool("Attack", false);
         _enemyController.Rigidbody.isKinematic = false;
         _time = 0f;
+        _isHit = false;
         _dir = (transform.position - _enemyController.Target.transform.position).normalized;
         if(_enemyController.IsHit_attack)
         {
@@ -43,7 +45,12 @@ public class EnemyHitState : MonoBehaviour, IEnemyState
                 {
                     _enemyController.IsHit_attack = false;
                     _enemyController.IsHit_skill = false;
-                    _enemyController.Rigidbody.isKinematic = true;
+                    if (!_isHit && _time >= 0.2f)
+                    {
+                        _isHit = true;
+                        _enemyController.Rigidbody.isKinematic = true;
+                    }
+
                     _enemyController.WalkStart();
                     break;
                 }
