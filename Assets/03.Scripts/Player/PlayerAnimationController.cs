@@ -68,7 +68,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void StartSFX(string name)
     {
-        GameManager.I.SoundManager.StartSFX(name);
+        GameManager.I.SoundManager.StartSFX(name, transform.position);
     }
 
     public void ShootRangedAttack(string name)

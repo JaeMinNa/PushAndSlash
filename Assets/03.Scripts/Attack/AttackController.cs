@@ -27,7 +27,7 @@ public class AttackController : MonoBehaviour
             _weaponColliders[i].enabled = true;
         }
 
-        StartCoroutine(COAttackColliderInactive(time));
+        //StartCoroutine(COAttackColliderInactive(time));
     }
 
     private IEnumerator COAttackColliderInactive(float time)
