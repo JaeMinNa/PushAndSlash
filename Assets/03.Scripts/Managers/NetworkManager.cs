@@ -65,13 +65,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
-            //PhotonNetwork.OfflineMode = false;
             PhotonNetwork.SendRate = 20;
             PhotonNetwork.SerializationRate = 10;
         }
         else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1")
         {
-            //PhotonNetwork.OfflineMode = false;
             PhotonNetwork.SendRate = 60;
             PhotonNetwork.SerializationRate = 60;
             _cameraControler = Camera.main.GetComponent<CameraController>();
@@ -90,16 +88,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             _cameraControler.CameraSetting();
             GameManager.I.UIManager.PlayerSetting();
         }
-        //else if(GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
-        //{
-        //    PhotonNetwork.OfflineMode = true;
-        //    Connect();
-        //}
     }
 
     private void Awake()
     {
-        //_photonView = GetComponent<PhotonView>();
         Screen.SetResolution(960, 540, false);
     }
 
