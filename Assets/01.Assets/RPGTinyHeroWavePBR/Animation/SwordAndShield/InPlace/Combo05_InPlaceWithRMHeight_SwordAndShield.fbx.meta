@@ -67,18 +67,18 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6380179
-        functionName: StartSFX
-        data: PlayerSwordSkill
-        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.64366114
+      - time: 0.6408121
         functionName: SkillColliderActive
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 41916e1be04801042a025c55bcaa8e56, type: 3}
         floatParameter: 0.2
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6408669
+        functionName: StartSFX
+        data: PlayerSwordSkill
+        objectReferenceParameter: {fileID: 11500000, guid: 07d6a82aa8419434ca2c12fd8e7400dd, type: 3}
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       transformMask:

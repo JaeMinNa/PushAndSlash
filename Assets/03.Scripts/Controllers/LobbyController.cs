@@ -40,15 +40,6 @@ public class LobbyController : MonoBehaviour
     [Header("CharacterSelect")]
     [SerializeField] private GameObject _characterSelectPanel;
     [SerializeField] private GameObject _characterSelectOKPanel;
-    [SerializeField] private TMP_Text _character1AtkText;
-    [SerializeField] private TMP_Text _character1DefText;
-    [SerializeField] private TMP_Text _character1SpeedText;
-    [SerializeField] private TMP_Text _character2AtkText;
-    [SerializeField] private TMP_Text _character2DefText;
-    [SerializeField] private TMP_Text _character2SpeedText;
-    [SerializeField] private TMP_Text _character3AtkText;
-    [SerializeField] private TMP_Text _character3DefText;
-    [SerializeField] private TMP_Text _character3SpeedText;
     private int _charactetSelectNum;
     private CharacterData _inventorySelectData;
 
@@ -102,7 +93,6 @@ public class LobbyController : MonoBehaviour
 
         if (PlayerPrefs.GetInt("Tutorial") == 0) CharacterSelectActive();
 
-        GameManager.I.AdsManager.DestroyAd();
         CoinSetting();
         UserNameSetting();
         StageSetting();
@@ -441,15 +431,6 @@ public class LobbyController : MonoBehaviour
     {
         PlayerPrefs.SetInt("Tutorial", -1);
         GameManager.I.DataManager.GameData.UserName = GameManager.I.GPGSManager.GetGPGSUserID();
-        _character1AtkText.text = _dataWrapper.CharacterDatas[0].OriginAtk.ToString();
-        _character1DefText.text = _dataWrapper.CharacterDatas[0].OriginDef.ToString();
-        _character1SpeedText.text = _dataWrapper.CharacterDatas[0].OriginSpeed.ToString();
-        _character2AtkText.text = _dataWrapper.CharacterDatas[3].OriginAtk.ToString();
-        _character2DefText.text = _dataWrapper.CharacterDatas[3].OriginDef.ToString();
-        _character2SpeedText.text = _dataWrapper.CharacterDatas[3].OriginSpeed.ToString();
-        _character3AtkText.text = _dataWrapper.CharacterDatas[1].OriginAtk.ToString();
-        _character3DefText.text = _dataWrapper.CharacterDatas[1].OriginDef.ToString();
-        _character3SpeedText.text = _dataWrapper.CharacterDatas[1].OriginSpeed.ToString();
         _characterSelectPanel.SetActive(true);
         GameManager.I.UIManager.UserNameSettingActive();
     }

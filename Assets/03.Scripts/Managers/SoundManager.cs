@@ -94,7 +94,6 @@ public class SoundManager : MonoBehaviour
         _sfx.Add("Ready", Resources.Load<AudioClip>("Sounds/SFX/UI/Ready"));
         _sfx.Add("Win", Resources.Load<AudioClip>("Sounds/SFX/UI/WinStar"));
         _sfx.Add("Lose", Resources.Load<AudioClip>("Sounds/SFX/UI/Lose"));
-        _sfx.Add("Coin", Resources.Load<AudioClip>("Sounds/SFX/UI/Coin"));
     }
 
     private void Start()

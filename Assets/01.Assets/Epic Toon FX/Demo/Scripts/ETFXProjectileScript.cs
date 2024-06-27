@@ -54,7 +54,16 @@ namespace EpicToonFX
             {
                 if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1") _layerMask = LayerMask.NameToLayer("Enemy");
                 else if (GameManager.I.ScenesManager.CurrentSceneName == "MultiBattleScene1") _layerMask = LayerMask.NameToLayer("Player");
+
+                //if (_phtonView.IsMine) _dir = new Vector3(_player.transform.forward.x, 0, _player.transform.forward.z);
+                //else
+                //{
+                //    if(_enemyPlayer != null)
+                //    _dir = new Vector3(_enemyPlayer.transform.forward.x, 0, _enemyPlayer.transform.forward.z);
+                //}
+                //_dir = Vector3.zero;
             }
+            //transform.LookAt(transform.position + _dir);
 
             projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
             if (CharacterType == Type.PlayerSkill) projectileParticle.transform.localScale = _skillScale;
@@ -117,6 +126,7 @@ namespace EpicToonFX
                 Destroy(impactP, 3.5f); // Removes impact effect after delay
                 Targetting();
                 Destroy(gameObject); // Removes the projectile
+                //PhotonNetwork.Destroy(gameObject);
 
                 string name = gameObject.name.Substring(0, gameObject.name.Length - 7);
                 if (CharacterType == Type.Enemy) GameManager.I.SoundManager.StartSFX("Enemy" + name + "Explosion", transform.position);
@@ -185,6 +195,7 @@ namespace EpicToonFX
 
                             for (int i = 0; i < _targets.Length; i++)
                             {
+                                //if(_targets[i] != _player.GetComponent<CapsuleCollider>())
                                 _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
                             }
                         }
@@ -194,6 +205,7 @@ namespace EpicToonFX
 
                             for (int i = 0; i < _targets.Length; i++)
                             {
+                                //if (_targets[i] != _player.GetComponent<CapsuleCollider>())
                                 _targets[i].GetComponent<PlayerCharacter>().PlayerNuckback(transform.position, Atk);
                             }
                         }
@@ -208,6 +220,7 @@ namespace EpicToonFX
             if (gameObject != null)
             {
                 Destroy(gameObject);
+                //PhotonNetwork.Destroy(gameObject);
             }
         }
 

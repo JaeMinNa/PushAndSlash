@@ -87,7 +87,7 @@ public class AdsManager : MonoBehaviour
             DestroyAd();
         }
 
-        _bannerView = new BannerView(_adBannerUnitId, AdSize.Banner, AdPosition.Top);
+        _bannerView = new BannerView(_adBannerUnitId, AdSize.Banner, AdPosition.Bottom);
 
         //적응형 배너(꽉찬 사이즈)
         //AdSize adaptiveSize = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
@@ -119,7 +119,7 @@ public class AdsManager : MonoBehaviour
     }
 
     //광고 제거
-    public void DestroyAd()
+    private void DestroyAd()
     {
         if (_bannerView != null)
         {
@@ -215,7 +215,7 @@ public class AdsManager : MonoBehaviour
                 else if (GameManager.I.ScenesManager.CurrentSceneName == "BattleScene1")
                 {
                     GameManager.I.DataManager.GameData.Coin += _stageController.StageCoin;
-                    GameManager.I.DataManager.GameData.Coin += _stageController.StageCoinBonus;
+                    GameManager.I.DataManager.GameData.Coin += _stageController.StageCoinBondus;
                 }
 
                 GameManager.I.DataManager.DataSave();
@@ -266,7 +266,7 @@ public class AdsManager : MonoBehaviour
 
     IEnumerator CORewardSetting()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
 
         if (GameManager.I.ScenesManager.CurrentSceneName == "LobbyScene")
         {
@@ -276,8 +276,6 @@ public class AdsManager : MonoBehaviour
         {
             _stageController.RewardCoinSetting();
         }
-
-        GameManager.I.SoundManager.StartSFX("Coin");
     }
     #endregion
 }
